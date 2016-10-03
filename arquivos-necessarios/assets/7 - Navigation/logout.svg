@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="40px" height="42px" viewBox="0 0 40 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
+    <title>logout</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.3">
+        <g id="13-Navigation" transform="translate(-580.000000, -1156.000000)">
+            <g id="logout" transform="translate(539.000000, 1152.000000)">
+                <g transform="translate(31.000000, 0.000000)">
+                    <g id="group" transform="translate(11.000000, 5.000000)" stroke-width="2" stroke="#FFFFFF">
+                        <polyline id="shape" stroke-linejoin="round" points="26.9185773 9.96006324 38 20.2300316 26.9185773 30.5"></polyline>
+                        <path d="M38,20.3 L13.7222222,20.3" id="shape"></path>
+                        <polyline id="shape" points="25.3333333 40 0 40 0 0 25.3333333 0"></polyline>
+                    </g>
+                    <rect id="bounds" x="0" y="0" width="50" height="50"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
