@@ -38,17 +38,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
-        controller: 'LoginController'
-      })
-      .state('sign_up', {
-        url: '/sign_up',
-        templateUrl: 'templates/sign_up.html',
-        controller: 'SignUpController'
-      })
-      .state("home", {
-        // the rest is the same for ui-router and ngRoute...
-        controller: "HomeController",
-        templateUrl: "templates/home.html",
+        controller: 'LoginController',
         resolve: {
           // controller will not be loaded until $waitForSignIn resolves
           // Auth refers to our $firebaseAuth wrapper in the factory below
@@ -58,5 +48,38 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           }]
         }
       })
-    $urlRouterProvider.otherwise('/login');
+      //.state('sign_up', {
+      //  url: '/sign_up',
+      //  templateUrl: 'templates/sign_up.html',
+      //  controller: 'SignUpController'
+      //})
+      .state("home", {
+        // the rest is the same for ui-router and ngRoute...
+        controller: "HomeController",
+        templateUrl: "templates/home.html",
+        resolve: {
+          // controller will not be loaded until $requireSignIn resolves
+          // Auth refers to our $firebaseAuth wrapper in the factory below
+          "currentAuth": ["Auth", function(Auth) {
+            // $requireSignIn returns a promise so the resolve waits for it to complete
+            // If the promise is rejected, it will throw a $stateChangeError (see above)
+            return Auth.$requireSignIn();
+          }]
+        }
+      })
+      //.state("account", {
+      //  // the rest is the same for ui-router and ngRoute...
+      //  controller: "AccountCtrl",
+      //  templateUrl: "templates/account.html",
+      //  resolve: {
+      //    // controller will not be loaded until $requireSignIn resolves
+      //    // Auth refers to our $firebaseAuth wrapper in the factory below
+      //    "currentAuth": ["Auth", function(Auth) {
+      //      // $requireSignIn returns a promise so the resolve waits for it to complete
+      //      // If the promise is rejected, it will throw a $stateChangeError (see above)
+      //      return Auth.$requireSignIn();
+      //    }]
+      //  }
+      //});
+    $urlRouterProvider.otherwise('/home');
   });
