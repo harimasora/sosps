@@ -1,0 +1,107 @@
+/* Empty. Add your own CSS if you like */
+
+* {
+  font-family: Avenir, serif;
+}
+
+
+/*-------- LOGIN --------*/
+
+.flex-view {
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
+  justify-content: flex-start;
+}
+
+.full-height{
+  height: 100vh;
+}
+
+.logotype {
+  display: flex;
+  justify-content: center;
+  height: 40%;
+}
+
+.logotype img {
+  align-self: center;
+  max-height: 322px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.no-side-top-border {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.password-input {
+  border-left: none;
+  border-right: none;
+  padding: 0;
+}
+
+.form {
+  flex-grow: 2;
+}
+
+.primary-btn-row {
+  display: flex;
+  flex-grow: 1;
+}
+
+.primary-btn-row button {
+  flex-grow: 1;
+}
+
+.secondary-btn-row {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.secondary-btn-row button {
+  flex-basis: 47.5%;
+}
+
+.register-info {
+  margin-top: 2em;
+  text-transform: uppercase;
+  align-self: center;
+}
+
+.register-info a {
+  color: #00FF66;
+}
+
+.forgot-password {
+  align-self: flex-end;
+  margin-left: auto;
+  margin-bottom: 11px;
+  color: #00FF66;
+}
+
+/*-------- SIGN UP --------*/
+
+.profile-img-container{
+  align-self: center;
+  position: relative;
+}
+
+.img-circular{
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  background-image: url('../img/profile.jpg');
+  background-size: cover;
+  display: block;
+}
+
+.btn-add {
+  position: absolute;
+  width: 40px;
+  top: 0;
+  right: 0;
+}

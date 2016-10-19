@@ -1,0 +1,41 @@
+<ion-view hide-nav-bar="true" title="Login">
+  <ion-content>
+    <div class="flex-view full-height">
+      <div class="logotype">
+        <img src="img/logotype.svg">
+      </div>
+      <div class="form">
+        <div class="list">
+          <label class="item item-input item-floating-label no-side-top-border">
+            <span class="input-label">EMAIL</span>
+            <input type="email" placeholder="EMAIL" ng-model="user.email">
+          </label>
+          <div class="item item-input-inset password-input">
+            <label class="item-input item-floating-label ">
+              <span class="input-label">SENHA</span>
+              <input type="password" placeholder="SENHA" ng-model="user.password">
+            </label>
+            <a class="forgot-password">Esqueci minha senha</a>
+          </div>
+          <input type="text" ng-model="user.pamonha">
+        </div>
+      </div>
+      <div class="primary-btn-row">
+        <button class="button button-calm btn-login" ng-click="loginWithEmailAndPassword()">
+          Entrar
+        </button>
+      </div>
+      <div class="secondary-btn-row">
+        <button class="button button-positive btn" ng-click="loginWithFacebook()">
+          Facebook
+        </button>
+        <button class="button button-assertive" ng-click="loginWithGoogle()">
+          Google
+        </button>
+      </div>
+      <div class="register-info">
+        <p>Ainda não tem uma conta? <a ng-click="modal.show()">Cadastrar</a></p>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
