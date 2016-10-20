@@ -17,3 +17,13 @@ angular.module('starter.services', ['firebase'])
     return $firebaseObject(profileRef);
   }
 }])
+
+.service("HealthOperators", ["$firebaseArray", function($firebaseArray) {
+  var helthOperatorsRef = firebase.database().ref().child("healthOperators");
+  return $firebaseArray(helthOperatorsRef);
+}])
+
+.service("MobilityOptions", ["$firebaseArray", function($firebaseArray) {
+  var mobilityOptionsRef = firebase.database().ref().child("mobilityOptions");
+  return $firebaseArray(mobilityOptionsRef);
+}])

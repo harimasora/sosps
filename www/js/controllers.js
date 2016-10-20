@@ -1,6 +1,7 @@
 angular.module('starter.controllers', [])
 
-  .controller('LoginController', function($scope, Auth, Profile, $state, $cordovaOauth, $ionicModal, $ionicLoading) {
+  .controller('LoginController', ["$scope", "Auth", "Profile", "$state", "$cordovaOauth", "$ionicModal", "$ionicLoading",
+    function($scope, Auth, Profile, $state, $cordovaOauth, $ionicModal, $ionicLoading) {
 
     var GOOGLE_CLIENT_ID = "160819131306-1u8d5p2bvfqb4et9mku0m9v8615tcjbd.apps.googleusercontent.com";
     var FACEBOOK_CLIENT_ID = "1873995172833205";
@@ -29,6 +30,7 @@ angular.module('starter.controllers', [])
 
           $scope.profile.email = $scope.profile.email ? $scope.profile.email : user.email;
           $scope.profile.name = $scope.profile.name ? $scope.profile.name : user.displayName;
+          $scope.profile.photoURL = $scope.profile.photoURL ? $scope.profile.photoURL : user.photoURL;
 
           $scope.profile.$save()
             .then(function() {
@@ -121,7 +123,7 @@ angular.module('starter.controllers', [])
             $scope.profile = Profile(firebaseUser.uid);
             $scope.profile.email = $scope.user.email;
             $scope.profile.name = $scope.user.name;
-            $scope.profile.birth_date = $scope.user.birth_date.toString();
+            $scope.profile.birth_date = $scope.user.birth_date.getTime();
             $scope.profile.$save()
               .then(function() {
                 $ionicLoading.hide();
@@ -146,20 +148,52 @@ angular.module('starter.controllers', [])
 
     };
 
-  })
+  }])
 
-  .controller('HomeController', function($scope, currentAuth) {
+  .controller('HomeController', ["$scope", "currentAuth",
+    function($scope, currentAuth) {
     // currentAuth (provided by resolve) will contain the
     // authenticated user or null if not signed in
 
     $scope.user = currentAuth;
 
-  })
+  }])
 
-  .controller('ProfileController', function($scope, currentAuth, Profile) {
-    // currentAuth (provided by resolve) will contain the
-    // authenticated user or null if not signed in
+  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "Profile", "HealthOperators", "MobilityOptions",
+    function($scope, currentAuth, $state, $ionicHistory, Profile, HealthOperators, MobilityOptions) {
+      // currentAuth (provided by resolve) will contain the
+      // authenticated user or null if not signed in
 
-    $scope.user = Profile(currentAuth.uid);
+      $scope.user = Profile(currentAuth.uid);
+      $scope.healthOperators = HealthOperators;
+      $scope.mobilityOptions = MobilityOptions;
 
-  })
+      // Turn firebase string date into a Date object
+      $scope.user.$loaded().then(function() {
+        $scope.user.birth_date = new Date($scope.user.birth_date);
+      });
+
+      $scope.discardChanges = function() {
+        $ionicHistory.nextViewOptions({
+          historyRoot: true
+        });
+        $state.go('home')
+      };
+
+      $scope.saveChanges = function() {
+        //Transform Date object back to long
+        $scope.user.birth_date = $scope.user.birth_date.getTime();
+
+        $scope.user.$save()
+          .then(function() {
+            $ionicHistory.nextViewOptions({
+              historyRoot: true
+            });
+            $state.go('home');
+          })
+          .catch(function(error) {
+            displayError(error);
+          });
+      }
+
+  }])

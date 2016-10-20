@@ -1,17 +1,15 @@
-<ion-view title="Account">
+<ion-view hide-nav-bar="true" title="Profile">
   <ion-header-bar class="bar bar-header bar-light">
-    <button class="button button-icon icon ion-close-round" ng-click="modal.hide()"></button>
+    <button class="button button-icon icon ion-close-round" ng-click="discardChanges()"></button>
     <h1 class="title">Informações</h1>
+    <button class="button button-icon icon ion-checkmark-round" ng-click="saveChanges()"></button>
   </ion-header-bar>
   <ion-content class="padding">
     <div class="flex-view">
-      <div class="profile-img-container">
-        <div class="img-circular"></div>
-        <img src="../img/add.svg" class="btn-add">
-      </div>
       <div class="form">
         <div class="list">
-          <label class="item item-input item-floating-label no-side-top-border">
+          <label class="item item-input item-floating-label item-avatar-right no-side-top-border">
+            <img ng-src="{{user.photoURL}}">
             <span class="input-label">NOME COMPLETO</span>
             <input type="text" placeholder="NOME COMPLETO" ng-model="user.name">
           </label>
@@ -19,24 +17,27 @@
             <span class="input-label">EMAIL</span>
             <input type="email" placeholder="EMAIL" ng-model="user.email">
           </label>
-          <div class="item item-input-inset password-input">
-            <label class="item-input item-floating-label ">
-              <span class="input-label">SENHA</span>
-              <input type="password" placeholder="SENHA" ng-model="user.password">
-            </label>
-            <a class="forgot-password">Esqueci minha senha</a>
-          </div>
           <label class="item item-input item-stacked-label no-side-top-border">
             <span class="input-label">DATA DE NASCIMENTO</span>
             <input type="date" placeholder="DATA DE NASCIMENTO" ng-model="user.birth_date">
           </label>
+          <label class="item item-input item-select no-side-top-border">
+            <span class="input-label">OPERADORA DE SAÚDE</span>
+            <select ng-options="healthOperator.$id as healthOperator.name for healthOperator in healthOperators" ng-model="user.healthOperator">
+              <option></option>
+            </select>
+          </label>
+          <label class="item item-input item-floating-label no-side-top-border">
+            <span class="input-label">ENDEREÇO</span>
+            <input type="text" placeholder="ENDEREÇO" ng-model="user.address">
+          </label>
+          <label class="item item-input item-select no-side-top-border">
+            <span class="input-label">DESLOCAMENTO MAIS FREQUENTE</span>
+            <select ng-options="mobilityOption.$id as mobilityOption.name for mobilityOption in mobilityOptions" ng-model="user.mobilityOption">
+              <option></option>
+            </select>
+          </label>
         </div>
-        <button class="button button-block button-calm" ng-click="createUser()">
-          Cadastrar
-        </button>
-      </div>
-      <div class="register-info">
-        <p>Já possui uma conta? <a ng-click="modal.hide()">Entrar</a></p>
       </div>
     </div>
   </ion-content>
