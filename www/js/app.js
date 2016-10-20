@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordovaOauth', 'firebase'])
 
   .run(function($ionicPlatform, $rootScope, $state) {
     $ionicPlatform.ready(function() {
@@ -41,25 +41,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         controller: 'LoginController',
         resolve: {
           // controller will not be loaded until $waitForSignIn resolves
-          // Auth refers to our $firebaseAuth wrapper in the factory below
           "currentAuth": ["Auth", function(Auth) {
             // $waitForSignIn returns a promise so the resolve waits for it to complete
             return Auth.$waitForSignIn();
           }]
         }
       })
-      //.state('sign_up', {
-      //  url: '/sign_up',
-      //  templateUrl: 'templates/sign_up.html',
-      //  controller: 'SignUpController'
-      //})
       .state("home", {
-        // the rest is the same for ui-router and ngRoute...
         controller: "HomeController",
         templateUrl: "templates/home.html",
         resolve: {
           // controller will not be loaded until $requireSignIn resolves
-          // Auth refers to our $firebaseAuth wrapper in the factory below
           "currentAuth": ["Auth", function(Auth) {
             // $requireSignIn returns a promise so the resolve waits for it to complete
             // If the promise is rejected, it will throw a $stateChangeError (see above)
@@ -67,19 +59,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           }]
         }
       })
-      //.state("account", {
-      //  // the rest is the same for ui-router and ngRoute...
-      //  controller: "AccountCtrl",
-      //  templateUrl: "templates/account.html",
-      //  resolve: {
-      //    // controller will not be loaded until $requireSignIn resolves
-      //    // Auth refers to our $firebaseAuth wrapper in the factory below
-      //    "currentAuth": ["Auth", function(Auth) {
-      //      // $requireSignIn returns a promise so the resolve waits for it to complete
-      //      // If the promise is rejected, it will throw a $stateChangeError (see above)
-      //      return Auth.$requireSignIn();
-      //    }]
-      //  }
-      //});
-    $urlRouterProvider.otherwise('/home');
+      .state("profile", {
+        controller: "ProfileController",
+        templateUrl: "templates/profile.html",
+        resolve: {
+          "currentAuth": ["Auth", function(Auth) {
+            return Auth.$requireSignIn();
+          }]
+        }
+      });
+    $urlRouterProvider.otherwise('/login');
   });
