@@ -3,6 +3,7 @@ angular.module('starter.controllers', [])
   .controller('LoginController', function($scope, Auth, Profile, $state, $cordovaOauth, $ionicModal, $ionicLoading) {
 
     var GOOGLE_CLIENT_ID = "160819131306-1u8d5p2bvfqb4et9mku0m9v8615tcjbd.apps.googleusercontent.com";
+    var FACEBOOK_CLIENT_ID = "1873995172833205";
 
     $scope.user = {
       name: "",
@@ -25,8 +26,6 @@ angular.module('starter.controllers', [])
 
       $scope.profile.$loaded()
         .then(function () {
-
-          console.log($scope.profile);
 
           $scope.profile.email = $scope.profile.email ? $scope.profile.email : user.email;
           $scope.profile.name = $scope.profile.name ? $scope.profile.name : user.displayName;
@@ -72,7 +71,18 @@ angular.module('starter.controllers', [])
             });
           break;
         case 'facebook':
-          // Same as 'google' case
+          $cordovaOauth.facebook(FACEBOOK_CLIENT_ID, ["email", "public_profile"])
+            .then(function(result) {
+              var credentials = firebase.auth.FacebookAuthProvider.credential(result.access_token);
+              return Auth.$signInWithCredential(credentials);
+            })
+            .then(function (firebaseUser){
+              redirectUser(firebaseUser)
+            })
+            .catch(function (error) {
+              displayError(error)
+            });
+          break;
         case 'email':
           if ($scope.user && $scope.user.email && $scope.user.password) {
             $ionicLoading.show({
