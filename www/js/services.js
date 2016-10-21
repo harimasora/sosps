@@ -18,27 +18,22 @@ angular.module('starter.services', ['firebase'])
   }
 }])
 
-.service("HealthOperators", ["$firebaseArray", function($firebaseArray) {
-  var helthOperatorsRef = firebase.database().ref().child("healthOperators");
-  return $firebaseArray(helthOperatorsRef);
+.service("HealthOperators", ["$firebaseObject", "$firebaseArray", function($firebaseObject, $firebaseArray) {
+  return function(id) {
+    if (id) {
+      // if a identifier is passed, return the hospital object
+      var ref = firebase.database().ref("healthOperators");
+      var healthOperatorRef = ref.child(id);
+      return $firebaseObject(healthOperatorRef);
+    } else {
+      // otherwise return an array
+      var healthOperatorsRef = firebase.database().ref().child("healthOperators");
+      return $firebaseArray(healthOperatorsRef);
+    }
+  }
 }])
 
 .service("MobilityOptions", ["$firebaseArray", function($firebaseArray) {
   var mobilityOptionsRef = firebase.database().ref().child("mobilityOptions");
   return $firebaseArray(mobilityOptionsRef);
 }])
-
-  .service("Hospitals", ["$firebaseObject", "$firebaseArray", function($firebaseObject, $firebaseArray) {
-    return function(id) {
-      if (id) {
-        // if a identifier is passed, return the hospital object
-        var ref = firebase.database().ref("hospitals");
-        var hospitalRef = ref.child(id);
-        return $firebaseObject(hospitalRef);
-      } else {
-        // otherwise return an array
-        var hospitalsRef = firebase.database().ref().child("hospitals");
-        return $firebaseArray(hospitalsRef);
-      }
-    }
-  }])

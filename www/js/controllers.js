@@ -161,17 +161,39 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "Hospitals",
-    function($scope, currentAuth, Hospitals) {
+  .controller('HomeController', ["$scope", "HealthOperators",
+    function($scope, HealthOperators) {
 
-      $scope.hospitals = Hospitals();
+      $scope.hospitals = HealthOperators();
 
   }])
 
-  .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals",
-    function($scope, $stateParams, Hospitals) {
+  .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators", "$ionicLoading", "$compile",
+    function($scope, $stateParams, HealthOperators, $ionicLoading, $compile) {
 
-      $scope.hospital = Hospitals($stateParams.id);
+      $scope.hospital = HealthOperators($stateParams.id);
+
+      $scope.hospital.$loaded().then(initialize)
+
+      function initialize() {
+        var myLatlng = new google.maps.LatLng($scope.hospital.latitude, $scope.hospital.longitude);
+
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map"),
+          mapOptions);
+
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: $scope.hospital.name
+        });
+
+        $scope.map = map;
+      }
 
     }])
 
@@ -181,7 +203,7 @@ angular.module('starter.controllers', [])
       // authenticated user or null if not signed in
 
       $scope.user = Profile(currentAuth.uid);
-      $scope.healthOperators = HealthOperators;
+      $scope.healthOperators = HealthOperators();
       $scope.mobilityOptions = MobilityOptions;
 
       // Turn firebase string date into a Date object
