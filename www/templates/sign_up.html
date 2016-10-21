@@ -1,9 +1,9 @@
 <ion-modal-view>
   <ion-header-bar class="bar bar-header bar-light">
-    <button class="button button-icon icon ion-close-round" ng-click="modal.hide()"></button>
+    <div class="ion-close" ng-click="modal.hide()"></div>
     <h1 class="title">Cadastrar</h1>
   </ion-header-bar>
-  <ion-content class="padding">
+  <ion-content class="padding" class="singUp">
     <div class="flex-view">
       <div ng-click="addPicture()" class="profile-img-container">
         <div class="img-circular"></div>
@@ -13,22 +13,21 @@
         <div class="list">
           <label class="item item-input item-floating-label no-side-top-border">
             <span class="input-label">NOME COMPLETO</span>
-            <input type="text" placeholder="NOME COMPLETO" ng-model="user.name">
+            <input class="input-signup" type="text" placeholder="NOME COMPLETO" ng-model="user.name">
           </label>
           <label class="item item-input item-floating-label no-side-top-border">
             <span class="input-label">EMAIL</span>
-            <input type="email" placeholder="EMAIL" ng-model="user.email">
+            <input class="input-signup" type="email" placeholder="EMAIL" ng-model="user.email">
           </label>
           <div class="item item-input-inset password-input">
             <label class="item-input item-floating-label ">
               <span class="input-label">SENHA</span>
-              <input type="password" placeholder="SENHA" ng-model="user.password">
+              <input  class="input-signup" type="password" placeholder="SENHA" ng-model="user.password">
             </label>
-            <a class="forgot-password">Esqueci minha senha</a>
           </div>
           <label class="item item-input item-stacked-label no-side-top-border">
             <span class="input-label">DATA DE NASCIMENTO</span>
-            <input type="date" placeholder="DATA DE NASCIMENTO" ng-model="user.birth_date">
+            <input  class="input-signup" type="date" placeholder="DATA DE NASCIMENTO" ng-model="user.birth_date">
           </label>
         </div>
         <button class="button button-block button-calm" ng-click="createUser()">

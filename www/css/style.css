@@ -11,13 +11,15 @@ font-face {
 }
 
 
-body {
+h1, body {
   font-family: Blogger !important;
 }
 
 * {
   font-family: Boo, serif;
 }
+
+
 
 
 /*-------- LOGIN --------*/
@@ -145,7 +147,7 @@ body {
 
 .item input {
   font-size: 14px !important;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-family: Blogger !important;
 }
 
@@ -154,11 +156,24 @@ body {
 .profile-img-container{
   align-self: center;
   position: relative;
+  margin-bottom: 45px;
+}
+
+.ion-close {
+  background-image: url("../img/close.svg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.profile-img-container .item {
+  margin-bottom: 10px !important;
 }
 
 .img-circular{
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   border-radius: 75px;
   background-image: url('../img/profile.jpg');
   background-size: cover;
@@ -167,9 +182,99 @@ body {
 
 .btn-add {
   position: absolute;
-  width: 40px;
+  width: 30px;
   top: 0;
   right: 0;
+}
+
+.singUp list {
+  font-family: Blogger !important;
+}
+
+.singUp .list .item input {
+  margin: 0 !important;
+  font-size: 14px;
+  margin-bottom: 0 !important;
+}
+
+.singUp .list label {
+  font-size: 16px;
+  font-family: Blogger !important;
+  margin-bottom: 10px;
+}
+
+.input-signup {
+  margin-bottom: 0 !important;
+}
+
+button {
+  font-family: Blogger !important;
+}
+
+.register-info {
+  font-family: Blogger !important;
+}
+
+.input-label {
+  font-family: Blogger !important;
+  opacity: 0.5;
+  font-size: 10px;
+}
+
+
+/*------- VIEW HOME -------*/
+.view-home {
+  font-family: Blogger !important;
+}
+
+.view-home img {
+  height: 100% !important;
+  width: auto !important;
+}
+
+.div_logo {
+  background-image: url("../img/logo-sos.png") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.div_menu {
+  background-image: url("../img/menu.svg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.list-hosp {
+  font-family: Blogger !important;
+}
+
+.list-hosp h3 {
+  font-size: 11px;
+  font-family: Blogger !important;
+  opacity: 0.5;
+  margin-bottom: 0;
+}
+
+.list-hosp a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.list-hosp p {
+  font-size: 7px;
+  color: #00FF66;
+
+}
+
+.list-hosp h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  font-family: Blogger
+   !important;
+}
+
+.list-hosp .wait {
+  color: #00CCFF;
 }
 
 /*-------- HOSPITAL DETAILS --------*/
