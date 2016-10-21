@@ -1,13 +1,23 @@
 <ion-view>
-  <ion-nav-bar class="bar bar-header bar-light">
-  </ion-nav-bar>
-  <ion-content>
-    <div class="list">
+  <ion-header-bar >
+		<div class="buttons">
+			<button class="button button-icon ion-ios-minus-outline" ></button>
+		</div>
+		<h1 class="title" style="left: 60px; right: 60px;">Soundboard</h1>
+
+		<button class="button">Move</button>
+
+	</ion-header-bar>
+  <ion-content class="view-home">
+    <div class="list list-hosp">
       <a ng-repeat="hospital in hospitals" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}">
         <img ng-src="{{hospital.photoUrl}}">
         <h2>{{hospital.name}}</h2>
-        <p>Tempo de atendimento</p>
-        <p>45 minutos</p>
+        <h3>
+          TEMPO DE ATENDIMENTO
+        </h3>
+        <p>TEMPO DE ESPERA - 45 MINUTOS</p>
+        <p class="wait">TEMPO DE DESLOCAMENTO - 15 MINUTOS</p>
       </a>
     </div>
   </ion-content>

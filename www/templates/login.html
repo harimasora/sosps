@@ -1,10 +1,10 @@
-<ion-view hide-nav-bar="true" title="Login">
-  <ion-content>
+<ion-view  hide-nav-bar="true" title="Login">
+  <ion-content scroll="false" class="login-content">
     <div class="flex-view full-height">
       <div class="logotype">
         <img src="img/logotype.svg">
       </div>
-      <div class="form">
+      <div class="form form-login">
         <div class="list">
           <label class="item item-input item-floating-label no-side-top-border">
             <span class="input-label">EMAIL</span>
@@ -25,10 +25,10 @@
         </button>
       </div>
       <div class="secondary-btn-row">
-        <button class="button button-positive btn" ng-click="loginWithProvider('facebook')">
+        <button class="button button-positive btn btn-facebook" ng-click="loginWithProvider('facebook')">
           Facebook
         </button>
-        <button class="button button-assertive" ng-click="loginWithProvider('google')">
+        <button class="button button-assertive btn-google" ng-click="loginWithProvider('google')">
           Google
         </button>
       </div>

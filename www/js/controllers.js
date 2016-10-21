@@ -17,6 +17,11 @@ angular.module('starter.controllers', [])
       scope: $scope
     }).then(function(modal) {
       $scope.modal = modal;
+
+      $scope.addPicture = function() {
+
+        console.log('Lucas agora vai')
+      }
     });
 
     function hasAllInfo(user) {
@@ -256,6 +261,16 @@ angular.module('starter.controllers', [])
           .catch(function(error) {
             displayError(error);
           });
+      }
+
+      function displayError(error) {
+        console.log("Authentication failed:", error);
+        $ionicLoading.show({
+          template: error.message
+        });
+        setTimeout(function () {
+          $ionicLoading.hide();
+        }, 4000)
       }
 
   }])
