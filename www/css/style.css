@@ -1,7 +1,22 @@
 /* Empty. Add your own CSS if you like */
 
+font-face {
+    font-family: 'Circular-Medium';
+    src: url('../fonts/lineto-circular-medium.otf');
+}
+
+@font-face {
+    font-family: 'Blogger';
+    src: url('../fonts/Blogger-Sans.otf');
+}
+
+
+body {
+  font-family: Blogger !important;
+}
+
 * {
-  font-family: Avenir, serif;
+  font-family: Boo, serif;
 }
 
 
@@ -43,6 +58,39 @@
   padding: 0;
 }
 
+.form-login input {
+  margin-bottom: 20px;
+  color: #1D1D26;
+  opacity: 0.5;
+  font-size: 10px;
+}
+
+.login-content {
+  font-family: Blogger !important;
+}
+
+.login-content .item {
+  padding: 0;
+}
+
+.login-content label {
+  padding: 0;
+}
+
+.btn-google {
+  background-color: #DC4E41 !important;
+  border-radius: 0;
+  height: 40px;
+  font-size: 11px;
+}
+
+.btn-facebook {
+  background-color: #3B5998 !important;
+  border-radius: 0;
+  height: 40px;
+  font-size: 11px;
+}
+
 .form {
   flex-grow: 2;
 }
@@ -68,12 +116,17 @@
 
 .register-info {
   margin-top: 2em;
+  font-size: 10px;
   text-transform: uppercase;
   align-self: center;
 }
 
 .register-info a {
   color: #00FF66;
+  opacity: 0.5;
+  font-size: 13px;
+  margin-left: 10px;
+
 }
 
 .forgot-password {
@@ -81,6 +134,19 @@
   margin-left: auto;
   margin-bottom: 11px;
   color: #00FF66;
+  margin-right: 10px;
+}
+
+.btn-login {
+  border-radius: 0;
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.item input {
+  font-size: 14px !important;
+  margin-bottom: 15px;
+  font-family: Blogger !important;
 }
 
 /*-------- SIGN UP --------*/
