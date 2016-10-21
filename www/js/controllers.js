@@ -174,11 +174,11 @@ angular.module('starter.controllers', [])
   }])
 
   .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators", "$ionicLoading", "$compile",
-    function($scope, $stateParams, HealthOperators, $ionicLoading, $compile) {
+    function($scope, $stateParams, HealthOperators) {
 
       $scope.hospital = HealthOperators($stateParams.id);
 
-      $scope.hospital.$loaded().then(initialize)
+      $scope.hospital.$loaded().then(initialize);
 
       function initialize() {
         var myLatlng = new google.maps.LatLng($scope.hospital.latitude, $scope.hospital.longitude);
@@ -199,6 +199,8 @@ angular.module('starter.controllers', [])
 
         $scope.map = map;
       }
+
+
 
     }])
 

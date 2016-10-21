@@ -1,8 +1,27 @@
-<ion-view>
-  <ion-nav-bar class="bar bar-header bar-light">
+<ion-view title="{{hospital.name}}">
+  <ion-nav-bar>
+    <ion-nav-back-button class="button-dark">
+      Voltar
+    </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
     <div id="map" data-tap-disabled="true"></div>
+    <div class="padding hospital-info-box">
+      <img class="overlap-logo" ng-src="{{hospital.photoUrl}}">
+      <h3 class="hospital-name">{{hospital.name}}</h3>
+      <a class="get-direction">COMO CHEGAR</a>
+      <p class="info">INFORMAÇÕES</p>
+      <div class="blue-separator"></div>
+      <a ng-href="tel:{{hospital.phone}}">
+        <button class="button icon button-light ion-android-call"></button>
+        <span>{{hospital.phone}}</span>
+      </a>
+      <button class="button icon button-light ion-location"></button>
+      <span>{{hospital.address}}</span>
+      <button class="button icon button-light ion-ios-timer-outline"></button>
+      <span>08:00 - 23:00</span>
+      <span>Aberto Agora</span>
+    </div>
   </ion-content>
   <button type="button" name="button">GET LOCATIONS</button>
 </ion-view>
