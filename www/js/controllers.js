@@ -161,14 +161,19 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "currentAuth",
-    function($scope, currentAuth) {
-    // currentAuth (provided by resolve) will contain the
-    // authenticated user or null if not signed in
+  .controller('HomeController', ["$scope", "Hospitals",
+    function($scope, currentAuth, Hospitals) {
 
-    $scope.user = currentAuth;
+      $scope.hospitals = Hospitals();
 
   }])
+
+  .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals",
+    function($scope, $stateParams, Hospitals) {
+
+      $scope.hospital = Hospitals($stateParams.id);
+
+    }])
 
   .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "Profile", "HealthOperators", "MobilityOptions",
     function($scope, currentAuth, $state, $ionicHistory, Profile, HealthOperators, MobilityOptions) {

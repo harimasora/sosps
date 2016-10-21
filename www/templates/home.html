@@ -1,6 +1,14 @@
-<ion-view title="Home">
+<ion-view>
+  <ion-nav-bar class="bar bar-header bar-light">
+  </ion-nav-bar>
   <ion-content>
-    <h1>My user</h1>
-    {{user}}
+    <div class="list">
+      <a ng-repeat="hospital in hospitals" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}">
+        <img ng-src="{{hospital.photoUrl}}">
+        <h2>{{hospital.name}}</h2>
+        <p>Tempo de atendimento</p>
+        <p>45 minutos</p>
+      </a>
+    </div>
   </ion-content>
 </ion-view>

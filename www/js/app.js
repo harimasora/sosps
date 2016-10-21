@@ -51,6 +51,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           }
         })
         .state("home", {
+          url: '/home',
           controller: "HomeController",
           templateUrl: "templates/home.html",
           resolve: {
@@ -63,6 +64,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           }
         })
         .state("profile", {
+          url: '/profile',
           controller: "ProfileController",
           templateUrl: "templates/profile.html",
           resolve: {
@@ -70,7 +72,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
               return Auth.$requireSignIn();
             }]
           }
+        })
+        .state('hospitals', {
+          url: "/hospitals/:id",
+          templateUrl: 'templates/hospitals.html',
+          controller: 'HospitalsController',
+          resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+              return Auth.$requireSignIn();
+            }]
+          }
         });
-      $urlRouterProvider.otherwise('/login');
+      $urlRouterProvider.otherwise('/home');
     }
   ]);

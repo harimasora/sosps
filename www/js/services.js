@@ -27,3 +27,18 @@ angular.module('starter.services', ['firebase'])
   var mobilityOptionsRef = firebase.database().ref().child("mobilityOptions");
   return $firebaseArray(mobilityOptionsRef);
 }])
+
+  .service("Hospitals", ["$firebaseObject", "$firebaseArray", function($firebaseObject, $firebaseArray) {
+    return function(id) {
+      if (id) {
+        // if a identifier is passed, return the hospital object
+        var ref = firebase.database().ref("hospitals");
+        var hospitalRef = ref.child(id);
+        return $firebaseObject(hospitalRef);
+      } else {
+        // otherwise return an array
+        var hospitalsRef = firebase.database().ref().child("hospitals");
+        return $firebaseArray(hospitalsRef);
+      }
+    }
+  }])
