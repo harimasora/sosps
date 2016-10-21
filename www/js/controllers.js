@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
-  .controller('LoginController', ["$scope", "Auth", "Profile", "$state", "$cordovaOauth", "$ionicModal", "$ionicLoading",
-    function($scope, Auth, Profile, $state, $cordovaOauth, $ionicModal, $ionicLoading) {
+  .controller('LoginController', ["$scope", "Auth", "Profile", "$state", "$ionicHistory", "$cordovaOauth", "$ionicModal", "$ionicLoading",
+    function($scope, Auth, Profile, $state, $ionicHistory, $cordovaOauth, $ionicModal, $ionicLoading) {
 
     var GOOGLE_CLIENT_ID = "160819131306-1u8d5p2bvfqb4et9mku0m9v8615tcjbd.apps.googleusercontent.com";
     var FACEBOOK_CLIENT_ID = "1873995172833205";
@@ -19,6 +19,10 @@ angular.module('starter.controllers', [])
       $scope.modal = modal;
     });
 
+    function hasAllInfo(user) {
+      return user.name && user.email && user.birth_date && user.healthOperator && user.address && user.mobilityOption;
+    }
+
     function redirectUser(firebaseUser) {
       var user = firebaseUser.user ? firebaseUser.user : firebaseUser;
 
@@ -28,17 +32,24 @@ angular.module('starter.controllers', [])
       $scope.profile.$loaded()
         .then(function () {
 
-          $scope.profile.email = $scope.profile.email ? $scope.profile.email : user.email;
-          $scope.profile.name = $scope.profile.name ? $scope.profile.name : user.displayName;
-          $scope.profile.photoURL = $scope.profile.photoURL ? $scope.profile.photoURL : user.photoURL;
-
-          $scope.profile.$save()
-            .then(function() {
-              $state.go('profile');
-            })
-            .catch(function(error) {
-              displayError(error);
+          if (hasAllInfo($scope.profile)) {
+            $ionicHistory.nextViewOptions({
+              historyRoot: true
             });
+            $state.go('home');
+          } else {
+            $scope.profile.email = $scope.profile.email ? $scope.profile.email : user.email;
+            $scope.profile.name = $scope.profile.name ? $scope.profile.name : user.displayName;
+            $scope.profile.photoURL = $scope.profile.photoURL ? $scope.profile.photoURL : user.photoURL;
+
+            $scope.profile.$save()
+              .then(function() {
+                $state.go('profile');
+              })
+              .catch(function(error) {
+                displayError(error);
+              });
+          }
         })
         .catch(function(error) {
           displayError(error);
