@@ -55,9 +55,11 @@ h1, body {
 }
 
 .password-input {
+
   border-left: none;
   border-right: none;
   padding: 0;
+  padding-top: 10px !important;
 }
 
 .form-login input {
@@ -80,17 +82,30 @@ h1, body {
 }
 
 .btn-google {
+  background-image: url("../img/googleplus.svg") !important;
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+  background-size: 100%;
+  padding-left: 30px;
+
   background-color: #DC4E41 !important;
   border-radius: 0;
   height: 40px;
-  font-size: 11px;
+  font-size: 10px;
+
 }
 
 .btn-facebook {
+  background-image: url("../img/facebook.svg") !important;
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+  background-size: 100%;
+  padding-left: 30px;
+
   background-color: #3B5998 !important;
   border-radius: 0;
   height: 40px;
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .form {
@@ -131,12 +146,17 @@ h1, body {
 
 }
 
+.input-login {
+  margin-bottom: 2px !important;
+}
+
 .forgot-password {
   align-self: flex-end;
   margin-left: auto;
-  margin-bottom: 11px;
+  margin-bottom: 5px;
   color: #00FF66;
   margin-right: 10px;
+  font-size: 13px;
 }
 
 .btn-login {
