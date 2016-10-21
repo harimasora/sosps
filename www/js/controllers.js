@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
-  .controller('LoginController', ["$scope", "Auth", "Profile", "$state", "$ionicHistory", "$cordovaOauth", "$ionicModal", "$ionicLoading",
-    function($scope, Auth, Profile, $state, $ionicHistory, $cordovaOauth, $ionicModal, $ionicLoading) {
+  .controller('LoginController', ["$scope", "Auth", "Profile", "$state", "$ionicHistory", "$cordovaCamera", "$cordovaOauth", "$ionicModal", "$ionicLoading", "$firebaseArray",
+    function($scope, Auth, Profile, $state, $ionicHistory, $cordovaCamera, $cordovaOauth, $ionicModal, $ionicLoading, $firebaseArray) {
 
     var GOOGLE_CLIENT_ID = "160819131306-1u8d5p2bvfqb4et9mku0m9v8615tcjbd.apps.googleusercontent.com";
     var FACEBOOK_CLIENT_ID = "1873995172833205";
@@ -197,19 +197,43 @@ angular.module('starter.controllers', [])
 
     }])
 
-  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "Profile", "HealthOperators", "MobilityOptions",
-    function($scope, currentAuth, $state, $ionicHistory, Profile, HealthOperators, MobilityOptions) {
+  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$cordovaCamera", "Profile", "HealthOperators", "MobilityOptions", "$firebaseObject",
+    function($scope, currentAuth, $state, $ionicHistory, $cordovaCamera, Profile, HealthOperators, MobilityOptions, $firebaseObject) {
       // currentAuth (provided by resolve) will contain the
       // authenticated user or null if not signed in
 
       $scope.user = Profile(currentAuth.uid);
       $scope.healthOperators = HealthOperators();
       $scope.mobilityOptions = MobilityOptions;
+      $scope.images = [];
 
       // Turn firebase string date into a Date object
       $scope.user.$loaded().then(function() {
         $scope.user.birth_date = new Date($scope.user.birth_date);
+        $scope.image = $scope.user.photoUrl;
       });
+
+      $scope.upload = function() {
+        var options = {
+          quality : 75,
+          destinationType : Camera.DestinationType.DATA_URL,
+          sourceType : Camera.PictureSourceType.CAMERA,
+          allowEdit : true,
+          encodingType: Camera.EncodingType.JPEG,
+          popoverOptions: CameraPopoverOptions,
+          targetWidth: 500,
+          targetHeight: 500,
+          saveToPhotoAlbum: false
+        };
+        $cordovaCamera.getPicture(options).then(function(imageData) {
+          $scope.user.photoUrl = imageData;
+          $scope.user.$save().then(function() {
+            //alert("Image has been uploaded");
+          });
+        }, function(error) {
+          console.error(error);
+        });
+      }
 
       $scope.discardChanges = function() {
         $ionicHistory.nextViewOptions({
