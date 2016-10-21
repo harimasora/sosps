@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
-  .controller('LoginController', ["$scope", "Auth", "Profile", "$state", "$cordovaOauth", "$ionicModal", "$ionicLoading",
-    function($scope, Auth, Profile, $state, $cordovaOauth, $ionicModal, $ionicLoading) {
+  .controller('LoginController', ["$scope", "Auth", "Profile", "$state", "$ionicHistory", "$cordovaOauth", "$ionicModal", "$ionicLoading",
+    function($scope, Auth, Profile, $state, $ionicHistory, $cordovaOauth, $ionicModal, $ionicLoading) {
 
     var GOOGLE_CLIENT_ID = "160819131306-1u8d5p2bvfqb4et9mku0m9v8615tcjbd.apps.googleusercontent.com";
     var FACEBOOK_CLIENT_ID = "1873995172833205";
@@ -24,6 +24,10 @@ angular.module('starter.controllers', [])
       }
     });
 
+    function hasAllInfo(user) {
+      return user.name && user.email && user.birth_date && user.healthOperator && user.address && user.mobilityOption;
+    }
+
     function redirectUser(firebaseUser) {
       var user = firebaseUser.user ? firebaseUser.user : firebaseUser;
 
@@ -33,17 +37,24 @@ angular.module('starter.controllers', [])
       $scope.profile.$loaded()
         .then(function () {
 
-          $scope.profile.email = $scope.profile.email ? $scope.profile.email : user.email;
-          $scope.profile.name = $scope.profile.name ? $scope.profile.name : user.displayName;
-          $scope.profile.photoURL = $scope.profile.photoURL ? $scope.profile.photoURL : user.photoURL;
-
-          $scope.profile.$save()
-            .then(function() {
-              $state.go('profile');
-            })
-            .catch(function(error) {
-              displayError(error);
+          if (hasAllInfo($scope.profile)) {
+            $ionicHistory.nextViewOptions({
+              historyRoot: true
             });
+            $state.go('home');
+          } else {
+            $scope.profile.email = $scope.profile.email ? $scope.profile.email : user.email;
+            $scope.profile.name = $scope.profile.name ? $scope.profile.name : user.displayName;
+            $scope.profile.photoURL = $scope.profile.photoURL ? $scope.profile.photoURL : user.photoURL;
+
+            $scope.profile.$save()
+              .then(function() {
+                $state.go('profile');
+              })
+              .catch(function(error) {
+                displayError(error);
+              });
+          }
         })
         .catch(function(error) {
           displayError(error);
@@ -155,14 +166,41 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "currentAuth",
-    function($scope, currentAuth) {
-    // currentAuth (provided by resolve) will contain the
-    // authenticated user or null if not signed in
+  .controller('HomeController', ["$scope", "HealthOperators",
+    function($scope, HealthOperators) {
 
-    $scope.user = currentAuth;
+      $scope.hospitals = HealthOperators();
 
   }])
+
+  .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators", "$ionicLoading", "$compile",
+    function($scope, $stateParams, HealthOperators, $ionicLoading, $compile) {
+
+      $scope.hospital = HealthOperators($stateParams.id);
+
+      $scope.hospital.$loaded().then(initialize)
+
+      function initialize() {
+        var myLatlng = new google.maps.LatLng($scope.hospital.latitude, $scope.hospital.longitude);
+
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map"),
+          mapOptions);
+
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: $scope.hospital.name
+        });
+
+        $scope.map = map;
+      }
+
+    }])
 
   .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "Profile", "HealthOperators", "MobilityOptions",
     function($scope, currentAuth, $state, $ionicHistory, Profile, HealthOperators, MobilityOptions) {
@@ -170,7 +208,7 @@ angular.module('starter.controllers', [])
       // authenticated user or null if not signed in
 
       $scope.user = Profile(currentAuth.uid);
-      $scope.healthOperators = HealthOperators;
+      $scope.healthOperators = HealthOperators();
       $scope.mobilityOptions = MobilityOptions;
 
       // Turn firebase string date into a Date object
