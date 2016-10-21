@@ -17,6 +17,11 @@ angular.module('starter.controllers', [])
       scope: $scope
     }).then(function(modal) {
       $scope.modal = modal;
+
+      $scope.addPicture = function() {
+
+        console.log('Lucas agora vai')
+      }
     });
 
     function redirectUser(firebaseUser) {
