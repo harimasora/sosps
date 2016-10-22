@@ -206,7 +206,7 @@ h1, body {
   width: 100px;
   height: 100px;
   border-radius: 75px;
-  background-image: url('../img/profile.jpg');
+  background-image: url("../img/profile-icon.png");
   background-size: cover;
   display: block;
 }
@@ -214,8 +214,11 @@ h1, body {
 .btn-add {
   position: absolute;
   width: 30px;
+  height: 30px;
   top: 0;
   right: 0;
+  background-image: url("../img/add.svg");
+  background-size: cover;
 }
 
 .singUp list {

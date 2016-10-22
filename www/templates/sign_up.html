@@ -5,9 +5,9 @@
   </ion-header-bar>
   <ion-content class="padding" class="singUp">
     <div class="flex-view">
-      <div ng-click="addPicture()" class="profile-img-container">
-        <div class="img-circular"></div>
-        <img src="../img/add.svg" class="btn-add">
+      <div class="profile-img-container">
+        <img class="img-circular" ng-src="data:image/jpeg;base64,{{user.photoUrl}}"/>
+        <div class="btn-add" ng-click="takePhoto()"></div>
       </div>
       <div class="form">
         <div class="list">

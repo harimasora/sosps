@@ -10,18 +10,14 @@ angular.module('starter.controllers', [])
       name: "",
       birth_date: "",
       email: "",
-      password: ""
+      password: "",
+      photoUrl: ""
     };
 
     $ionicModal.fromTemplateUrl('templates/sign_up.html', {
       scope: $scope
     }).then(function(modal) {
       $scope.modal = modal;
-
-      $scope.addPicture = function() {
-
-        console.log('Lucas agora vai')
-      }
     });
 
     function hasAllInfo(user) {
@@ -139,6 +135,7 @@ angular.module('starter.controllers', [])
             $scope.profile = Profile(firebaseUser.uid);
             $scope.profile.email = $scope.user.email;
             $scope.profile.name = $scope.user.name;
+            $scope.profile.photoUrl = $scope.user.photoUrl;
             $scope.profile.birth_date = $scope.user.birth_date.getTime();
             $scope.profile.$save()
               .then(function() {
@@ -163,6 +160,25 @@ angular.module('starter.controllers', [])
       }
 
     };
+
+    $scope.takePhoto = function() {
+      var options = {
+        quality : 75,
+        destinationType : Camera.DestinationType.DATA_URL,
+        sourceType : Camera.PictureSourceType.CAMERA,
+        allowEdit : true,
+        encodingType: Camera.EncodingType.JPEG,
+        popoverOptions: CameraPopoverOptions,
+        targetWidth: 500,
+        targetHeight: 500,
+        saveToPhotoAlbum: false
+      };
+      $cordovaCamera.getPicture(options).then(function(imageData) {
+        $scope.user.photoUrl = imageData;
+      }, function(error) {
+        console.error(error);
+      });
+    }
 
   }])
 
@@ -204,8 +220,8 @@ angular.module('starter.controllers', [])
 
     }])
 
-  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$cordovaCamera", "Profile", "HealthOperators", "MobilityOptions", "$firebaseObject",
-    function($scope, currentAuth, $state, $ionicHistory, $cordovaCamera, Profile, HealthOperators, MobilityOptions, $firebaseObject) {
+  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$cordovaCamera", "Profile", "HealthOperators", "MobilityOptions",
+    function($scope, currentAuth, $state, $ionicHistory, $cordovaCamera, Profile, HealthOperators, MobilityOptions) {
       // currentAuth (provided by resolve) will contain the
       // authenticated user or null if not signed in
 
