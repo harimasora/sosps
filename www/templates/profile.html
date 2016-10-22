@@ -6,11 +6,10 @@
   </ion-header-bar>
   <ion-content class="padding">
     <div class="flex-view">
-      <button class="button button-icon icon ion-camera" ng-click="upload()"></button>
       <div class="form">
         <div class="list">
           <label class="item item-input item-floating-label item-avatar-right no-side-top-border">
-            <img ng-src="data:image/jpeg;base64,{{user.photoUrl}}" />
+            <img ng-src="{{user.photoUrl}}" />
             <span class="input-label">NOME COMPLETO</span>
             <input type="text" placeholder="NOME COMPLETO" ng-model="user.name">
           </label>

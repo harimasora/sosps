@@ -37,3 +37,10 @@ angular.module('starter.services', ['firebase'])
   var mobilityOptionsRef = firebase.database().ref().child("mobilityOptions");
   return $firebaseArray(mobilityOptionsRef);
 }])
+
+.service("PhotoStorage", [function() {
+  return function(uid) {
+    // Create a root reference
+    return firebase.storage().ref('/usersPhotos/').child(uid).child('profilePicture.png');
+  }
+}])

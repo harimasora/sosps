@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
-  .controller('LoginController', ["$scope", "Auth", "Profile", "$state", "$ionicHistory", "$cordovaCamera", "$cordovaOauth", "$ionicModal", "$ionicLoading", "$firebaseArray",
-    function($scope, Auth, Profile, $state, $ionicHistory, $cordovaCamera, $cordovaOauth, $ionicModal, $ionicLoading, $firebaseArray) {
+  .controller('LoginController', ["$scope", "Auth", "Profile", "PhotoStorage", "$state", "$ionicHistory", "$cordovaCamera", "$cordovaOauth", "$ionicModal", "$ionicLoading",
+    function($scope, Auth, Profile, PhotoStorage, $state, $ionicHistory, $cordovaCamera, $cordovaOauth, $ionicModal, $ionicLoading) {
 
     var GOOGLE_CLIENT_ID = "160819131306-1u8d5p2bvfqb4et9mku0m9v8615tcjbd.apps.googleusercontent.com";
     var FACEBOOK_CLIENT_ID = "1873995172833205";
@@ -41,7 +41,7 @@ angular.module('starter.controllers', [])
           } else {
             $scope.profile.email = $scope.profile.email ? $scope.profile.email : user.email;
             $scope.profile.name = $scope.profile.name ? $scope.profile.name : user.displayName;
-            $scope.profile.photoURL = $scope.profile.photoURL ? $scope.profile.photoURL : user.photoURL;
+            $scope.profile.photoUrl = $scope.profile.photoUrl ? $scope.profile.photoUrl : user.photoURL;
 
             $scope.profile.$save()
               .then(function() {
@@ -50,6 +50,7 @@ angular.module('starter.controllers', [])
               .catch(function(error) {
                 displayError(error);
               });
+
           }
         })
         .catch(function(error) {
@@ -137,15 +138,42 @@ angular.module('starter.controllers', [])
             $scope.profile.name = $scope.user.name;
             $scope.profile.photoUrl = $scope.user.photoUrl;
             $scope.profile.birth_date = $scope.user.birth_date.getTime();
-            $scope.profile.$save()
-              .then(function() {
-                $ionicLoading.hide();
-                $scope.modal.hide();
-                $state.go('profile');
-              })
-              .catch(function(error) {
-                displayError(error);
-              });
+
+            if ($scope.imageData) {
+              PhotoStorage($scope.profile.$id).putString($scope.imageData, 'base64', {contentType: 'image/png'})
+                .then(function(savedPicture) {
+
+                  // DO NOT TOUCH HERE
+                  $scope.profile.email = $scope.user.email;
+                  $scope.profile.name = $scope.user.name;
+                  $scope.profile.photoUrl = savedPicture.downloadURL;
+                  $scope.profile.birth_date = $scope.user.birth_date.getTime();
+
+                  $scope.profile.$save()
+                    .then(function() {
+                      $ionicLoading.hide();
+                      $scope.modal.hide();
+                      $state.go('profile');
+                    })
+                    .catch(function(error) {
+                      displayError(error);
+                    });
+                })
+                .catch(function(error){
+                  displayError(error);
+                })
+            } else {
+              $scope.profile.$save()
+                .then(function() {
+                  $ionicLoading.hide();
+                  $scope.modal.hide();
+                  $state.go('profile');
+                })
+                .catch(function(error) {
+                  displayError(error);
+                });
+            }
+
           })
           .catch(function(error) {
             console.log("Authentication failed:", error);
@@ -167,14 +195,14 @@ angular.module('starter.controllers', [])
         destinationType : Camera.DestinationType.DATA_URL,
         sourceType : Camera.PictureSourceType.CAMERA,
         allowEdit : true,
-        encodingType: Camera.EncodingType.JPEG,
+        encodingType: Camera.EncodingType.PNG,
         popoverOptions: CameraPopoverOptions,
         targetWidth: 500,
         targetHeight: 500,
         saveToPhotoAlbum: false
       };
       $cordovaCamera.getPicture(options).then(function(imageData) {
-        $scope.user.photoUrl = imageData;
+        $scope.imageData = imageData
       }, function(error) {
         console.error(error);
       });
@@ -220,43 +248,19 @@ angular.module('starter.controllers', [])
 
     }])
 
-  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$cordovaCamera", "Profile", "HealthOperators", "MobilityOptions",
-    function($scope, currentAuth, $state, $ionicHistory, $cordovaCamera, Profile, HealthOperators, MobilityOptions) {
+  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions",
+    function($scope, currentAuth, $state, $ionicHistory, $ionicLoading, $cordovaCamera, Profile, PhotoStorage, HealthOperators, MobilityOptions) {
       // currentAuth (provided by resolve) will contain the
       // authenticated user or null if not signed in
 
       $scope.user = Profile(currentAuth.uid);
       $scope.healthOperators = HealthOperators();
       $scope.mobilityOptions = MobilityOptions;
-      $scope.images = [];
 
       // Turn firebase string date into a Date object
       $scope.user.$loaded().then(function() {
         $scope.user.birth_date = new Date($scope.user.birth_date);
-        $scope.image = $scope.user.photoUrl;
       });
-
-      $scope.upload = function() {
-        var options = {
-          quality : 75,
-          destinationType : Camera.DestinationType.DATA_URL,
-          sourceType : Camera.PictureSourceType.CAMERA,
-          allowEdit : true,
-          encodingType: Camera.EncodingType.JPEG,
-          popoverOptions: CameraPopoverOptions,
-          targetWidth: 500,
-          targetHeight: 500,
-          saveToPhotoAlbum: false
-        };
-        $cordovaCamera.getPicture(options).then(function(imageData) {
-          $scope.user.photoUrl = imageData;
-          $scope.user.$save().then(function() {
-            //alert("Image has been uploaded");
-          });
-        }, function(error) {
-          console.error(error);
-        });
-      }
 
       $scope.discardChanges = function() {
         $ionicHistory.nextViewOptions({
