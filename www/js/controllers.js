@@ -165,7 +165,7 @@ angular.module('starter.controllers', [])
       var options = {
         quality : 75,
         destinationType : Camera.DestinationType.DATA_URL,
-        sourceType : Camera.PictureSourceType.CAMERA,
+        sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
         allowEdit : true,
         encodingType: Camera.EncodingType.JPEG,
         popoverOptions: CameraPopoverOptions,
@@ -187,6 +187,29 @@ angular.module('starter.controllers', [])
 
       $scope.hospitals = HealthOperators();
 
+      $scope.model = {
+          'left':'100%',
+          'opacity':'0',
+          'leftNav':'100%'
+      };
+
+      $scope.search = function() {
+        $scope.model.left = '0'
+      }
+
+      $scope.searchClose = function() {
+        $scope.model.left = '100%'
+      }
+
+      $scope.closeNavigation = function() {
+        $scope.model.opacity = '0'
+        $scope.model.leftNav = '100%'
+      }
+
+      $scope.callNavigation = function() {
+        $scope.model.opacity = '1'
+        $scope.model.leftNav = '0'
+      }
   }])
 
   .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators", "$ionicLoading", "$compile",
@@ -240,7 +263,7 @@ angular.module('starter.controllers', [])
         var options = {
           quality : 75,
           destinationType : Camera.DestinationType.DATA_URL,
-          sourceType : Camera.PictureSourceType.CAMERA,
+          sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
           allowEdit : true,
           encodingType: Camera.EncodingType.JPEG,
           popoverOptions: CameraPopoverOptions,

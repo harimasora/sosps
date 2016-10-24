@@ -293,10 +293,9 @@ button {
   margin-bottom: 0;
 }
 
-.list-hosp a {
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
+/*.list-hosp a {
+  padding: 25px 25px 25px;
+}*/
 
 .list-hosp p {
   font-size: 7px;
@@ -372,4 +371,123 @@ button {
   background: #00CCFF;
   height: 4px;
   width: 10%;
+}
+
+.information-cell {
+  padding: 25px 25px 0px 25px;
+  display: inline-block;
+  width: 75%;
+}
+
+.information-cell p {
+  height: 12px;
+}
+
+
+.image-cell img {
+  float: right;
+  height: 125px !important;
+  width: 25% !important;
+}
+
+.bar-home-view .image-bar {
+  width: 65px;
+  height: 35px;
+  background-image: url("../img/logo-sos.png") !important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin-left: 15px;
+}
+
+.menu-sandwich {
+  width: 25px;
+  height: 25px;
+  background-image: url("../img/menu.svg") !important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.buttons-bar {
+  position: relative;
+  left: 55%;
+}
+
+.button-filter {
+  background-image: url("../img/filter.svg") !important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  border: 0px;
+}
+
+.button-search {
+  background-image: url("../img/search.svg") !important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 25px;
+  background-color: white;
+  border: 0px;
+  margin-left: 5px;
+  height: 25px;
+}
+
+.item-thumbnail-right {
+  padding: 0;
+  padding-right: 15px;
+}
+
+.item-thumbnail-right:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: calc(50% - 6px);
+  right: 1%;
+
+  width: 8px;
+  height: 13px;
+  background-image: url("../img/chevron.svg") !important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.seach-bar {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  background-color: white;
+  transition: all 0.5s ease;
+  /*left: 100%;*/
+}
+
+.seach-bar .closesearch {
+  display: inline-block;
+  position: absolute;
+  top: calc(50% - 8.5px);
+  right: 1%;
+
+  width: 17px;
+  height: 17px;
+  background-image: url("../img/closesearch.svg") !important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  z-index: 100;
+}
+
+.seach-bar input {
+  width: 90%;
+  margin-left: 5px;
+}
+
+
+.view-navigation {
+  position: absolute;
+  width: 100vh;
+  height: 100vh;
+  background-color: #00CCFF;
+  z-index: 1000000;
+  /*opacity: 0;
+  display: none;*/
+  transition: opacity 1s ease;
 }

@@ -1,23 +1,46 @@
 <ion-view hide-nav-bar="true">
-  <ion-header-bar >
+  <div class="view-navigation" ng-style="{
+        'left':model.leftNav,
+        'opacity':model.opacity
+      }">
+    <button ng-click="closeNavigation()" type="button" name="button">FECHA</button>
+  </div>
+  <ion-header-bar class="bar-home-view">
+    <div
+    ng-style="{
+          'left':model.left
+        }"
+    class="item-input-wrapper seach-bar">
+          <i class="icon ion-ios-search placeholder-icon"></i>
+          <input type="search"  placeholder="Search" ng-model="model.search.name">
+          <div ng-click="searchClose()" class="closesearch"></div>
+    </div>
 		<div class="buttons">
-			<button class="button button-icon ion-ios-minus-outline" ></button>
+			<button ng-click="callNavigation()" class="button button-icon menu-sandwich" ></button>
+      <div class="image-bar"></div>
 		</div>
-		<h1 class="title" style="left: 60px; right: 60px;">Soundboard</h1>
+		<h1 class="title" style="left: 60px; right: 60px;"></h1>
 
-		<button class="button">Move</button>
+    <div class="buttons-bar">
+      <button class="button-filter"></button>
+      <button ng-click="search()" class="button-search"></button>
+    </div>
 
 	</ion-header-bar>
   <ion-content class="view-home">
     <div class="list list-hosp">
-      <a ng-repeat="hospital in hospitals" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}">
-        <img ng-src="{{hospital.photoUrl}}">
-        <h2>{{hospital.name}}</h2>
-        <h3>
-          TEMPO DE ATENDIMENTO
-        </h3>
-        <p>TEMPO DE ESPERA - 45 MINUTOS</p>
-        <p class="wait">TEMPO DE DESLOCAMENTO - 15 MINUTOS</p>
+      <a ng-repeat="hospital in hospitals | orderBy:'-name' | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}">
+        <div class="image-cell">
+            <img ng-src="{{hospital.photoUrl}}">
+        </div>
+        <div class="information-cell">
+          <h2>{{hospital.name}}</h2>
+          <h3>
+            TEMPO DE ATENDIMENTO
+          </h3>
+          <p>TEMPO DE ESPERA - 45 MINUTOS</p>
+          <p class="wait">TEMPO DE DESLOCAMENTO - 15 MINUTOS</p>
+        </div>
       </a>
     </div>
   </ion-content>
