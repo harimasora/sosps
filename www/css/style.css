@@ -54,6 +54,11 @@ h1, body {
   border-right: none;
 }
 
+.no-side-border {
+  border-left: none;
+  border-right: none;
+}
+
 .password-input {
 
   border-left: none;
@@ -539,4 +544,9 @@ button {
 .navigation-logout a {
   color: white;
   text-decoration: none;
+}
+
+.notification-toggle {
+  top: 12px !important;
+  left: 2px !important;
 }

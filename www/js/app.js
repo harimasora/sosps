@@ -73,6 +73,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             }]
           }
         })
+        .state("settings", {
+          url: '/settings',
+          controller: "ProfileController",
+          templateUrl: "templates/settings.html",
+          resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+              return Auth.$requireSignIn();
+            }]
+          }
+        })
         .state('hospitals', {
           url: "/hospitals/:id",
           templateUrl: 'templates/hospitals.html',
