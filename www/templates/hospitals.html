@@ -5,7 +5,9 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div id="map" data-tap-disabled="true"></div>
+    <map id="map" center="{{hospital.latitude}}, {{hospital.longitude}}" zoom=15 data-tap-disabled="true">
+      <marker position="{{hospital.latitude}}, {{hospital.longitude}}"></marker>
+    </map>
     <div class="padding hospital-info-box">
       <img class="overlap-logo" ng-src="{{hospital.photoUrl}}">
       <h3 class="hospital-name">{{hospital.name}}</h3>

@@ -9,6 +9,7 @@
   "dependencies": {
     "firebase": "^3.5.0",
     "ng-cordova-oauth": "^0.2.10",
-    "ngCordova": "^0.1.27-alpha"
+    "ngCordova": "^0.1.27-alpha",
+    "ngmap": "^1.17.8"
   }
 }

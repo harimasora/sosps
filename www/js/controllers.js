@@ -223,52 +223,35 @@ angular.module('starter.controllers', [])
       };
 
       $scope.search = function() {
-        $scope.model.left = '0'
-      }
+        $scope.model.left = '0';
+      };
 
       $scope.searchClose = function() {
-        $scope.model.left = '100%'
-      }
+        $scope.model.left = '100%';
+      };
 
       $scope.closeNavigation = function() {
-        $scope.model.opacity = '0'
-        $scope.model.leftNav = '100%'
-      }
+        $scope.model.opacity = '0';
+        $scope.model.leftNav = '100%';
+      };
 
       $scope.callNavigation = function() {
-        $scope.model.opacity = '1'
-        $scope.model.leftNav = '0'
+        $scope.model.opacity = '1';
+        $scope.model.leftNav = '0';
       }
   }])
 
-  .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators",
-    function($scope, $stateParams, HealthOperators) {
+  .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators", "NgMap", "$rootScope",
+    function($scope, $stateParams, HealthOperators, NgMap, $rootScope) {
 
       $scope.hospital = HealthOperators($stateParams.id);
 
-      $scope.hospital.$loaded().then(initialize);
+      $scope.markers = [];
 
-      function initialize() {
-        var myLatlng = new google.maps.LatLng($scope.hospital.latitude, $scope.hospital.longitude);
+      //When the ng-map directive has an id attribute, the getMap function must use that id value as its first argument.
+      NgMap.getMap("map").then(function(map) {
 
-        var mapOptions = {
-          center: myLatlng,
-          zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map"),
-          mapOptions);
-
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: $scope.hospital.name
-        });
-
-        $scope.map = map;
-      }
-
-
+      }).catch(function(error){console.error(error)});
 
     }])
 
