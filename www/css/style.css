@@ -483,11 +483,60 @@ button {
 
 .view-navigation {
   position: absolute;
-  width: 100vh;
+  width: 100vw;
   height: 100vh;
   background-color: #00CCFF;
   z-index: 1000000;
   /*opacity: 0;
   display: none;*/
   transition: opacity 1s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.navigation-top {
+  display: flex;
+  padding: 16px;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.navigation-avatar {
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 50%;
+}
+
+.navigation-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navigation-content a {
+  padding: 15px 20px;
+  font-size: large;
+  color: white;
+}
+
+.navigation-footer {
+  display: flex;
+  padding: 0 16px 30px;
+  justify-content: space-between;
+}
+
+.navigation-settings,
+.navigation-logout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.navigation-settings a,
+.navigation-logout a {
+  color: white;
+  text-decoration: none;
 }

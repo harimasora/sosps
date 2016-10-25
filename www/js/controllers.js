@@ -210,9 +210,10 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "HealthOperators",
-    function($scope, HealthOperators) {
+  .controller('HomeController', ["$scope", "HealthOperators", "currentAuth", "Profile",
+    function($scope, HealthOperators, currentAuth, Profile) {
 
+      $scope.user = Profile(currentAuth.uid);
       $scope.hospitals = HealthOperators();
 
       $scope.model = {
