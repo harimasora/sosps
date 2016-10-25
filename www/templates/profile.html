@@ -37,6 +37,16 @@
               <option></option>
             </select>
           </label>
+          <div class="item item-divider">
+            ADICIONAR CONTA SECUNDÁRIA
+          </div>
+          <a class="item" ng-repeat="(key,value) in user.minions" href="#/users/{{user.$id}}/minions/{{key}}">
+            {{value.name}}
+            <button class="button button-light">
+              <i class="icon ion-chevron-right"></i>
+            </button>
+          </a>
+          <a class="button button-light" ng-href="#/users/{{user.$id}}/minions/new">Adicionar conta secundária</a>
         </div>
       </div>
     </div>

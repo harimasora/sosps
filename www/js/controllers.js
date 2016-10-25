@@ -240,7 +240,7 @@ angular.module('starter.controllers', [])
       }
   }])
 
-  .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators", "$ionicLoading", "$compile",
+  .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators",
     function($scope, $stateParams, HealthOperators) {
 
       $scope.hospital = HealthOperators($stateParams.id);
@@ -341,3 +341,64 @@ angular.module('starter.controllers', [])
       }
 
   }])
+
+  .controller('MinionsController', ["$scope", "$stateParams", "Profile", "Minions", "HealthOperators", "MobilityOptions", "$ionicHistory", "$ionicLoading",
+    function($scope, $stateParams, Profile, Minions, HealthOperators, MobilityOptions, $ionicHistory, $ionicLoading) {
+
+      $scope.minion = {
+        name: null,
+        email: null,
+        birth_date: null,
+        healthOperator: null,
+        address: null,
+        mobilityOption: null
+      };
+
+      $scope.user = Profile($stateParams.userId);
+      $scope.minion = Minions($stateParams.userId, $stateParams.id);
+      $scope.minionArray = Minions($stateParams.userId);
+      $scope.healthOperators = HealthOperators();
+      $scope.mobilityOptions = MobilityOptions;
+
+      $scope.minion.$loaded().then(function() {
+        $scope.minion.birth_date = new Date($scope.minion.birth_date);
+      });
+
+      $scope.addMinion = function() {
+        $ionicLoading.show({
+          template: "Salvando..."
+        });
+
+        //Transform Date object back to long
+        $scope.minion.birth_date = $scope.minion.birth_date.getTime();
+
+        // new minion
+        if ($stateParams.id == "new") {
+          $scope.minionArray.$add({
+            name: $scope.minion.name,
+            email: $scope.minion.email,
+            birth_date: $scope.minion.birth_date,
+            healthOperator: $scope.minion.healthOperator,
+            address: $scope.minion.address,
+            mobilityOption: $scope.minion.mobilityOption
+          }).then(function(){$ionicLoading.hide(); $ionicHistory.goBack()}).catch(function(error){displayError(error);});
+        } else {
+          $scope.minion.$save().then(function(){$ionicLoading.hide(); $ionicHistory.goBack()}).catch(function(error){displayError(error);})
+        }
+      }
+
+      function displayError(error) {
+        console.log("Authentication failed:", error);
+        $ionicLoading.show({
+          template: error.message
+        });
+        setTimeout(function () {
+          $ionicLoading.hide();
+        }, 4000)
+      }
+
+      $scope.goBack = function() {
+        $ionicHistory.goBack();
+      }
+
+    }])

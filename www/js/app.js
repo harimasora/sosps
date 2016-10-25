@@ -82,6 +82,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
               return Auth.$requireSignIn();
             }]
           }
+        })
+        .state('minions', {
+          url: "/users/:userId/minions/:id",
+          templateUrl: 'templates/minions.html',
+          controller: 'MinionsController',
+          resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+              return Auth.$requireSignIn();
+            }]
+          }
         });
       $urlRouterProvider.otherwise('/login');
     }

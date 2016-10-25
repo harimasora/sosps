@@ -33,6 +33,18 @@ angular.module('starter.services', ['firebase'])
   }
 }])
 
+.service("Minions", ["$firebaseObject", "$firebaseArray", function($firebaseObject, $firebaseArray) {
+  return function(uid, minionId) {
+    var minionsArrayRef = firebase.database().ref("users").child(uid).child('minions');
+    if (minionId) {
+      var minionObjectRef = minionsArrayRef.child(minionId);
+      return $firebaseObject(minionObjectRef);
+    } else {
+      return $firebaseArray(minionsArrayRef);
+    }
+  }
+}])
+
 .service("MobilityOptions", ["$firebaseArray", function($firebaseArray) {
   var mobilityOptionsRef = firebase.database().ref().child("mobilityOptions");
   return $firebaseArray(mobilityOptionsRef);
