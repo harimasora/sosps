@@ -197,8 +197,8 @@ angular.module('starter.controllers', [])
         allowEdit : true,
         encodingType: Camera.EncodingType.PNG,
         popoverOptions: CameraPopoverOptions,
-        targetWidth: 500,
-        targetHeight: 500,
+        targetWidth: 150,
+        targetHeight: 150,
         saveToPhotoAlbum: false
       };
       $cordovaCamera.getPicture(options).then(function(imageData) {
@@ -293,8 +293,8 @@ angular.module('starter.controllers', [])
           allowEdit : true,
           encodingType: Camera.EncodingType.JPEG,
           popoverOptions: CameraPopoverOptions,
-          targetWidth: 500,
-          targetHeight: 500,
+          targetWidth: 150,
+          targetHeight: 150,
           saveToPhotoAlbum: false
         };
         $cordovaCamera.getPicture(options).then(function(imageData) {
@@ -316,7 +316,8 @@ angular.module('starter.controllers', [])
 
       $scope.saveChanges = function() {
         //Transform Date object back to long
-        $scope.user.birth_date = $scope.user.birth_date.getTime();
+        var date = new Date($scope.user.birth_date);
+        $scope.user.birth_date = date.getTime();
 
         $scope.user.$save()
           .then(function() {
@@ -370,7 +371,8 @@ angular.module('starter.controllers', [])
         });
 
         //Transform Date object back to long
-        $scope.minion.birth_date = $scope.minion.birth_date.getTime();
+        var date = new Date($scope.minion.birth_date);
+        $scope.minion.birth_date = date.getTime();
 
         // new minion
         if ($stateParams.id == "new") {
@@ -386,6 +388,11 @@ angular.module('starter.controllers', [])
           $scope.minion.$save().then(function(){$ionicLoading.hide(); $ionicHistory.goBack()}).catch(function(error){displayError(error);})
         }
       }
+
+      $scope.removeMinion = function() {
+        $scope.minion.$remove();
+        $ionicHistory.goBack();
+      };
 
       function displayError(error) {
         console.log("Authentication failed:", error);
