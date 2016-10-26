@@ -385,7 +385,7 @@ button {
 }
 
 .information-cell p {
-  height: 12px;
+  height: 15px;
 }
 
 
@@ -393,6 +393,11 @@ button {
   float: right;
   height: 125px !important;
   width: 25% !important;
+}
+
+.bar-home-view {
+  padding-top: 7px;
+  padding-left: 7px;
 }
 
 .bar-home-view .image-bar {
@@ -414,7 +419,7 @@ button {
 
 .buttons-bar {
   position: relative;
-  left: 55%;
+  left: 50%;
 }
 
 .button-filter {
@@ -470,7 +475,7 @@ button {
   display: inline-block;
   position: absolute;
   top: calc(50% - 8.5px);
-  right: 1%;
+  right: 4%;
 
   width: 17px;
   height: 17px;
@@ -549,4 +554,22 @@ button {
 .notification-toggle {
   top: 12px !important;
   left: 2px !important;
+}
+
+
+.view-navigation {
+  font-family: Blogger !important;
+}
+
+
+.navigation-close {
+  background-image: url("../img/close_white.svg") !important;
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+  width: 25px;
+  height: 25px;
+}
+
+.detail-view {
+  font-family: Blogger !important;
 }

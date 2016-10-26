@@ -1,12 +1,16 @@
-<ion-view title="{{hospital.name}}">
+<ion-view class="detail-view">
   <ion-nav-bar>
+    <h1>{{hospital.name}}</h1>
     <ion-nav-back-button class="button-dark">
-      Voltar
+      back
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <map id="map" center="{{hospital.latitude}}, {{hospital.longitude}}" zoom=15 data-tap-disabled="true">
-      <marker position="{{hospital.latitude}}, {{hospital.longitude}}"></marker>
+    <map
+    id="map" dragging="false" center="{{hospital.latitude}}, {{hospital.longitude}}" zoom=15 data-tap-disabled="true" disable-default-u-i="true">
+      <marker  icon="../img/mark.png" position="{{hospital.latitude}}, {{hospital.longitude}}"></marker>
+      <map-data set-style="[{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}]">
+      </map-data>
     </map>
     <div class="padding hospital-info-box">
       <img class="overlap-logo" ng-src="{{hospital.photoUrl}}">

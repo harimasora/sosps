@@ -1,7 +1,7 @@
 <ion-view hide-nav-bar="true">
   <div class="view-navigation" ng-style="{'left':model.leftNav, 'opacity':model.opacity}">
     <div class="navigation-top">
-      <div class="navigation-close" ng-click="closeNavigation()">X</div>
+      <div class="navigation-close" ng-click="closeNavigation()"></div>
       <img class="navigation-avatar" ng-src="{{user.photoUrl}}">
     </div>
     <div class="navigation-content">
@@ -18,9 +18,9 @@
         <div class="navigation-icon ion-gear-a"></div>
         <a ng-href="#/settings">CONFIGURAÇÕES</a>
       </div>
-      <div class="navigation-logout">
+      <div ng-click="user.$signOut()" class="navigation-logout">
         <div class="navigation-icon ion-log-out"></div>
-        <a href="#" ng-click="user.$signOut()">LOG OUT</a>
+        <a href="#">LOG OUT</a>
       </div>
     </div>
   </div>
