@@ -1,7 +1,9 @@
-<ion-view class="detail-view">
-  <ion-header-bar class="bar-home-view">
+<ion-view title="Informações" class="detail-view">
+  <ion-nav-bar class="bar-home-view">
+    <ion-nav-back-button class="button-dark">Voltar
+    </ion-nav-back-button>
     <h1 class="title" style="left: 60px; right: 60px;"></h1>
-	</ion-header-bar>
+	</ion-nav-bar>
   <ion-content>
     <map
     id="map" dragging="false" center="{{hospital.latitude}}, {{hospital.longitude}}" zoom=15 data-tap-disabled="true" disable-default-u-i="true">
@@ -16,9 +18,6 @@
       <div class="hospital-phone">
         <span>{{hospital.phone}}</span>
       </div>
-      <!-- <div class="hospital-address">
-        <span>{{hospital.address}}</span>
-      </div> -->
     </div>
   </ion-content>
 </ion-view>

@@ -241,8 +241,8 @@ angular.module('starter.controllers', [])
       }
   }])
 
-  .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators", "NgMap", "$rootScope",
-    function($scope, $stateParams, HealthOperators, NgMap, $rootScope) {
+  .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading",
+    function($scope, $stateParams, HealthOperators, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading) {
 
       $scope.hospital = HealthOperators($stateParams.id);
 
@@ -254,14 +254,35 @@ angular.module('starter.controllers', [])
       }).catch(function(error){console.error(error)});
 
       $scope.getDirections = function() {
+        $ionicLoading.show({
+          template: "Aguarde..."
+        });
 
-        // launchnavigator.TRANSPORT_MODE.DRIVING
-        // launchnavigator.TRANSPORT_MODE.WALKING
-        // launchnavigator.TRANSPORT_MODE.BICYCLING
-        // launchnavigator.TRANSPORT_MODE.TRANSIT
-        
-        launchnavigator.TRANSPORT_MODE.WALKING.navigate([50.279306, -5.163158], {
-          start: "50.342847, -4.749904" });
+        $cordovaGeolocation.getCurrentPosition()
+          .then(function (position) {
+            var current = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            };
+            $cordovaLaunchNavigator.navigate([$scope.hospital.latitude, $scope.hospital.longitude], [current.latitude, current.longitude])
+              .then(function(){
+                $ionicLoading.hide();
+              })
+              .catch(function(error){displayError(error)});
+          }, function(error) {
+            displayError(error)
+          });
+
+      };
+
+      function displayError(error) {
+        console.log("Authentication failed:", error);
+        $ionicLoading.show({
+          template: error.message
+        });
+        setTimeout(function () {
+          $ionicLoading.hide();
+        }, 4000)
       }
 
     }])
