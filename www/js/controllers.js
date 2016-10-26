@@ -76,10 +76,13 @@ angular.module('starter.controllers', [])
           $cordovaOauth.google(GOOGLE_CLIENT_ID, ["email", "profile"])
             .then(function(result) {
               var credentials = firebase.auth.GoogleAuthProvider.credential(result.id_token, result.access_token);
-              return Auth.$signInWithCredential(credentials);
-            })
-            .then(function (firebaseUser){
-              redirectUser(firebaseUser)
+              Auth.$signInWithCredential(credentials)
+                .then(function (firebaseUser){
+                  redirectUser(firebaseUser)
+                })
+                .catch(function (error) {
+                  displayError(error)
+                });
             })
             .catch(function (error) {
               displayError(error)
@@ -89,10 +92,13 @@ angular.module('starter.controllers', [])
           $cordovaOauth.facebook(FACEBOOK_CLIENT_ID, ["email", "public_profile"])
             .then(function(result) {
               var credentials = firebase.auth.FacebookAuthProvider.credential(result.access_token);
-              return Auth.$signInWithCredential(credentials);
-            })
-            .then(function (firebaseUser){
-              redirectUser(firebaseUser)
+              Auth.$signInWithCredential(credentials)
+                .then(function (firebaseUser){
+                  redirectUser(firebaseUser)
+                })
+                .catch(function (error) {
+                  displayError(error)
+                });
             })
             .catch(function (error) {
               displayError(error)
