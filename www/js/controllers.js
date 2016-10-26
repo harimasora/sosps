@@ -253,6 +253,17 @@ angular.module('starter.controllers', [])
 
       }).catch(function(error){console.error(error)});
 
+      $scope.getDirections = function() {
+
+        // launchnavigator.TRANSPORT_MODE.DRIVING
+        // launchnavigator.TRANSPORT_MODE.WALKING
+        // launchnavigator.TRANSPORT_MODE.BICYCLING
+        // launchnavigator.TRANSPORT_MODE.TRANSIT
+        
+        launchnavigator.TRANSPORT_MODE.WALKING.navigate([50.279306, -5.163158], {
+          start: "50.342847, -4.749904" });
+      }
+
     }])
 
   .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions",

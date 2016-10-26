@@ -1,33 +1,24 @@
 <ion-view class="detail-view">
-  <ion-nav-bar>
-    <h1>{{hospital.name}}</h1>
-    <ion-nav-back-button class="button-dark">
-      back
-    </ion-nav-back-button>
-  </ion-nav-bar>
+  <ion-header-bar class="bar-home-view">
+    <h1 class="title" style="left: 60px; right: 60px;"></h1>
+	</ion-header-bar>
   <ion-content>
     <map
     id="map" dragging="false" center="{{hospital.latitude}}, {{hospital.longitude}}" zoom=15 data-tap-disabled="true" disable-default-u-i="true">
       <marker  icon="../img/mark.png" position="{{hospital.latitude}}, {{hospital.longitude}}"></marker>
-      <map-data set-style="[{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}]">
-      </map-data>
     </map>
     <div class="padding hospital-info-box">
       <img class="overlap-logo" ng-src="{{hospital.photoUrl}}">
       <h3 class="hospital-name">{{hospital.name}}</h3>
-      <a class="get-direction">COMO CHEGAR</a>
+      <a ng-click="getDirections()"class="get-direction">COMO CHEGAR</a>
       <p class="info">INFORMAÇÕES</p>
       <div class="blue-separator"></div>
-      <a ng-href="tel:{{hospital.phone}}">
-        <button class="button icon button-light ion-android-call"></button>
+      <div class="hospital-phone">
         <span>{{hospital.phone}}</span>
-      </a>
-      <button class="button icon button-light ion-location"></button>
-      <span>{{hospital.address}}</span>
-      <button class="button icon button-light ion-ios-timer-outline"></button>
-      <span>08:00 - 23:00</span>
-      <span>Aberto Agora</span>
+      </div>
+      <!-- <div class="hospital-address">
+        <span>{{hospital.address}}</span>
+      </div> -->
     </div>
   </ion-content>
-  <button type="button" name="button">GET LOCATIONS</button>
 </ion-view>
