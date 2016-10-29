@@ -445,7 +445,7 @@ button {
 .information-cell {
   margin: 30px 0px 30px 20px;
   display: inline-block;
-  width: 65%;
+  width: 100%;
 }
 
 .information-cell p {
@@ -735,4 +735,9 @@ button {
 
 .vinc {
   margin-bottom: 10px !important;
+}
+
+.title-center {
+  font-size: 20px !important;
+  font-family: Blogger !important;
 }
