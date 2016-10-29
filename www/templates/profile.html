@@ -1,13 +1,13 @@
 <ion-view hide-nav-bar="true" title="Profile">
   <ion-header-bar class="bar bar-header bar-light">
-    <button class="button button-icon icon ion-close-round" ng-click="discardChanges()"></button>
+    <!-- <button class="button button-icon icon ion-close-round" ng-click="discardChanges()"></button> -->
     <h1 class="title">Informações</h1>
-    <button class="button button-icon icon ion-checkmark-round" ng-click="saveChanges()"></button>
+    <!-- <button class="button button-icon icon ion-checkmark-round" ng-click="saveChanges()"></button> -->
   </ion-header-bar>
   <ion-content class="padding">
     <div class="flex-view">
       <div class="form">
-        <div class="list">
+        <div class="list list-profile">
           <label class="item item-input item-floating-label item-avatar-right no-side-top-border">
             <img ng-src="{{user.photoUrl}}" />
             <span class="input-label">NOME COMPLETO</span>
@@ -21,24 +21,23 @@
             <span class="input-label">DATA DE NASCIMENTO</span>
             <input type="date" placeholder="DATA DE NASCIMENTO" ng-model="user.birth_date">
           </label>
-          <label class="item item-input item-select no-side-top-border">
-            <span class="input-label">OPERADORA DE SAÚDE</span>
+          <label class="item item-input item-select no-side-top-border operator">
             <select ng-options="healthOperator.$id as healthOperator.name for healthOperator in healthOperators" ng-model="user.healthOperator">
-              <option></option>
+              <option value="" disabled selected>OPERADORA DE SAÚDE</option>
             </select>
           </label>
-          <label class="item item-input item-floating-label no-side-top-border">
+          <label class="item item-input item-floating-label no-side-top-border input-address">
             <span class="input-label">ENDEREÇO</span>
             <input type="text" placeholder="ENDEREÇO" ng-model="user.address">
           </label>
-          <label class="item item-input item-select no-side-top-border">
-            <span class="input-label">DESLOCAMENTO MAIS FREQUENTE</span>
-            <select ng-options="mobilityOption.$id as mobilityOption.name for mobilityOption in mobilityOptions" ng-model="user.mobilityOption">
-              <option></option>
+          <label class="item item-input item-select no-side-top-border desl">
+
+            <select id="deslocamento" ng-options="mobilityOption.$id as mobilityOption.name for mobilityOption in mobilityOptions" ng-model="user.mobilityOption">
+              <option value="" disabled selected>DESLOCAMENTO</option>
             </select>
           </label>
           <div class="item item-divider">
-            ADICIONAR CONTA SECUNDÁRIA
+            Contas Vinculadas
           </div>
           <a class="item" ng-repeat="(key,value) in user.minions" href="#/users/{{user.$id}}/minions/{{key}}">
             {{value.name}}
@@ -46,7 +45,11 @@
               <i class="icon ion-chevron-right"></i>
             </button>
           </a>
-          <a class="button button-light" ng-href="#/users/{{user.$id}}/minions/new">Adicionar conta secundária</a>
+          <a class="button button-light add-secondary" ng-href="#/users/{{user.$id}}/minions/new">Adicionar conta secundária</a>
+        </div>
+        <div class="options-information">
+          <button class="option-save" ng-click="saveChanges()">Salvar Alterações</button>
+          <button class="option-des" ng-click="discardChanges()">Descartar Alterações</button>
         </div>
       </div>
     </div>

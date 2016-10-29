@@ -333,7 +333,7 @@ angular.module('starter.controllers', [])
         $ionicHistory.nextViewOptions({
           historyRoot: true
         });
-        $state.go('home')
+        $state.go('login')
       };
 
       $scope.saveChanges = function() {

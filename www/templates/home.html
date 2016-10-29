@@ -49,17 +49,16 @@
   <ion-content class="view-home">
     <div class="list list-hosp">
       <a ng-repeat="hospital in hospitals | orderBy:'-name' | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}">
-        <div class="image-cell">
-            <img ng-src="{{hospital.photoUrl}}">
-        </div>
+
         <div class="information-cell">
           <h2>{{hospital.name}}</h2>
           <h3>
             TEMPO DE ATENDIMENTO
           </h3>
-          <p>TEMPO DE ESPERA - 45 MINUTOS</p>
-          <p class="wait">TEMPO DE DESLOCAMENTO - 15 MINUTOS</p>
+          <p>TEMPO DE ESPERA - 45 Minutos</p>
+          <p class="wait">TEMPO DE DESLOCAMENTO - 15 Minutos</p>
         </div>
+        <img class="image-cell" ng-src="{{hospital.photoUrl}}">
       </a>
     </div>
   </ion-content>
