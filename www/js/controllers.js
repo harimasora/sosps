@@ -216,11 +216,11 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "HealthOperators", "currentAuth", "Profile",
-    function($scope, HealthOperators, currentAuth, Profile) {
+  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile",
+    function($scope, Hospitals, currentAuth, Profile) {
 
       $scope.user = Profile(currentAuth.uid);
-      $scope.hospitals = HealthOperators();
+      $scope.hospitals = Hospitals();
 
       $scope.model = {
           'left':'100%',
@@ -247,10 +247,10 @@ angular.module('starter.controllers', [])
       }
   }])
 
-  .controller('HospitalsController', ["$scope", "$stateParams", "HealthOperators", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading",
-    function($scope, $stateParams, HealthOperators, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading) {
+  .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading",
+    function($scope, $stateParams, Hospitals, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading) {
 
-      $scope.hospital = HealthOperators($stateParams.id);
+      $scope.hospital = Hospitals($stateParams.id);
 
       $scope.markers = [];
 
@@ -299,7 +299,7 @@ angular.module('starter.controllers', [])
       // authenticated user or null if not signed in
 
       $scope.user = Profile(currentAuth.uid);
-      $scope.healthOperators = HealthOperators();
+      $scope.healthOperators = HealthOperators;
       $scope.mobilityOptions = MobilityOptions;
 
       // Turn firebase string date into a Date object
@@ -380,7 +380,7 @@ angular.module('starter.controllers', [])
       $scope.user = Profile($stateParams.userId);
       $scope.minion = Minions($stateParams.userId, $stateParams.id);
       $scope.minionArray = Minions($stateParams.userId);
-      $scope.healthOperators = HealthOperators();
+      $scope.healthOperators = HealthOperators;
       $scope.mobilityOptions = MobilityOptions;
 
       $scope.minion.$loaded().then(function() {

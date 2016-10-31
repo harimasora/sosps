@@ -18,20 +18,25 @@ angular.module('starter.services', ['firebase'])
   }
 }])
 
-.service("HealthOperators", ["$firebaseObject", "$firebaseArray", function($firebaseObject, $firebaseArray) {
+.service("Hospitals", ["$firebaseObject", "$firebaseArray", function($firebaseObject, $firebaseArray) {
   return function(id) {
     if (id) {
       // if a identifier is passed, return the hospital object
-      var ref = firebase.database().ref("healthOperators");
-      var healthOperatorRef = ref.child(id);
-      return $firebaseObject(healthOperatorRef);
+      var ref = firebase.database().ref("hospitals");
+      var hospitalRef = ref.child(id);
+      return $firebaseObject(hospitalRef);
     } else {
       // otherwise return an array
-      var healthOperatorsRef = firebase.database().ref().child("healthOperators");
-      return $firebaseArray(healthOperatorsRef);
+      var hospitalsRef = firebase.database().ref().child("hospitals");
+      return $firebaseArray(hospitalsRef);
     }
   }
 }])
+
+  .service("HealthOperators", ["$firebaseArray", function($firebaseArray) {
+    var healthOperatorsRef = firebase.database().ref().child("healthOperators");
+    return $firebaseArray(healthOperatorsRef);
+  }])
 
 .service("Minions", ["$firebaseObject", "$firebaseArray", function($firebaseObject, $firebaseArray) {
   return function(uid, minionId) {
