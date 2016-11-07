@@ -5,22 +5,21 @@
       <img class="navigation-avatar" ng-src="{{user.photoUrl}}">
     </div>
     <div class="navigation-content">
-      <a>Principal</a>
-      <a>Calendário</a>
-      <a>Visão Geral</a>
-      <a>Grupos</a>
-      <a>Listas</a>
-      <a>Como Funciona</a>
-      <a>Timeline</a>
+      <a>Informações Importantes</a>
+      <a>Indique o SOSPS</a>
+      <a>Avalie o App</a>
+      <a>Não encontrou algum hospital?</a>
+      <a>Contato e Sugestões</a>
+      <a>Como usar</a>
     </div>
     <div class="navigation-footer">
       <div class="navigation-settings">
-        <div class="navigation-icon ion-gear-a"></div>
-        <a ng-href="#/settings">CONFIGURAÇÕES</a>
+        <div class="navigation-icon-conf"></div>
+        <a ng-href="#/settings">MINHA</br> CONTA</a>
       </div>
       <div ng-click="user.$signOut()" class="navigation-logout">
-        <div class="navigation-icon ion-log-out"></div>
-        <a href="#">LOG OUT</a>
+        <div class="navigation-icon-logout"></div>
+        <a href="#">TROCAR</br>CONTA</a>
       </div>
     </div>
   </div>
@@ -80,20 +79,9 @@
         </div>
 
         <div class="atendimento">
-          <h3>TEMPO TOTAL ATÉ 1 ATENDIMENTO</h3>
+          <h3>TEMPO TOTAL ATÉ 1º ATENDIMENTO</h3>
           <h2>45 <span>min</span></h2>
         </div>
-
-<!--
-        <div class="information-cell">
-          <h2>{{hospital.name}}</h2>
-          <h3>
-            TEMPO DE ATENDIMENTO
-          </h3>
-          <p>TEMPO DE ESPERA - 45 Minutos</p>
-          <p class="wait">TEMPO DE DESLOCAMENTO - 15 Minutos</p>
-        </div>
-        <img class="image-cell" ng-src="{{hospital.photoUrl}}"> -->
       </a>
     </div>
   </ion-content>
