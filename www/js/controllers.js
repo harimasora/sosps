@@ -247,6 +247,18 @@ angular.module('starter.controllers', [])
       }
   }])
 
+  .controller('StaticInfoController', ["$scope", "$state", "$ionicHistory",
+    function($scope, $state, $ionicHistory) {
+
+      $scope.discardChanges = function() {
+        $ionicHistory.nextViewOptions({
+          historyRoot: true
+        });
+        $state.go('home')
+      };
+
+    }])
+
   .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading",
     function($scope, $stateParams, Hospitals, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading) {
 
