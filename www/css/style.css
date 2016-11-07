@@ -1089,6 +1089,7 @@ h1, h2, h3, p {
 }
 
 .header-info {
+
   width: 100%;
   background-color: #1FCAFF;
   color: white;
@@ -1164,8 +1165,53 @@ h1, h2, h3, p {
   background-image: url("../img/sirene-1.png");
   background-repeat: no-repeat;
   float: left;
+  background-position: 50% 50%;
   width: 30%;
 }
+
+.image-sirene-2 {
+  width: 100px;
+  height: 100px;
+  background-image: url("../img/sirene-2.png");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  float: left;
+  width: 30%;
+}
+
+.image-sirene-3 {
+  width: 100px;
+  background-position: 50% 50%;
+  height: 100px;
+  background-image: url("../img/sirene-3.png");
+  background-repeat: no-repeat;
+  float: left;
+  width: 30%;
+}
+
+.image-sirene-4 {
+  width: 100px;
+  height: 100px;
+  background-position: 50% 50%;
+  background-image: url("../img/sirene-4.png");
+  background-repeat: no-repeat;
+  float: left;
+  width: 30%;
+}
+
+
+.image-sirene-5 {
+  width: 100px;
+  height: 100px;
+  background-image: url("../img/sirene-5.png");
+  background-repeat: no-repeat;
+  float: left;
+  width: 30%;
+}
+
+
+
+
 
 .sirene h3 {
   font-size: 16px;
