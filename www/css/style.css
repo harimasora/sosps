@@ -1165,7 +1165,7 @@ h1, h2, h3, p {
   background-image: url("../img/sirene-1.png");
   background-repeat: no-repeat;
   float: left;
-  background-position: 50% 50%;
+  background-position: 35% 50%;
   width: 30%;
 }
 
@@ -1174,14 +1174,14 @@ h1, h2, h3, p {
   height: 100px;
   background-image: url("../img/sirene-2.png");
   background-repeat: no-repeat;
-  background-position: 50% 50%;
+  background-position: 35% 50%;
   float: left;
   width: 30%;
 }
 
 .image-sirene-3 {
   width: 100px;
-  background-position: 50% 50%;
+  background-position: 35% 50%;
   height: 100px;
   background-image: url("../img/sirene-3.png");
   background-repeat: no-repeat;
@@ -1192,7 +1192,7 @@ h1, h2, h3, p {
 .image-sirene-4 {
   width: 100px;
   height: 100px;
-  background-position: 50% 50%;
+  background-position: 35% 50%;
   background-image: url("../img/sirene-4.png");
   background-repeat: no-repeat;
   float: left;
@@ -1203,6 +1203,7 @@ h1, h2, h3, p {
 .image-sirene-5 {
   width: 100px;
   height: 100px;
+  background-position: 35% 50%;
   background-image: url("../img/sirene-5.png");
   background-repeat: no-repeat;
   float: left;
