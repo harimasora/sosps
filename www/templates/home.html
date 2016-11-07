@@ -60,7 +60,8 @@
 
         <div class="information-main">
           <h1>{{hospital.name}}</h1>
-          <h2>atualizado em 03/11 às 16:19h</h2>
+          <h2 ng-if="hospital.updateOn">atualizado em {{hospital.updateOn | date: "dd/MM"}} às {{hospital.updateOn | date: "hh:mm"}}h</h2>
+          <h2 ng-if="!hospital.updateOn">atualizado em -- às --</h2>
         </div>
 
         <div class="information-secondary">
@@ -72,15 +73,15 @@
           </div>
           <div class="espera">
             <p>ESPERA</p>
-            <span>
-              40 min
-            </span>
+            <span ng-if="hospital.watingTime">{{hospital.watingTime}} min</span>
+            <span ng-if="!hospital.watingTime">--</span>
           </div>
         </div>
 
         <div class="atendimento">
           <h3>TEMPO TOTAL ATÉ 1º ATENDIMENTO</h3>
-          <h2>45 <span>min</span></h2>
+          <h2 ng-if="hospital.watingTime">{{hospital.watingTime + 5}} <span>min</span></h2>
+          <h2 ng-if="!hospital.watingTime">45 <span>min</span></h2>
         </div>
       </a>
     </div>

@@ -222,6 +222,14 @@ angular.module('starter.controllers', [])
       $scope.user = Profile(currentAuth.uid);
       $scope.hospitals = Hospitals();
 
+      $scope.hospitals.$loaded()
+        .then(function() {
+          for (var i=0; i<$scope.hospitals.length; i++) {
+            var timestamp = $scope.hospitals[i].updateOn;
+            $scope.hospitals[i].updatedOn = new Date(timestamp);
+          }
+        });
+
       $scope.model = {
           'left':'100%',
           'opacity':'0',
