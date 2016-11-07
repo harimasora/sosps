@@ -62,7 +62,7 @@ angular.module('starter.controllers', [])
     function displayError(error) {
       console.log("Authentication failed:", error);
       $ionicLoading.show({
-        template: error.message
+        template: "erro de autenticação"
       });
       setTimeout(function () {
         $ionicLoading.hide();
