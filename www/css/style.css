@@ -613,6 +613,10 @@ h1, h2, h3, p {
   align-items: center;
 }
 
+.navigation-content a {
+  text-decoration: none;
+}
+
 .navigation-icon-conf {
   width: 25px;
   height: 25px;
@@ -1082,4 +1086,96 @@ h1, h2, h3, p {
   background-size: 100% 100%;
   margin-top: 5px;
   margin-right: 20px;
+}
+
+.header-info {
+  width: 100%;
+  background-color: #1FCAFF;
+  color: white;
+  font-family: Blogger !important;
+  padding: 25px 0 25px 15px;
+  font-size: 20px;
+
+  background-image: url("../img/information.png");
+  background-repeat: no-repeat;
+  background-position: 98% 50%;
+}
+.information-screen {
+  font-family: Blogger !important;
+
+}
+
+.info {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.primary-information {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.primary-information h2 {
+  font-family: Blogger !important;
+  font-weight: bold;
+  font-size: 20px;
+  color: #666666;
+}
+
+.primary-information p {
+  font-family: Blogger !important;
+  font-size: 16px;
+  color: #666666;
+}
+
+.last-call {
+  font-family: Blogger !important;
+  font-size: 16px;
+  font-weight: normal !important;
+  width: 100%;
+}
+
+.pouco-urgente {
+  font-weight: bold !important;
+  color: #3CD11F;
+}
+
+.nao-urgente {
+  font-weight: bold !important;
+  color: #0A27DF;
+}
+
+.sirene {
+  width: 100%;
+  display: inline-block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.sirene h1 {
+  font-size: 20px;
+  color: #666666;
+  font-weight: bold;
+}
+
+.image-sirene {
+  width: 100px;
+  height: 100px;
+  background-image: url("../img/sirene-1.png");
+  background-repeat: no-repeat;
+  float: left;
+  width: 30%;
+}
+
+.sirene h3 {
+  font-size: 16px;
+  color: #666666;
+}
+.info-sirene {
+  float: left;
+  width: 70%;
+}
+
+.noix {
+  display: inline-block;
 }

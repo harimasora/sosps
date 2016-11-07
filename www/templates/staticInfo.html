@@ -1,11 +1,71 @@
-<ion-view hide-nav-bar="true" title="Informações">
-  <ion-header-bar class="bar bar-header bar-light">
-    <button class="button button-icon icon ion-close-round" ng-click="discardChanges()"></button>
-    <h1 class="title">Informações</h1>
-  </ion-header-bar>
-  <ion-content class="padding" class="singUp">
-    <div class="flex-view">
-      <h1>COLOCA O CONTENT AQUI</h1>
+<ion-view  class="detail-view">
+  <ion-nav-bar class="bar-home-view">
+    <ion-nav-back-button class="button-dark">Voltar
+    </ion-nav-back-button>
+    <h1 class="title title-hosp" style="left: 60px; right: 60px;"></h1>
+	</ion-nav-bar>
+  <ion-content class="information-screen">
+    <header class="header-info">
+      Informações importantes
+    </header>
+    <div class="info">
+      <div class="primary-information">
+        <h2>Em quais áreas o SOSPS está presente?</h2>
+        <p>
+          No momento, o SOSPS apresenta estimativas de tempo para primeiro atendimento nos serviços de Pronto-Socorro e Pronto atendimento Clínico Adulto e Infantil, de alguns dos principais hospitais na Grande São Paulo.
+        </p>
+      </div>
+      <div class="primary-information">
+        <h2>O que configura um atendimento em Pronto-Socorro ou Pronto Atendimento Infantil?</h2>
+        <p>
+          Os parâmetros para utilização do serviço de PA ou PS Infantil (em alguns hospitais chamado de Pediatria) variam conforme o hospital. Alguns hospitais consideram que pacientes de até 12 anos devem ser atendidos na área Infantil. Em algumas outras intituições, da idade é de até 15 anos. Consulte o hospital de sua escolhe, antes da sua visita.
+        </p>
+        <div class="primary-information">
+          <h2>Como serviçoes de PA e PS realizam a triagem de pacientes?</h2>
+          <p>
+            Os serviços de Pronto atendimento e Pronto-Socorro dos hospitais realizam a triagem pela necessidade de urgência no atendimento do paciente, ao invés da ordem de chegada. Existem variações na escala adotada para este procedimento, mas o método mais utilizado é baseado no Protocolo de Manchester.
+          </p>
+        </div>
+
+        <div class="noix">
+            <div class="sirene">
+              <div class="image-sirene"></div>
+              <div class="info-sirene">
+                <h1>VERMELHO <span>- Emergência.</span></h1>
+                <h3>Neste caso, o paciente necessita de atendimento imediato.</h3>
+              </div>
+            </div>
+            <div class="sirene">
+              <div class="image-sirene"></div>
+              <div class="info-sirene">
+                <h1>LARANJA <span>- Muito Urgente.</span></h1>
+                <h3>Neste caso, o paciente necessita de atendimento imediato.</h3>
+              </div>
+            </div>
+            <div class="sirene">
+              <div class="image-sirene"></div>
+              <div class="info-sirene">
+                <h1>AMARELO <span>- O paciente precisa de avaliação.</span></h1>
+                <h3>Não é considerada uma emergência já que possui condições clínicas de aguardar.</h3>
+              </div>
+            </div>
+            <div class="sirene">
+              <div class="image-sirene"></div>
+              <div class="info-sirene">
+                <h1>VERDE <span>- Pouco urgente.</span></h1>
+                <h3>É o caso menos grave, que exige atendimento médico, mas por ser assistido no consultório médico ambulatorialmente.</h3>
+              </div>
+            </div>
+            <div class="sirene">
+              <div class="image-sirene"></div>
+              <div class="info-sirene">
+                <h1>AZUL <span>- Não urgente.</span></h1>
+                <h3>É o caso de menor complexidade e sem problemas recentes. Este paciente deve ser acompanhado no consultório médico ambilatoriamente.</h3>
+              </div>
+            </div>
+            <h2 class="last-call"> Nosso serviço é voltado a pessoas nos níveis <span class="pouco-urgente">POUCO URGENTE</span> e  <span class="nao-urgente">NÃO URGENTE </span>que representam a grande maioria dos casos nos serviços de PA e PS. Caso você esteja em outro nível de necessidade de atendimento, procure o hospital mais próximo. Você será atendido com prioridade. Você será atendido com prioridade.</h2>
+        </div>
+      </div>
     </div>
   </ion-content>
 </ion-view>
