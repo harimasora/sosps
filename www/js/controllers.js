@@ -224,10 +224,28 @@ angular.module('starter.controllers', [])
 
       $scope.hospitals.$loaded()
         .then(function() {
-          for (var i=0; i<$scope.hospitals.length; i++) {
-            var timestamp = $scope.hospitals[i].updateOn;
-            $scope.hospitals[i].updatedOn = new Date(timestamp);
-          }
+
+          // Get server time
+          var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+          offsetRef.on("value", function(snap) {
+            var offset = snap.val();
+            var estimatedServerTimeMs = new Date().getTime() + offset;
+
+            for (var i=0; i<$scope.hospitals.length; i++) {
+
+              // Convert Firebase Timestamp to Date
+              var timestamp = $scope.hospitals[i].updateOn;
+              var timestampDate = new Date(timestamp);
+              $scope.hospitals[i].updatedOn = timestampDate;
+
+              // Set shouldShow attribute
+              var hideHospital = !$scope.hospitals[i].shouldShow;
+              var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+              var timestampInBounds = 6 <= timestampDate.getHours() && timestampDate.getHours() < 21;
+              $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
+
+            }
+          });
         });
 
       $scope.model = {
