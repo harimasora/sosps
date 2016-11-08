@@ -219,6 +219,35 @@ angular.module('starter.controllers', [])
   .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile",
     function($scope, Hospitals, currentAuth, Profile) {
 
+      $scope.model = {
+          'bar':'option-selected'
+      };
+
+      $scope.switchButton = function() {
+
+        var optionadulto = angular.element(     document.querySelector( '.option-adulto' ) );
+
+        var optioncrianca = angular.element(      document.querySelector( '.option-infantil' ) );
+
+
+        optioncrianca.removeClass('option-selected');
+        optionadulto.addClass('option-selected');
+
+      };
+
+      $scope.switchButton2 = function() {
+
+        var optionadulto = angular.element(     document.querySelector( '.option-adulto' ) );
+
+        var optioncrianca = angular.element(      document.querySelector( '.option-infantil' ) );
+
+
+        optionadulto.removeClass('option-selected');
+        optioncrianca.addClass('option-selected');
+
+      };
+
+      angular.element( document.querySelector( '#div1' ) );
       $scope.user = Profile(currentAuth.uid);
       $scope.hospitals = Hospitals();
 
