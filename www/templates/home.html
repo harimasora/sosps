@@ -5,7 +5,7 @@
       <img class="navigation-avatar" ng-src="{{user.photoUrl}}">
     </div>
     <div class="navigation-content">
-      <a ng-href="#/staticInfo">Informações Importantes</a>
+      <a ng-click="closeNavigation()" ng-href="#/staticInfo">Informações Importantes</a>
       <a>Indique o SOSPS</a>
       <a>Avalie o App</a>
       <a>Não encontrou algum hospital?</a>
@@ -47,8 +47,8 @@
 	</ion-header-bar>
   <ion-content class="view-home">
     <div class="options-list">
-      <span class="option-selected option-adulto">PA / PS Clínico Adulto</span>
-      <span class="option-infantil">PA / PS Infantil</span>
+      <span ng-click="switchButton()" class="option-selected option-adulto">PA / PS Clínico Adulto</span>
+      <span ng-click="switchButton2()" class="option-infantil">PA / PS Infantil</span>
     </div>
     <div class="list list-hosp">
       <a ng-if="hospital.shouldShow" ng-repeat="hospital in hospitals | orderBy:'-name' | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}">
