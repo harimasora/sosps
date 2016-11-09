@@ -216,12 +216,29 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile",
-    function($scope, Hospitals, currentAuth, Profile) {
+  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing",
+    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing) {
 
       $scope.model = {
           'bar':'option-selected'
       };
+
+      $scope.share = function() {
+        console.log('noix');
+        var message = "Chega de sair de casa sem saber se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar. O SOSPS monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. Baixe o app em "
+        var subject = "Conheça o aplicativo SOSPS"
+        var file = "http://www.sosps.com.br/novo/img/demo-screen-1.jpg"
+        var link = "http://www.sosps.com.br"
+
+        $cordovaSocialSharing
+        .share(message, subject, file, link) // Share via native share sheet
+        .then(function(result) {
+          // Success!
+        }, function(err) {
+          // An error occured. Show a message to the user
+          console.log(err);
+        });
+      }
 
       $scope.switchButton = function() {
 
