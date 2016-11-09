@@ -378,7 +378,7 @@ h1, h2, h3, p {
 }
 
 .get-direction {
-  margin-left: 2%;
+  margin-left: 1%;
   font-family: Blogger !important;
   color: #666666;
   background: white;
@@ -990,7 +990,7 @@ h1, h2, h3, p {
 
 .hosp-traj h2 {
   font-family: Blogger !important;
-  font-size: 17px;
+  font-size: 13px;
   font-weight: 800;
   color: #00CDFF;
 }

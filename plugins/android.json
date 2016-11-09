@@ -7,10 +7,16 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.ionicframework.sosps543352"
+        },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.ionicframework.sosps543352"
         },
         "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.ionicframework.sosps543352"
+        },
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.ionicframework.sosps543352"
         },
         "cordova-plugin-inappbrowser": {
@@ -25,24 +31,21 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ionicframework.sosps543352"
         },
-        "ionic-plugin-keyboard": {
+        "cordova-plugin-x-socialsharing": {
             "PACKAGE_NAME": "com.ionicframework.sosps543352"
         },
-        "cordova-plugin-camera": {
+        "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.sosps543352"
         },
         "uk.co.workingedge.phonegap.plugin.launchnavigator": {
             "PACKAGE_NAME": "com.ionicframework.sosps543352"
-        },
-        "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "com.ionicframework.sosps543352"
         }
     },
     "dependent_plugins": {
-        "cordova-plugin-compat": {
+        "cordova-plugin-actionsheet": {
             "PACKAGE_NAME": "com.ionicframework.sosps543352"
         },
-        "cordova-plugin-actionsheet": {
+        "cordova-plugin-compat": {
             "PACKAGE_NAME": "com.ionicframework.sosps543352"
         }
     }

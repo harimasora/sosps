@@ -302,10 +302,13 @@ angular.module('starter.controllers', [])
 
       $scope.search = function() {
         $scope.model.left = '0';
+
+
       };
 
       $scope.searchClose = function() {
         $scope.model.left = '100%';
+        $scope.model.search.name = "";
       };
 
       $scope.closeNavigation = function() {
@@ -337,6 +340,32 @@ angular.module('starter.controllers', [])
       $scope.hospital = Hospitals($stateParams.id);
 
       $scope.markers = [];
+
+      var styleArray = [ //any style array defined in the google documentation you linked
+      {
+        featureType: "all",
+        stylers: [
+          { saturation: -80 }
+        ]
+      },{
+        featureType: "road.arterial",
+        elementType: "geometry",
+        stylers: [
+          { hue: "#00ffee" },
+          { saturation: 50 }
+        ]
+      },{
+        featureType: "poi.business",
+        elementType: "labels",
+        stylers: [
+          { visibility: "off" }
+          ]
+        }
+      ];
+
+    $scope.options = {
+       styles: styleArray
+    };
 
       //When the ng-map directive has an id attribute, the getMap function must use that id value as its first argument.
       NgMap.getMap("map").then(function(map) {
