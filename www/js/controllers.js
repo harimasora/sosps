@@ -233,16 +233,13 @@ angular.module('starter.controllers', [])
         url: 'http://www.sosps.com.br',
         chooserTitle: 'Onde compartilhar...' // Android only, you can override the default share sheet title
       };
-
       var onShareSuccess = function(result) {
         console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
         console.log("Shared to app: " + result.app); // On Android result.app is currently empty. On iOS it's empty when sharing is cancelled (result.completed=false)
       };
-
       var onShareError = function(msg) {
         console.log("Sharing failed with message: " + msg);
       };
-
       $scope.share = function() {
         $cordovaSocialSharing.shareWithOptions(shareOptions, onShareSuccess, onShareError);
       };
@@ -258,7 +255,6 @@ angular.module('starter.controllers', [])
         optionadulto.addClass('option-selected');
 
       };
-
       $scope.switchButton2 = function() {
 
         var optionadulto = angular.element(     document.querySelector( '.option-adulto' ) );
@@ -294,7 +290,7 @@ angular.module('starter.controllers', [])
               // Set shouldShow attribute
               var hideHospital = !$scope.hospitals[i].shouldShow;
               var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
-              var timestampInBounds = 6 <= timestampDate.getHours() && timestampDate.getHours() < 21;
+              var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
               $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
 
             }
