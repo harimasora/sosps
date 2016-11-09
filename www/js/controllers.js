@@ -220,25 +220,32 @@ angular.module('starter.controllers', [])
     function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing) {
 
       $scope.model = {
-          'bar':'option-selected'
+        'bar':'option-selected',
+        'left':'100%',
+        'opacity':'0',
+        'leftNav':'100%'
+      };
+
+      var shareOptions = {
+        message: 'Chega de sair de casa sem saber se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar. O SOSPS monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. Baixe o app em ', // not supported on some apps (Facebook, Instagram)
+        subject: 'Conheça o aplicativo SOSPS', // fi. for email
+        files: ['www/img/pino.png'], // an array of filenames either locally or remotely
+        url: 'http://www.sosps.com.br',
+        chooserTitle: 'Onde compartilhar...' // Android only, you can override the default share sheet title
+      };
+
+      var onShareSuccess = function(result) {
+        console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
+        console.log("Shared to app: " + result.app); // On Android result.app is currently empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+      };
+
+      var onShareError = function(msg) {
+        console.log("Sharing failed with message: " + msg);
       };
 
       $scope.share = function() {
-        console.log('noix');
-        var message = "Chega de sair de casa sem saber se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar. O SOSPS monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. Baixe o app em "
-        var subject = "Conheça o aplicativo SOSPS"
-        var file = ["../img/ionic.png"]
-        var link = "http://www.sosps.com.br"
-
-        $cordovaSocialSharing
-        .share(message, subject, file, link) // Share via native share sheet
-        .then(function(result) {
-          // Success!
-        }, function(err) {
-          // An error occured. Show a message to the user
-          console.log(err);
-        });
-      }
+        $cordovaSocialSharing.shareWithOptions(shareOptions, onShareSuccess, onShareError);
+      };
 
       $scope.switchButton = function() {
 
@@ -293,12 +300,6 @@ angular.module('starter.controllers', [])
             }
           });
         });
-
-      $scope.model = {
-          'left':'100%',
-          'opacity':'0',
-          'leftNav':'100%'
-      };
 
       $scope.search = function() {
         $scope.model.left = '0';
