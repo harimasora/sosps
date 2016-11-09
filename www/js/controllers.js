@@ -244,6 +244,12 @@ angular.module('starter.controllers', [])
         $cordovaSocialSharing.shareWithOptions(shareOptions, onShareSuccess, onShareError);
       };
 
+
+      var emailId = 'foo@bar.com';
+      var subjectAddHospital = 'Inclusão de Hospital';
+      var messageAddHospital = 'Solicito a inclusão do hospital -NOME-, localizado na cidade -CIDADE-.';
+      $scope.addHospitalMail = "mailto:"+ emailId + "?subject=" + subjectAddHospital + "&body=" + messageAddHospital;
+
       $scope.switchButton = function() {
 
         var optionadulto = angular.element(     document.querySelector( '.option-adulto' ) );
