@@ -227,7 +227,7 @@ angular.module('starter.controllers', [])
         console.log('noix');
         var message = "Chega de sair de casa sem saber se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar. O SOSPS monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. Baixe o app em "
         var subject = "Conheça o aplicativo SOSPS"
-        var file = "http://www.sosps.com.br/novo/img/demo-screen-1.jpg"
+        var file = ["../img/ionic.png"]
         var link = "http://www.sosps.com.br"
 
         $cordovaSocialSharing
@@ -350,20 +350,21 @@ angular.module('starter.controllers', [])
 
         $cordovaGeolocation.getCurrentPosition()
           .then(function (position) {
-            var current = {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
-            };
-            $cordovaLaunchNavigator.navigate([$scope.hospital.latitude, $scope.hospital.longitude], [current.latitude, current.longitude])
-              .then(function(){
-                $ionicLoading.hide();
-              })
-              .catch(function(error){displayError(error)});
-          }, function(error) {
-            displayError(error)
-          });
+            var current = [
+              position.coords.latitude,
+              position.coords.longitude
+            ];
 
-      };
+            var destination = [
+              $scope.hospital.latitude,
+              $scope.hospital.longitude
+            ]
+
+          launchnavigator.navigate(destination, current);
+
+          })
+          .catch(function(error){displayError(error)});
+        };
 
       function displayError(error) {
         console.log("Authentication failed:", error);
