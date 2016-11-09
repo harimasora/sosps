@@ -796,23 +796,21 @@ h1, h2, h3, p {
 
 .options-list {
   width: 100%;
-  /*background-color: red;*/
   border-top: 1px solid #ddd;
 }
 
-.options-list span {
-  text-align: center;
-  width: 50%;
-  display: inline-block;
-  float: left;
-  padding: 15px 0;
-  color: #B2B2B2;
-  font-size: 16px;
+.nav-tabs.nav-justified>li>a:hover {
+  background-color: #FFF;
 }
 
-.option-selected {
+.nav-tabs.nav-justified>.active>a {
   background-color: #56D1FE;
-  color: white !important;
+  color: white;
+}
+
+.nav-tabs.nav-justified>.active>a:hover {
+  background-color: #56D1FE;
+  color: white;
 }
 
 /* Lista */
