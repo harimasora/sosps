@@ -18,47 +18,49 @@
       <div class="main-information-hosp">
         <div class="hosp-time-total info-hosp">
           <h3>Tempo total até 1º atendimento</h3>
-          <h2>45 <span>min</span></h2>
+          <h2 ng-if="hospital.totalTime">{{hospital.totalTime | number:0}} <span>min</span></h2>
+          <h2 ng-if="!hospital.totalTime">--</h2>
         </div>
         <div class="hosp-traj-wait">
           <div class="hosp-traj info-hosp">
             <h3>Trajeto</h3>
-            <h2>5 <span>min</span></h2>
+            <h2 ng-if="hospital.trafficTime">{{hospital.trafficTime | number:0}} <span>min</span></h2>
+            <h2 ng-if="!hospital.trafficTime">--</h2>
           </div>
           <span class="morespan">+</span>
           <div class="hosp-traj waithosp info-hosp">
             <h3>Espera</h3>
-            <h2>40 <span>min</span></h2>
+            <h2 ng-if="hospital.watingTime">{{hospital.watingTime | number:0}} <span>min</span></h2>
+            <h2 ng-if="!hospital.watingTime">--</h2>
           </div>
         </div>
         <a ng-click="getDirections()"class="info-hosp get-direction">TRAÇAR ROTA</a>
       </div>
 
-      <p class="time-wait">
-        Tempo de espera da instituição atualizado em 03/11 às 16:19h
-      </p>
-
+      <p ng-if="hospital.updateOn" class="time-wait">Tempo de espera da instituição atualizado em {{hospital.updateOn | date: "dd/MM"}} às {{hospital.updateOn | date: "hh:mm"}}h</p>
+      <p ng-if="!hospital.updateOn" class="time-wait">Sem registro da última atualização desta instituição</p>
 
       <p class="info-call">INFORMAÇÕES</p>
       <div class="blue-separator"></div>
 
       <div class="info-final">
-        <p>
-          Nullam id dolor id nibh ultricies vehicula ut id elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas faucibus mollis interdum.
-        </p>
-
+        <p ng-if="hospital.description">{{hospital.description}}</p>
+        <p ng-if="!hospital.description">Este hospital ainda não possui uma descrição.</p>
         <div class="secondary-information-hosp">
           <div class="hosp-info hosp-phone">
             <div class="logo-phone"></div>
-            <h4>+55 11 0000 0000</h4>
+            <h4 ng-if="hospital.phone">{{hospital.phone}}</h4>
+            <h4 ng-if="!hospital.phone">Não informado</h4>
           </div>
           <div class="hosp-info hosp-address">
             <div class="logo-address"></div>
-            <h4>Av. Paulista, 287</h4>
+            <h4 ng-if="hospital.address">{{hospital.address}}</h4>
+            <h4 ng-if="!hospital.address">Não informado</h4>
           </div>
           <div class="hosp-info hosp-time">
             <div class="logo-time"></div>
-            <h4>08:00 - 23:00</h4>
+            <h4 ng-if="hospital.workingHours">{{hospital.workingHours}}</h4>
+            <h4 ng-if="!hospital.workingHours">Não informado</h4>
           </div>
         </div>
       </div>
