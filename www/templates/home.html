@@ -95,7 +95,7 @@
       </uib-tab>
       <uib-tab index="1" heading="PA / PS Infantil">
         <div class="list list-hosp">
-          <a ng-if="hospital.shouldShow && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospital.trafficTime}}">
+          <a ng-if="hospital.shouldShow && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospital.trafficTime}}">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
