@@ -124,9 +124,9 @@ h1, body {
 
 }
 
-.form {
+/*.form {
   flex-grow: 2;
-}
+}*/
 
 .btn-login {
   /*display: flex;*/
@@ -138,7 +138,7 @@ h1, body {
 
   text-align: center;
   border: 0px;
-
+  margin-top: 50px !important;
 }
 
 .primary-btn-row button {
@@ -209,9 +209,10 @@ h1, body {
 }
 
 .item input {
-  font-size: 17px !important;
-  margin-bottom: 10px;
+  font-size: 16px !important;
+  margin-bottom: 5px;
   font-family: Blogger !important;
+  height: 30px;
 }
 
 /*-------- SIGN UP --------*/
@@ -291,6 +292,7 @@ button {
   font-family: Blogger !important;
   opacity: 0.5;
   font-size: 15px;
+  padding: 0 !important;
 }
 
 .form label {
@@ -813,7 +815,7 @@ h1, h2, h3, p {
 }
 
 .item-floating-label .input-label.has-input {
-  margin-bottom: 5px;
+
   padding-top: 0;
 }
 
@@ -1317,7 +1319,7 @@ h1, h2, h3, p {
 }
 
 .item-floating-label .input-label {
-  top: 1px !important;
+  top: 0px !important;
 }
 
 .loading-page img {
@@ -1393,4 +1395,14 @@ map {
 
 .list-filter {
   font-family: Blogger !important;
+}
+
+.modal-wrapper {
+  z-index: 100000000 !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.modal {
+  display: block !important;
 }
