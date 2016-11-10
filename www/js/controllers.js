@@ -418,6 +418,18 @@ angular.module('starter.controllers', [])
 
     }])
 
+    .controller('SettingsController', ["$scope", "$state", "$ionicHistory",
+      function($scope, $state, $ionicHistory) {
+
+        $scope.discardChanges = function() {
+          $ionicHistory.nextViewOptions({
+            historyRoot: true
+          });
+          $state.go('home')
+        };
+
+      }])
+
     .controller('ForgotController', ["$scope", "$state", "$ionicHistory", "Auth","$ionicLoading",
       function($scope, $state, $ionicHistory, Auth, $ionicLoading) {
 
