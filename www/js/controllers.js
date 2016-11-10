@@ -235,7 +235,10 @@ angular.module('starter.controllers', [])
         'bar':'option-selected',
         'left':'100%',
         'opacity':'0',
-        'leftNav':'100%'
+        'leftNav':'100%',
+        'showFilterBox': false,
+        'choice': 'name',
+        'distance': 20
       };
 
       var shareOptions = {
@@ -320,9 +323,8 @@ angular.module('starter.controllers', [])
 
               // Send requests to Directions API
               for(var i=0; i<locationsArraysSize; i++) {
-                //var url = requestDirectionUrl(currentPos, locationsArray[i], $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
                 var destinations = destinationString(locationsArray[i]);
-                var url = requestDirectionUrl("-15.904889,-47.975360", destinations, $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
+                var url = requestDirectionUrl(currentPos, destinations, $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
                 sendRequest(url, locationsArray[i]);
               }
 
@@ -376,18 +378,24 @@ angular.module('starter.controllers', [])
             var elements = apiResponse.rows[0].elements;
             for(var i=0; i<elements.length; i++) {
               var timeInSeconds = elements[i].duration.value;
+              var distance = elements[i].distance.value;
+              var watingTime = $scope.hospitals.$getRecord(hospitalArray[i].$id).watingTime;
               $scope.hospitals.$getRecord(hospitalArray[i].$id).trafficTime = timeInSeconds / 60;
+              if (watingTime) {
+                $scope.hospitals.$getRecord(hospitalArray[i].$id).totalTime = watingTime + (timeInSeconds / 60);
+              } else {
+                $scope.hospitals.$getRecord(hospitalArray[i].$id).totalTime = timeInSeconds / 60;
+              }
+              $scope.hospitals.$getRecord(hospitalArray[i].$id).distance = distance / 1000;
             }
           }
         }, function(error){
-          displayError(error);
+          console.log(error);
         });
       }
 
       $scope.search = function() {
         $scope.model.left = '0';
-
-
       };
 
       $scope.searchClose = function() {
@@ -403,6 +411,16 @@ angular.module('starter.controllers', [])
       $scope.callNavigation = function() {
         $scope.model.opacity = '1';
         $scope.model.leftNav = '0';
+      };
+
+      $scope.toggleFilterBox = function() {
+        $scope.model.showFilterBox = !$scope.model.showFilterBox;
+      };
+
+      $scope.lesserThan = function(prop, val){
+        return function(item){
+          return item[prop] <= val;
+        }
       }
   }])
 
