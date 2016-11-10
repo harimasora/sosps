@@ -10,6 +10,11 @@ font-face {
     src: url('../fonts/Blogger-Sans.otf');
 }
 
+a:focus {
+  outline: none !important;
+  text-decoration: none !important;
+  color: inherit !important;
+}
 
 h1, body {
   font-family: Blogger !important;
@@ -1378,9 +1383,9 @@ h1, h2, h3, p {
   width: 100%;
   padding: 20px;
   padding-left: 10px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 map {
-  z-index: 0;
+  z-index: -1 !important;
 }

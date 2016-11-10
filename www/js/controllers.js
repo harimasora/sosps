@@ -257,7 +257,7 @@ angular.module('starter.controllers', [])
       };
 
 
-      var emailId = 'foo@bar.com';
+      var emailId = 'sosps@gmail.com';
       var subjectAddHospital = 'Inclusão de Hospital';
       var messageAddHospital = 'Solicito a inclusão do hospital -NOME-, localizado na cidade -CIDADE-.';
       $scope.addHospitalMail = "mailto:"+ emailId + "?subject=" + subjectAddHospital + "&body=" + messageAddHospital;
