@@ -260,7 +260,7 @@ angular.module('starter.controllers', [])
       };
 
 
-      var emailId = 'foo@bar.com';
+      var emailId = 'sosps@gmail.com';
       var subjectAddHospital = 'Inclusão de Hospital';
       var messageAddHospital = 'Solicito a inclusão do hospital -NOME-, localizado na cidade -CIDADE-.';
       $scope.addHospitalMail = "mailto:"+ emailId + "?subject=" + subjectAddHospital + "&body=" + messageAddHospital;
@@ -435,6 +435,46 @@ angular.module('starter.controllers', [])
       };
 
     }])
+
+    .controller('ForgotController', ["$scope", "$state", "$ionicHistory", "Auth","$ionicLoading",
+      function($scope, $state, $ionicHistory, Auth, $ionicLoading) {
+
+        $scope.user = {
+          email: ""
+        };
+
+        $scope.forgotPassword = function() {
+
+          if($scope.user.email == "") {
+            $ionicLoading.show({
+                template: 'Campo Vazio',
+                duration: 1000
+              }).then(function(){
+                console.log("The loading indicator is  now displayed");
+            });
+          } else {
+            Auth.$sendPasswordResetEmail($scope.user.email).then(function() {
+              $ionicLoading.show({
+                  template: 'Email Enviado',
+                  duration: 1000
+                }).then(function(){
+                  console.log("The loading indicator is  now displayed");
+              });
+            }, function(error) {
+              console.log(error);
+            });
+          }
+        }
+
+        $scope.discardChanges = function() {
+          $ionicHistory.nextViewOptions({
+            historyRoot: true
+          });
+          $state.go('login')
+        };
+
+      }])
+
 
   .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading", "$location",
     function($scope, $stateParams, Hospitals, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading, $location) {

@@ -10,6 +10,11 @@ font-face {
     src: url('../fonts/Blogger-Sans.otf');
 }
 
+a:focus {
+  outline: none !important;
+  text-decoration: none !important;
+  color: inherit !important;
+}
 
 h1, body {
   font-family: Blogger !important;
@@ -380,6 +385,7 @@ h1, h2, h3, p {
   border-radius: 20px;
   box-shadow: rgba(0,0,0,.5) 0 2px 9px;
   margin-bottom: 20px;
+  z-index: 100000;
 }
 
 .hospital-name {
@@ -1067,7 +1073,9 @@ h1, h2, h3, p {
   color: #999999;
   font-size: 14px;
   font-weight: 700;
-  float: left;
+  float: left !important;
+  width: 90%;
+  padding-right: 15px;
 }
 
 .logo-phone {
@@ -1080,6 +1088,9 @@ h1, h2, h3, p {
   background-size: 100% 100%;
   margin-top: 5px;
   margin-right: 20px;
+  margin-right: 5%;
+  width: 5%;
+  float: left;
 }
 
 .logo-address {
@@ -1091,8 +1102,10 @@ h1, h2, h3, p {
   background-image: url("../img/position.svg") !important;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  margin-top: 5px;
-  margin-right: 20px;
+  margin-top: 10px;
+  margin-right: 5%;
+  width: 5%;
+  float: left;
 }
 
 .logo-time {
@@ -1106,6 +1119,9 @@ h1, h2, h3, p {
   background-size: 100% 100%;
   margin-top: 5px;
   margin-right: 20px;
+  margin-right: 5%;
+  width: 5%;
+  float: left;
 }
 
 .header-info {
@@ -1325,4 +1341,51 @@ h1, h2, h3, p {
   opacity: 0.95;
   width: 100%;
   height: 100%;
+}
+
+.forgot-content {
+  font-family: Blogger !important;
+  padding: 15px;
+
+}
+
+.forgot-content h1 {
+  margin-top: 35px;
+}
+
+.forgot-content p {
+  text-align: center;
+}
+
+.forgot-content .btn-forgot {
+  background-color: #56D1FE;
+  width: 100%;
+  padding: 15px;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.forgot-content img {
+  width: 250px;
+}
+
+.forgot-content h3 {
+  margin-top: 25px;
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+.forgot-content input {
+  border: 2px solid #ddd;
+  width: 100%;
+  padding: 20px;
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+map {
+  z-index: -1 !important;
 }

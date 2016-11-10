@@ -1,7 +1,7 @@
 <ion-view  hide-nav-bar="true" title="Login">
   <ion-content class="login-content">
     <div ng-if="model.showLoading" class="loading-page">
-      <img src="../img/loading.gif" alt="" />
+      <img ng-src="img/loading.gif" alt="" />
       <h4>AGUARDE</h4>
     </div>
     <div class="flex-view full-height">
@@ -19,7 +19,7 @@
               <span class="input-label">SENHA</span>
               <input class="input-login" type="password" placeholder="SENHA" ng-model="user.password">
             </label>
-            <a class="forgot-password">Esqueci minha senha</a>
+            <a ng-href="#/forgotPassword" class="forgot-password">Esqueci minha senha</a>
           </div>
         </div>
       </div>
