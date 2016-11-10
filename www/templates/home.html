@@ -60,6 +60,10 @@
       </div>
     </div>
     <uib-tabset active="activeJustified" class="options-list" justified="true">
+      <ion-refresher
+        pulling-text="Atualizar..."
+        on-refresh="doRefresh()">
+      </ion-refresher>
       <uib-tab index="0" heading="PA / PS Clínico Adulto">
         <div class="list list-hosp">
           <a ng-if="hospital.shouldShow && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospital.trafficTime}}">

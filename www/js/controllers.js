@@ -227,8 +227,8 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing", "$cordovaGeolocation", "$http", "$ionicHistory", "$state",
-    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing, $cordovaGeolocation, $http, $ionicHistory, $state) {
+  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing", "$cordovaGeolocation", "$http", "$ionicHistory", "$state", "$q",
+    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing, $cordovaGeolocation, $http, $ionicHistory, $state, $q) {
 
       var GOOGLE_DIRECTIONS_API_KEY = "AIzaSyBAaQ72jUCDMauAn8LyNT_VN0Ye0VyTVPc";
 
@@ -241,6 +241,8 @@ angular.module('starter.controllers', [])
         'choice': 'name',
         'distance': 40
       };
+
+      var offsetRef = firebase.database().ref(".info/serverTimeOffset");
 
       var shareOptions = {
         message: 'Chega de sair de casa sem saber se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar. O SOSPS monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. Baixe o app em ', // not supported on some apps (Facebook, Instagram)
@@ -259,7 +261,6 @@ angular.module('starter.controllers', [])
       $scope.share = function() {
         $cordovaSocialSharing.shareWithOptions(shareOptions, onShareSuccess, onShareError);
       };
-
 
       var emailId = 'sosps@gmail.com';
       var subjectAddHospital = 'Inclusão de Hospital';
@@ -304,57 +305,102 @@ angular.module('starter.controllers', [])
 
       };
 
+
+      // Get the user location
+      var getLocations = $cordovaGeolocation.getCurrentPosition().then(function (position) {
+        var currentPos = position.coords.latitude + "," + position.coords.longitude;
+
+        // Create a locationsArray with many hospitals sub arrays
+        var locationsArray = [];
+        var maxSize = 25;
+        var locationsArraysSize = Math.ceil($scope.hospitals.length / maxSize);
+        for (var i = 0; i < locationsArraysSize; i++) {
+          var hospitalsSubArray = [];
+          for (var j = i * maxSize; j < $scope.hospitals.length; j++) {
+            if (j >= (i + 1) * maxSize) {
+              continue;
+            }
+            if ($scope.hospitals[j].latitude && $scope.hospitals[j].longitude) {
+              hospitalsSubArray.push($scope.hospitals[j]);
+            }
+          }
+
+          if (hospitalsSubArray.length > 0) {
+            locationsArray.push(hospitalsSubArray);
+          }
+        }
+
+        // Send requests to Directions API
+        for (var i = 0; i < locationsArraysSize; i++) {
+          var destinations = destinationString(locationsArray[i]);
+          var url = requestDirectionUrl(currentPos, destinations, $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
+          sendRequest(url, locationsArray[i]);
+        }
+
+        return true;
+      }).catch(function (error) {displayError(error)});
+
+      // Get server time
+      var formatHospitalsTimestamps = offsetRef.on("value", function (snap) {
+        var offset = snap.val();
+        var estimatedServerTimeMs = new Date().getTime() + offset;
+
+        for (var i = 0; i < $scope.hospitals.length; i++) {
+
+          // Convert Firebase Timestamp to Date
+          var timestamp = $scope.hospitals[i].updateOn;
+          var timestampDate = new Date(timestamp);
+          $scope.hospitals[i].updatedOn = timestampDate;
+
+          // Set shouldShow attribute
+          var hideHospital = !$scope.hospitals[i].shouldShow;
+          var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+          var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
+          $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
+        }
+      });
+
       angular.element( document.querySelector( '#div1' ) );
       $scope.user = Profile(currentAuth.uid);
       $scope.hospitals = Hospitals();
 
-      //TODO mudar o $loaded()
-      $scope.hospitals.$loaded()
-        .then(function() {
+      $scope.doRefresh = function() {
+        $q.all([$cordovaGeolocation.getCurrentPosition().then(function (position) {
+          var currentPos = position.coords.latitude + "," + position.coords.longitude;
 
-          // Get the user location
-          $cordovaGeolocation.getCurrentPosition()
-            .then(function (position) {
-              var currentPos = position.coords.latitude + "," + position.coords.longitude;
-
-              // Create a locationsArray with many hospitals sub arrays
-              var locationsArray = [];
-              var maxSize = 25;
-              var locationsArraysSize = Math.ceil($scope.hospitals.length / maxSize);
-              for (var i=0; i<locationsArraysSize; i++) {
-                var hospitalsSubArray = [];
-                for (var j=i*maxSize; j<$scope.hospitals.length; j++) {
-                  if (j >= (i+1)*maxSize) {
-                    continue;
-                  }
-                  if ($scope.hospitals[j].latitude && $scope.hospitals[j].longitude) {
-                    hospitalsSubArray.push($scope.hospitals[j]);
-                  }
-                }
-
-                if (hospitalsSubArray.length > 0) {
-                  locationsArray.push(hospitalsSubArray);
-                }
+          // Create a locationsArray with many hospitals sub arrays
+          var locationsArray = [];
+          var maxSize = 25;
+          var locationsArraysSize = Math.ceil($scope.hospitals.length / maxSize);
+          for (var i = 0; i < locationsArraysSize; i++) {
+            var hospitalsSubArray = [];
+            for (var j = i * maxSize; j < $scope.hospitals.length; j++) {
+              if (j >= (i + 1) * maxSize) {
+                continue;
               }
-
-              // Send requests to Directions API
-              for(var i=0; i<locationsArraysSize; i++) {
-                var destinations = destinationString(locationsArray[i]);
-                var url = requestDirectionUrl(currentPos, destinations, $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
-                sendRequest(url, locationsArray[i]);
+              if ($scope.hospitals[j].latitude && $scope.hospitals[j].longitude) {
+                hospitalsSubArray.push($scope.hospitals[j]);
               }
+            }
 
-            })
-            .catch(function(error){displayError(error)});
+            if (hospitalsSubArray.length > 0) {
+              locationsArray.push(hospitalsSubArray);
+            }
+          }
 
+          // Send requests to Directions API
+          for (var i = 0; i < locationsArraysSize; i++) {
+            var destinations = destinationString(locationsArray[i]);
+            var url = requestDirectionUrl(currentPos, destinations, $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
+            sendRequest(url, locationsArray[i]);
+          }
 
-          // Get server time
-          var offsetRef = firebase.database().ref(".info/serverTimeOffset");
-          offsetRef.on("value", function(snap) {
+          return true;
+        }).catch(function (error) {displayError(error)}), offsetRef.on("value", function (snap) {
             var offset = snap.val();
             var estimatedServerTimeMs = new Date().getTime() + offset;
 
-            for (var i=0; i<$scope.hospitals.length; i++) {
+            for (var i = 0; i < $scope.hospitals.length; i++) {
 
               // Convert Firebase Timestamp to Date
               var timestamp = $scope.hospitals[i].updateOn;
@@ -367,8 +413,74 @@ angular.module('starter.controllers', [])
               var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
               $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
             }
+          })])
+          .then(function(result){
+            console.log("ATUALIZOU!");
+          })
+          .catch(function(error){
+            console.log(error);
+          })
+          .finally(function() {
+            // Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
           });
+      };
+
+      $scope.hospitals.$loaded().then(function() {
+        // Get the user location
+        $cordovaGeolocation.getCurrentPosition().then(function (position) {
+          var currentPos = position.coords.latitude + "," + position.coords.longitude;
+
+          // Create a locationsArray with many hospitals sub arrays
+          var locationsArray = [];
+          var maxSize = 25;
+          var locationsArraysSize = Math.ceil($scope.hospitals.length / maxSize);
+          for (var i = 0; i < locationsArraysSize; i++) {
+            var hospitalsSubArray = [];
+            for (var j = i * maxSize; j < $scope.hospitals.length; j++) {
+              if (j >= (i + 1) * maxSize) {
+                continue;
+              }
+              if ($scope.hospitals[j].latitude && $scope.hospitals[j].longitude) {
+                hospitalsSubArray.push($scope.hospitals[j]);
+              }
+            }
+
+            if (hospitalsSubArray.length > 0) {
+              locationsArray.push(hospitalsSubArray);
+            }
+          }
+
+          // Send requests to Directions API
+          for (var i = 0; i < locationsArraysSize; i++) {
+            var destinations = destinationString(locationsArray[i]);
+            var url = requestDirectionUrl(currentPos, destinations, $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
+            sendRequest(url, locationsArray[i]);
+          }
+
+          return true;
+        }).catch(function (error) {displayError(error)});
+
+        // Get server time
+        offsetRef.on("value", function (snap) {
+          var offset = snap.val();
+          var estimatedServerTimeMs = new Date().getTime() + offset;
+
+          for (var i = 0; i < $scope.hospitals.length; i++) {
+
+            // Convert Firebase Timestamp to Date
+            var timestamp = $scope.hospitals[i].updateOn;
+            var timestampDate = new Date(timestamp);
+            $scope.hospitals[i].updatedOn = timestampDate;
+
+            // Set shouldShow attribute
+            var hideHospital = !$scope.hospitals[i].shouldShow;
+            var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+            var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
+            $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
+          }
         });
+      });
 
       function requestDirectionUrl(origin, destination, mobility, key) {
         var baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json";
