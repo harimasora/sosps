@@ -33,6 +33,7 @@ angular.module('starter.controllers', [])
     }
 
     function redirectUser(firebaseUser) {
+      $scope.model.showLoading = true;
       var user = firebaseUser.user ? firebaseUser.user : firebaseUser;
 
       // Create profile on /users
@@ -53,7 +54,7 @@ angular.module('starter.controllers', [])
 
             $scope.profile.$save()
               .then(function() {
-                $state.model.showLoading = false;
+                $scope.model.showLoading = false;
                 $state.go('profile');
               })
               .catch(function(error) {
@@ -238,7 +239,7 @@ angular.module('starter.controllers', [])
         'leftNav':'100%',
         'showFilterBox': false,
         'choice': 'name',
-        'distance': 20
+        'distance': 40
       };
 
       var shareOptions = {
