@@ -61,9 +61,8 @@
             <div class="information-secondary">
               <div class="trajeto">
                 <p>TRAJETO</p>
-            <span>
-              5 min
-            </span>
+                <span ng-if="hospital.trafficTime">{{hospital.trafficTime | number:0}} min</span>
+                <span ng-if="!hospital.trafficTime">--</span>
               </div>
               <div class="espera">
                 <p>ESPERA</p>
@@ -73,7 +72,7 @@
             </div>
             <div class="atendimento">
               <h3>TEMPO TOTAL ATÉ 1º ATENDIMENTO</h3>
-              <h2 ng-if="hospital.watingTime">{{hospital.watingTime + 5}} <span>min</span></h2>
+              <h2 ng-if="hospital.watingTime && hospital.trafficTime">{{hospital.watingTime + hospital.trafficTime | number:0}} <span>min</span></h2>
               <h2 ng-if="!hospital.watingTime">45 <span>min</span></h2>
             </div>
           </a>
@@ -93,9 +92,8 @@
             <div class="information-secondary">
               <div class="trajeto">
                 <p>TRAJETO</p>
-            <span>
-              5 min
-            </span>
+                <span ng-if="hospital.trafficTime">{{hospital.trafficTime | number:0}} min</span>
+                <span ng-if="!hospital.trafficTime">--</span>
               </div>
               <div class="espera">
                 <p>ESPERA</p>
@@ -105,7 +103,7 @@
             </div>
             <div class="atendimento">
               <h3>TEMPO TOTAL ATÉ 1º ATENDIMENTO</h3>
-              <h2 ng-if="hospital.watingTime">{{hospital.watingTime + 5}} <span>min</span></h2>
+              <h2 ng-if="hospital.watingTime && hospital.trafficTime">{{hospital.watingTime + hospital.trafficTime | number:0}} <span>min</span></h2>
               <h2 ng-if="!hospital.watingTime">45 <span>min</span></h2>
             </div>
           </a>

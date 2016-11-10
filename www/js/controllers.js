@@ -216,8 +216,10 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing",
-    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing) {
+  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing", "$cordovaGeolocation", "$http",
+    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing, $cordovaGeolocation, $http) {
+
+      var GOOGLE_DIRECTIONS_API_KEY = "AIzaSyBAaQ72jUCDMauAn8LyNT_VN0Ye0VyTVPc";
 
       $scope.model = {
         'bar':'option-selected',
@@ -277,8 +279,46 @@ angular.module('starter.controllers', [])
       $scope.user = Profile(currentAuth.uid);
       $scope.hospitals = Hospitals();
 
+      //TODO mudar o $loaded()
       $scope.hospitals.$loaded()
         .then(function() {
+
+          // Get the user location
+          $cordovaGeolocation.getCurrentPosition()
+            .then(function (position) {
+              var currentPos = position.coords.latitude + "," + position.coords.longitude;
+
+              // Create a locationsArray with many hospitals sub arrays
+              var locationsArray = [];
+              var maxSize = 25;
+              var locationsArraysSize = Math.ceil($scope.hospitals.length / maxSize);
+              for (var i=0; i<locationsArraysSize; i++) {
+                var hospitalsSubArray = [];
+                for (var j=i*maxSize; j<$scope.hospitals.length; j++) {
+                  if (j >= (i+1)*maxSize) {
+                    continue;
+                  }
+                  if ($scope.hospitals[j].latitude && $scope.hospitals[j].longitude) {
+                    hospitalsSubArray.push($scope.hospitals[j]);
+                  }
+                }
+
+                if (hospitalsSubArray.length > 0) {
+                  locationsArray.push(hospitalsSubArray);
+                }
+              }
+
+              // Send requests to Directions API
+              for(var i=0; i<locationsArraysSize; i++) {
+                //var url = requestDirectionUrl(currentPos, locationsArray[i], $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
+                var destinations = destinationString(locationsArray[i]);
+                var url = requestDirectionUrl("-15.904889,-47.975360", destinations, $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
+                sendRequest(url, locationsArray[i]);
+              }
+
+            })
+            .catch(function(error){displayError(error)});
+
 
           // Get server time
           var offsetRef = firebase.database().ref(".info/serverTimeOffset");
@@ -298,10 +338,41 @@ angular.module('starter.controllers', [])
               var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
               var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
               $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
-
             }
           });
         });
+
+      function requestDirectionUrl(origin, destination, mobility, key) {
+        var baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json";
+        var origins = "?origins=" + origin;
+        var destinations = "&destinations=" + destination;
+        var mode = mobility ? "&mode=" + mobility : "";
+        var language = "&language=pt-BR";
+        var apiKey = "&key=" + key;
+        return  baseUrl + origins + destinations + mode + language + apiKey;
+      }
+      function destinationString(hospitalsSubArray) {
+        var destinations = "";
+        for (var i=0; i<hospitalsSubArray.length; i++) {
+          destinations += hospitalsSubArray[i].latitude + "," + hospitalsSubArray[i].longitude + "|";
+        }
+        destinations = destinations.slice(0, -1);
+        return destinations;
+      }
+      function sendRequest(url, hospitalArray) {
+        $http.get(url).then(function(response) {
+          if (response.status == 200) {
+            var apiResponse = response.data;
+            var elements = apiResponse.rows[0].elements;
+            for(var i=0; i<elements.length; i++) {
+              var timeInSeconds = elements[i].duration.value;
+              $scope.hospitals.$getRecord(hospitalArray[i].$id).trafficTime = timeInSeconds / 60;
+            }
+          }
+        }, function(error){
+          displayError(error);
+        });
+      }
 
       $scope.search = function() {
         $scope.model.left = '0';
