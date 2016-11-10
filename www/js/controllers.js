@@ -142,7 +142,7 @@ angular.module('starter.controllers', [])
 
     $scope.createUser = function() {
       if ($scope.user && $scope.user.name && $scope.user.email && $scope.user.password && $scope.user.birth_date) {
-        
+
         $scope.model.showLoading = true;
         // Create a new user
         Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.password)
@@ -418,10 +418,15 @@ angular.module('starter.controllers', [])
 
     }])
 
-  .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading",
-    function($scope, $stateParams, Hospitals, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading) {
+  .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading", "$location",
+    function($scope, $stateParams, Hospitals, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading, $location) {
 
       $scope.hospital = Hospitals($stateParams.id);
+
+      $scope.hospital.$loaded().then(function(){
+        $scope.hospital.trafficTime = $location.search().trafficTime;
+        $scope.hospital.totalTime = parseInt($scope.hospital.trafficTime) + $scope.hospital.watingTime;
+      });
 
       $scope.markers = [];
 
@@ -471,7 +476,7 @@ angular.module('starter.controllers', [])
             var destination = [
               $scope.hospital.latitude,
               $scope.hospital.longitude
-            ]
+            ];
 
           $ionicLoading.hide();
           launchnavigator.navigate(destination, current);

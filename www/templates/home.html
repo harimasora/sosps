@@ -49,7 +49,7 @@
     <uib-tabset active="activeJustified" class="options-list" justified="true">
       <uib-tab index="0" heading="PA / PS Clínico Adulto">
         <div class="list list-hosp">
-          <a ng-if="hospital.shouldShow && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | orderBy:'-name' | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}">
+          <a ng-if="hospital.shouldShow && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | orderBy:'-name' | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospital.trafficTime}}">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
@@ -73,14 +73,16 @@
             <div class="atendimento">
               <h3>TEMPO TOTAL ATÉ 1º ATENDIMENTO</h3>
               <h2 ng-if="hospital.watingTime && hospital.trafficTime">{{hospital.watingTime + hospital.trafficTime | number:0}} <span>min</span></h2>
-              <h2 ng-if="!hospital.watingTime">45 <span>min</span></h2>
+              <h2 ng-if="!hospital.watingTime && !hospital.trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="!hospital.watingTime && hospital.trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="hospital.watingTime && !hospital.trafficTime">-- <span>min</span></h2>
             </div>
           </a>
         </div>
       </uib-tab>
       <uib-tab index="1" heading="PA / PS Infantil">
         <div class="list list-hosp">
-          <a ng-if="hospital.shouldShow && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | orderBy:'-name' | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}">
+          <a ng-if="hospital.shouldShow && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | orderBy:'-name' | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospital.trafficTime}}">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
@@ -104,7 +106,9 @@
             <div class="atendimento">
               <h3>TEMPO TOTAL ATÉ 1º ATENDIMENTO</h3>
               <h2 ng-if="hospital.watingTime && hospital.trafficTime">{{hospital.watingTime + hospital.trafficTime | number:0}} <span>min</span></h2>
-              <h2 ng-if="!hospital.watingTime">45 <span>min</span></h2>
+              <h2 ng-if="!hospital.watingTime && !hospital.trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="!hospital.watingTime && hospital.trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="hospital.watingTime && !hospital.trafficTime">-- <span>min</span></h2>
             </div>
           </a>
         </div>
