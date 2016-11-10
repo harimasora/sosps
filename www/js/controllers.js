@@ -142,7 +142,7 @@ angular.module('starter.controllers', [])
 
     $scope.createUser = function() {
       if ($scope.user && $scope.user.name && $scope.user.email && $scope.user.password && $scope.user.birth_date) {
-        
+
         $scope.model.showLoading = true;
         // Create a new user
         Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.password)
@@ -417,6 +417,45 @@ angular.module('starter.controllers', [])
       };
 
     }])
+
+    .controller('ForgotController', ["$scope", "$state", "$ionicHistory", "Auth","$ionicLoading",
+      function($scope, $state, $ionicHistory, Auth, $ionicLoading) {
+
+        $scope.user = {
+          email: ""
+        };
+
+        $scope.forgotPassword = function() {
+
+          if($scope.user.email == "") {
+            $ionicLoading.show({
+                template: 'Campo Vazio',
+                duration: 1000
+              }).then(function(){
+                console.log("The loading indicator is  now displayed");
+            });
+          } else {
+            Auth.$sendPasswordResetEmail($scope.user.email).then(function() {
+              $ionicLoading.show({
+                  template: 'Email Enviado',
+                  duration: 1000
+                }).then(function(){
+                  console.log("The loading indicator is  now displayed");
+              });
+            }, function(error) {
+              console.log(error);
+            });
+          }
+        }
+
+        $scope.discardChanges = function() {
+          $ionicHistory.nextViewOptions({
+            historyRoot: true
+          });
+          $state.go('login')
+        };
+
+      }])
 
   .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading",
     function($scope, $stateParams, Hospitals, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading) {

@@ -1326,3 +1326,44 @@ h1, h2, h3, p {
   width: 100%;
   height: 100%;
 }
+
+.forgot-content {
+  font-family: Blogger !important;
+  padding: 15px;
+
+}
+
+.forgot-content h1 {
+  margin-top: 35px;
+}
+
+.forgot-content p {
+  text-align: center;
+}
+
+.forgot-content .btn-forgot {
+  background-color: #56D1FE;
+  width: 100%;
+  padding: 15px;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.forgot-content img {
+  width: 250px;
+}
+
+.forgot-content h3 {
+  margin-top: 25px;
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+.forgot-content input {
+  border: 2px solid #ddd;
+    width: 100%;
+    padding-left: 10px;
+}

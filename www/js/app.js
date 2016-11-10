@@ -112,6 +112,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
               return Auth.$requireSignIn();
             }]
           }
+        })
+        .state('forgotPassword', {
+          url: "/forgotPassword",
+          templateUrl: 'templates/forgot.html',
+          controller: 'ForgotController'
         });
       $urlRouterProvider.otherwise('/home');
     }
