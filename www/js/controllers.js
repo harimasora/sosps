@@ -226,8 +226,8 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing", "$cordovaGeolocation", "$http",
-    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing, $cordovaGeolocation, $http) {
+  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing", "$cordovaGeolocation", "$http", "$ionicHistory", "$state",
+    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing, $cordovaGeolocation, $http, $ionicHistory, $state) {
 
       var GOOGLE_DIRECTIONS_API_KEY = "AIzaSyBAaQ72jUCDMauAn8LyNT_VN0Ye0VyTVPc";
 
@@ -264,6 +264,21 @@ angular.module('starter.controllers', [])
       var subjectAddHospital = 'Inclusão de Hospital';
       var messageAddHospital = 'Solicito a inclusão do hospital -NOME-, localizado na cidade -CIDADE-.';
       $scope.addHospitalMail = "mailto:"+ emailId + "?subject=" + subjectAddHospital + "&body=" + messageAddHospital;
+
+      $scope.signOut = function() {
+        firebase.auth().signOut().then(function() {
+          console.log('Signed Out');
+          $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true,
+            historyRoot: true
+          });
+          $scope.closeNavigation();
+          $state.go('login');
+        }, function(error) {
+          console.error('Sign Out Error', error);
+        });
+      };
 
       $scope.switchButton = function() {
 
