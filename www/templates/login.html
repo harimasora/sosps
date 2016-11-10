@@ -1,5 +1,9 @@
 <ion-view  hide-nav-bar="true" title="Login">
   <ion-content class="login-content">
+    <div ng-if="model.showLoading" class="loading-page">
+      <img src="../img/loading.gif" alt="" />
+      <h4>AGUARDE</h4>
+    </div>
     <div class="flex-view full-height">
       <div class="logotype">
         <img src="img/logotype.svg">
@@ -19,18 +23,18 @@
           </div>
         </div>
       </div>
-      <div class="primary-btn-row">
-        <button class="button button-calm btn-login" ng-click="loginWithProvider('email')">
+
+      <div class="btn-login" ng-click="loginWithProvider('email')">
           Entrar
-        </button>
       </div>
+
       <div class="secondary-btn-row">
-        <button class="button button-positive btn btn-facebook" ng-click="loginWithProvider('facebook')">
-          Logar com Facebook
-        </button>
-        <button class="button button-assertive btn-google" ng-click="loginWithProvider('google')">
-          Logar com Google
-        </button>
+        <div class="btn-superlogin btn-facebook" ng-click="loginWithProvider('facebook')">
+          Facebook
+        </div>
+        <div class="btn-superlogin btn-google" ng-click="loginWithProvider('google')">
+          Google
+        </div>
       </div>
       <div class="register-info">
         <p>Ainda não tem uma conta? <a ng-click="modal.show()">Cadastrar</a></p>

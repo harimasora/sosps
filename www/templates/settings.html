@@ -1,8 +1,10 @@
 <ion-view hide-nav-bar="true" title="Configurações">
   <ion-header-bar class="bar bar-header bar-light">
-    <button class="button button-icon icon ion-close-round" ng-click="discardChanges()"></button>
+    <!-- <button class="button button-icon icon ion-close-round" ng-click="discardChanges()"></button> -->
+    <ion-nav-back-button class="button-dark">Voltar
+    </ion-nav-back-button>
     <h1 class="title">Informações</h1>
-    <a class="button button-icon icon ion-log-out" href="#" ng-click="user.$signOut()"></a>
+    <!-- <a class="button button-icon icon ion-log-out" href="#" ng-click="user.$signOut()"></a> -->
   </ion-header-bar>
   <ion-content class="padding" class="singUp">
     <div class="flex-view">
@@ -24,17 +26,6 @@
             <span class="input-label">DATA DE NASCIMENTO</span>
             <input  class="input-signup" type="date" placeholder="DATA DE NASCIMENTO" ng-model="user.birth_date">
           </label>
-          <ion-radio class="no-side-border" ng-model="user.gender" ng-value="'M'">Masculino</ion-radio>
-          <ion-radio class="no-side-border" ng-model="user.gender" ng-value="'F'">Feminino</ion-radio>
-          <div class="item item-toggle no-side-border">
-            NOTIFICAÇÕES
-            <label class="toggle toggle-calm">
-              <input type="checkbox" ng-model="user.isNotification">
-              <div class="track">
-                <div class="handle notification-toggle"></div>
-              </div>
-            </label>
-          </div>
         </div>
         <button class="button button-block button-calm" ng-click="saveChanges()">
           Salvar Informações
