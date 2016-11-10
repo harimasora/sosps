@@ -40,16 +40,29 @@
 		<h1 class="title" style="left: 60px; right: 60px;"></h1>
 
     <div class="buttons-bar">
-      <button class="button-filter"></button>
+      <button class="button-filter" ng-click="toggleFilterBox()"></button>
       <button ng-click="search()" class="button-search"></button>
     </div>
 
 	</ion-header-bar>
   <ion-content class="view-home">
+    <div ng-if="model.showFilterBox" class="filter-box">
+      <ion-list>
+        <ion-radio ng-model="model.choice" ng-value="'name'">Nome</ion-radio>
+        <ion-radio ng-model="model.choice" ng-value="'trafficTime'">Tempo de trajeto</ion-radio>
+        <ion-radio ng-model="model.choice" ng-value="'watingTime'">Tempo de atendimento</ion-radio>
+        <ion-radio ng-model="model.choice" ng-value="'totalTime'">Tempo de total de atendimento</ion-radio>
+      </ion-list>
+      <div class="item range">
+        <i>5km</i>
+        <input type="range" ng-model="model.distance" min="5" max="50" ng-value=20>
+        <i>50km</i>
+      </div>
+    </div>
     <uib-tabset active="activeJustified" class="options-list" justified="true">
       <uib-tab index="0" heading="PA / PS Clínico Adulto">
         <div class="list list-hosp">
-          <a ng-if="hospital.shouldShow && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | orderBy:'-name' | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospital.trafficTime}}">
+          <a ng-if="hospital.shouldShow && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospital.trafficTime}}">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
@@ -82,7 +95,7 @@
       </uib-tab>
       <uib-tab index="1" heading="PA / PS Infantil">
         <div class="list list-hosp">
-          <a ng-if="hospital.shouldShow && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | orderBy:'-name' | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospital.trafficTime}}">
+          <a ng-if="hospital.shouldShow && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospital.trafficTime}}">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
