@@ -46,6 +46,7 @@ angular.module('starter.controllers', [])
             $ionicHistory.nextViewOptions({
               historyRoot: true
             });
+            $scope.model.showLoading = false;
             $state.go('home');
           } else {
             $scope.profile.email = $scope.profile.email ? $scope.profile.email : user.email;
@@ -303,62 +304,7 @@ angular.module('starter.controllers', [])
         optionadulto.removeClass('option-selected');
         optioncrianca.addClass('option-selected');
 
-      };
-
-
-      // Get the user location
-      var getLocations = $cordovaGeolocation.getCurrentPosition().then(function (position) {
-        var currentPos = position.coords.latitude + "," + position.coords.longitude;
-
-        // Create a locationsArray with many hospitals sub arrays
-        var locationsArray = [];
-        var maxSize = 25;
-        var locationsArraysSize = Math.ceil($scope.hospitals.length / maxSize);
-        for (var i = 0; i < locationsArraysSize; i++) {
-          var hospitalsSubArray = [];
-          for (var j = i * maxSize; j < $scope.hospitals.length; j++) {
-            if (j >= (i + 1) * maxSize) {
-              continue;
-            }
-            if ($scope.hospitals[j].latitude && $scope.hospitals[j].longitude) {
-              hospitalsSubArray.push($scope.hospitals[j]);
-            }
-          }
-
-          if (hospitalsSubArray.length > 0) {
-            locationsArray.push(hospitalsSubArray);
-          }
-        }
-
-        // Send requests to Directions API
-        for (var i = 0; i < locationsArraysSize; i++) {
-          var destinations = destinationString(locationsArray[i]);
-          var url = requestDirectionUrl(currentPos, destinations, $scope.user.mobilityOption, GOOGLE_DIRECTIONS_API_KEY);
-          sendRequest(url, locationsArray[i]);
-        }
-
-        return true;
-      }).catch(function (error) {displayError(error)});
-
-      // Get server time
-      var formatHospitalsTimestamps = offsetRef.on("value", function (snap) {
-        var offset = snap.val();
-        var estimatedServerTimeMs = new Date().getTime() + offset;
-
-        for (var i = 0; i < $scope.hospitals.length; i++) {
-
-          // Convert Firebase Timestamp to Date
-          var timestamp = $scope.hospitals[i].updateOn;
-          var timestampDate = new Date(timestamp);
-          $scope.hospitals[i].updatedOn = timestampDate;
-
-          // Set shouldShow attribute
-          var hideHospital = !$scope.hospitals[i].shouldShow;
-          var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
-          var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
-          $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
-        }
-      });
+      };2
 
       angular.element( document.querySelector( '#div1' ) );
       $scope.user = Profile(currentAuth.uid);
@@ -462,6 +408,27 @@ angular.module('starter.controllers', [])
         }).catch(function (error) {displayError(error)});
 
         // Get server time
+        offsetRef.on("value", function (snap) {
+          var offset = snap.val();
+          var estimatedServerTimeMs = new Date().getTime() + offset;
+
+          for (var i = 0; i < $scope.hospitals.length; i++) {
+
+            // Convert Firebase Timestamp to Date
+            var timestamp = $scope.hospitals[i].updateOn;
+            var timestampDate = new Date(timestamp);
+            $scope.hospitals[i].updatedOn = timestampDate;
+
+            // Set shouldShow attribute
+            var hideHospital = !$scope.hospitals[i].shouldShow;
+            var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+            var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
+            $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
+          }
+        });
+      });
+
+      $scope.hospitals.$watch(function(event) {
         offsetRef.on("value", function (snap) {
           var offset = snap.val();
           var estimatedServerTimeMs = new Date().getTime() + offset;
