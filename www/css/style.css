@@ -1389,3 +1389,8 @@ h1, h2, h3, p {
 map {
   z-index: -1 !important;
 }
+
+
+.list-filter {
+  font-family: Blogger !important;
+}
