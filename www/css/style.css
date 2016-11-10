@@ -13,13 +13,13 @@ font-face {
 
 h1, body {
   font-family: Blogger !important;
+  font-weight: 400 !important;
 }
 
 * {
   font-family: Boo, serif;
+  font-weight: 400 !important;
 }
-
-
 
 
 /*-------- LOGIN --------*/
@@ -115,16 +115,25 @@ h1, body {
   height: 40px;
   font-size: 12px;
   padding-top: 3px;
+  padding-left: 5% !important;
+
 }
 
 .form {
   flex-grow: 2;
 }
 
-.primary-btn-row {
-  display: flex;
-  flex-grow: 1;
+.btn-login {
+  /*display: flex;*/
+  width: 100%;
   margin-bottom: 5px;
+  background-color: #20C3F0;
+  color: white;
+  padding: 20px;
+
+  text-align: center;
+  border: 0px;
+
 }
 
 .primary-btn-row button {
@@ -138,8 +147,13 @@ h1, body {
   margin-bottom: 10px;
 }
 
-.secondary-btn-row button {
+.secondary-btn-row .btn-superlogin {
   flex-basis: 47.5%;
+  padding-left: 20% !important;
+  padding-top: 4%;
+  color: white;
+  height: 45px !important;
+
 }
 
 .register-info {
@@ -159,6 +173,7 @@ h1, body {
 
 .input-login {
   margin-bottom: 2px !important;
+  padding-top: 0 !important;
 }
 
 .bar-header {
@@ -369,7 +384,7 @@ h1, h2, h3, p {
 
 .hospital-name {
   font-family: Blogger !important;
-  font-weight: 600;
+  font-weight: 600 !important;
   color: #666666;
   text-transform: uppercase;
   margin-top: 75px;
@@ -401,7 +416,7 @@ h1, h2, h3, p {
 
 .info-call {
   font-family: Blogger !important;
-  font-weight: 700;
+  font-weight: 700 !important;
   color: #666666;
 
   text-transform: uppercase;
@@ -486,6 +501,7 @@ h1, h2, h3, p {
 .bar-home-view {
   padding-top: 7px;
   padding-left: 7px;
+  border-bottom: 1px solid rgb(221, 221, 221) !important;
 }
 
 .bar-home-view .image-bar {
@@ -792,15 +808,21 @@ h1, h2, h3, p {
 
 .item-floating-label .input-label.has-input {
   margin-bottom: 5px;
+  padding-top: 0;
 }
 
 .options-list {
   width: 100%;
-  border-top: 1px solid #ddd;
+  /*border-top: 1px solid #ddd;*/
+
 }
 
 .nav-tabs.nav-justified>li>a:hover {
   background-color: #FFF;
+}
+
+.nav-tabs.nav-justified>li>a {
+  color: rgb(51, 51, 51);
 }
 
 .nav-tabs.nav-justified>.active>a {
@@ -1264,4 +1286,43 @@ h1, h2, h3, p {
   .morespan {
     left: -4%;
   }
+}
+
+.nav-link {
+  float: left;
+  width: 50%;
+  border-radius: 0px !important;
+  text-align: center !important;
+  margin-bottom: 0px !important;
+}
+
+.search-input {
+  font-family: Blogger !important;
+}
+
+.item-floating-label .input-label {
+  top: 1px !important;
+}
+
+.loading-page img {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  left: calc(50% - 60px);
+  margin-top: calc(50% + 60px);
+}
+
+.loading-page h4 {
+  text-align: center;
+}
+
+.loading-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  background-color: white;
+  opacity: 0.95;
+  width: 100%;
+  height: 100%;
 }

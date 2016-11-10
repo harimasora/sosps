@@ -14,6 +14,14 @@ angular.module('starter.controllers', [])
       photoUrl: ""
     };
 
+    $scope.model = {
+      'display':'none',
+      'background-color':'red',
+      'showLoading': false
+    };
+
+    console.log($scope.model.display);
+
     $ionicModal.fromTemplateUrl('templates/sign_up.html', {
       scope: $scope
     }).then(function(modal) {
@@ -45,6 +53,7 @@ angular.module('starter.controllers', [])
 
             $scope.profile.$save()
               .then(function() {
+                $state.model.showLoading = false;
                 $state.go('profile');
               })
               .catch(function(error) {
@@ -60,6 +69,7 @@ angular.module('starter.controllers', [])
     }
 
     function displayError(error) {
+      $scope.model.showLoading = false;
       console.log("Authentication failed:", error);
       $ionicLoading.show({
         template: "erro de autenticação"
@@ -106,19 +116,19 @@ angular.module('starter.controllers', [])
           break;
         case 'email':
           if ($scope.user && $scope.user.email && $scope.user.password) {
-            $ionicLoading.show({
-              template: 'Entrando...'
-            });
+            $scope.model.showLoading = true;
             Auth.$signInWithEmailAndPassword($scope.user.email, $scope.user.password)
               .then(function (firebaseUser) {
-                $ionicLoading.hide();
+                $scope.model.showLoading = false;
                 redirectUser(firebaseUser)
               })
               .catch(function (error) {
                 displayError(error)
               });
+
             break;
           } else {
+            $scope.model.showLoading = false;
             $ionicLoading.show({
               template: "Combinação de email e senha inválidos."
             });
@@ -132,9 +142,8 @@ angular.module('starter.controllers', [])
 
     $scope.createUser = function() {
       if ($scope.user && $scope.user.name && $scope.user.email && $scope.user.password && $scope.user.birth_date) {
-        $ionicLoading.show({
-          template: 'Cadastrando...'
-        });
+        
+        $scope.model.showLoading = true;
         // Create a new user
         Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.password)
           .then(function(firebaseUser) {
@@ -157,7 +166,7 @@ angular.module('starter.controllers', [])
 
                   $scope.profile.$save()
                     .then(function() {
-                      $ionicLoading.hide();
+                      $scope.model.showLoading = false;
                       $scope.modal.hide();
                       $state.go('profile');
                     })
@@ -171,7 +180,7 @@ angular.module('starter.controllers', [])
             } else {
               $scope.profile.$save()
                 .then(function() {
-                  $ionicLoading.hide();
+                  $scope.model.showLoading = false;
                   $scope.modal.hide();
                   $state.go('profile');
                 })
@@ -185,6 +194,7 @@ angular.module('starter.controllers', [])
             console.log("Authentication failed:", error);
           });
       } else {
+        $scope.model.showLoading = false;
         $ionicLoading.show({
           template: "Preencha todos os campos."
         });
@@ -392,6 +402,7 @@ angular.module('starter.controllers', [])
               $scope.hospital.longitude
             ]
 
+          $ionicLoading.hide();
           launchnavigator.navigate(destination, current);
 
           })
