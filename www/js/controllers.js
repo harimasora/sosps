@@ -635,6 +635,11 @@ angular.module('starter.controllers', [])
         $scope.hospital.totalTime = parseInt($scope.hospital.trafficTime) + $scope.hospital.watingTime;
       });
 
+      $scope.hospital.$watch(function(event){
+        $scope.hospital.trafficTime = $location.search().trafficTime;
+        $scope.hospital.totalTime = parseInt($scope.hospital.trafficTime) + $scope.hospital.watingTime;
+      });
+
       $scope.markers = [];
 
       var styleArray = [ //any style array defined in the google documentation you linked
