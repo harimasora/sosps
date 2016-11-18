@@ -75,7 +75,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         })
         .state("settings", {
           url: '/settings',
-          controller: "SettingsController",
+          controller: "LoginController",
           templateUrl: "templates/settings.html",
           resolve: {
             "currentAuth": ["Auth", function(Auth) {

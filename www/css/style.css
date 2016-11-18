@@ -544,6 +544,16 @@ h1, h2, h3, p {
   border: 0px;
 }
 
+.button-filter-close {
+  background-image: url("../img/close.svg") !important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  border: 0px;
+}
+
 .button-search {
   background-image: url("../img/search.svg") !important;
   background-repeat: no-repeat;

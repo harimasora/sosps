@@ -242,6 +242,7 @@ angular.module('starter.controllers', [])
         'choice': 'name',
         'distance': 40
       };
+      $scope.hospitalsSafeCopy = {};
 
       var offsetRef = firebase.database().ref(".info/serverTimeOffset");
 
@@ -283,35 +284,14 @@ angular.module('starter.controllers', [])
         });
       };
 
-      $scope.switchButton = function() {
-
-        var optionadulto = angular.element(     document.querySelector( '.option-adulto' ) );
-
-        var optioncrianca = angular.element(      document.querySelector( '.option-infantil' ) );
-
-
-        optioncrianca.removeClass('option-selected');
-        optionadulto.addClass('option-selected');
-
-      };
-      $scope.switchButton2 = function() {
-
-        var optionadulto = angular.element(     document.querySelector( '.option-adulto' ) );
-
-        var optioncrianca = angular.element(      document.querySelector( '.option-infantil' ) );
-
-
-        optionadulto.removeClass('option-selected');
-        optioncrianca.addClass('option-selected');
-
-      };2
-
-      angular.element( document.querySelector( '#div1' ) );
       $scope.user = Profile(currentAuth.uid);
       $scope.hospitals = Hospitals();
 
       $scope.doRefresh = function() {
+        console.log("Recarregando...");
+        console.log("Pegando posição do aparelho...");
         $q.all([$cordovaGeolocation.getCurrentPosition().then(function (position) {
+          console.log("Conseguiu!");
           var currentPos = position.coords.latitude + "," + position.coords.longitude;
 
           // Create a locationsArray with many hospitals sub arrays
@@ -325,7 +305,11 @@ angular.module('starter.controllers', [])
                 continue;
               }
               if ($scope.hospitals[j].latitude && $scope.hospitals[j].longitude) {
-                hospitalsSubArray.push($scope.hospitals[j]);
+                var distance = getDistanceFromLatLonInKm(position.coords.latitude, position.coords.longitude, $scope.hospitals[j].latitude, $scope.hospitals[j].longitude);
+                $scope.hospitalsSafeCopy[$scope.hospitals[j].$id].distance = distance;
+                if (distance <= $scope.model.distance) {
+                  hospitalsSubArray.push($scope.hospitals[j]);
+                }
               }
             }
 
@@ -342,7 +326,7 @@ angular.module('starter.controllers', [])
           }
 
           return true;
-        }).catch(function (error) {displayError(error)}), offsetRef.on("value", function (snap) {
+        }).catch(function (error) {console.log(error)}), offsetRef.on("value", function (snap) {
             var offset = snap.val();
             var estimatedServerTimeMs = new Date().getTime() + offset;
 
@@ -361,7 +345,7 @@ angular.module('starter.controllers', [])
             }
           })])
           .then(function(result){
-            console.log("ATUALIZOU!");
+            // All good!
           })
           .catch(function(error){
             console.log(error);
@@ -373,6 +357,17 @@ angular.module('starter.controllers', [])
       };
 
       $scope.hospitals.$loaded().then(function() {
+
+        // Make a hospitals coordinates array copy
+        for(var i=0; i<$scope.hospitals.length; i++) {
+          if ($scope.hospitals[i].latitude && $scope.hospitals[i].longitude) {
+            $scope.hospitalsSafeCopy[$scope.hospitals[i].$id] = {latitude: $scope.hospitals[i].latitude, longitude: $scope.hospitals[i].longitude};
+          }
+        }
+
+        //User this array for distance related stuff
+
+
         // Get the user location
         $cordovaGeolocation.getCurrentPosition().then(function (position) {
           var currentPos = position.coords.latitude + "," + position.coords.longitude;
@@ -388,7 +383,11 @@ angular.module('starter.controllers', [])
                 continue;
               }
               if ($scope.hospitals[j].latitude && $scope.hospitals[j].longitude) {
-                hospitalsSubArray.push($scope.hospitals[j]);
+                var distance = getDistanceFromLatLonInKm(position.coords.latitude, position.coords.longitude, $scope.hospitals[j].latitude, $scope.hospitals[j].longitude);
+                $scope.hospitalsSafeCopy[$scope.hospitals[j].$id].distance = distance;
+                if (distance <= $scope.model.distance) {
+                  hospitalsSubArray.push($scope.hospitals[j]);
+                }
               }
             }
 
@@ -405,7 +404,7 @@ angular.module('starter.controllers', [])
           }
 
           return true;
-        }).catch(function (error) {displayError(error)});
+        }).catch(function (error) {console.log(error)});
 
         // Get server time
         offsetRef.on("value", function (snap) {
@@ -424,12 +423,21 @@ angular.module('starter.controllers', [])
             var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
             var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
             $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
+
+            // Reload distance from safeArray
+            hospital.distance = $scope.hospitalsSafeCopy[event.key].distance;
+            hospital.trafficTime = $scope.hospitalsSafeCopy[event.key].trafficTime;
+            hospital.totalTime = $scope.hospitalsSafeCopy[event.key].totalTime;
           }
         });
       });
 
       $scope.hospitals.$watch(function(event) {
+        if(event.event == "child_added") {
+          console.log("ADDED!");
+        }
         if(event.event == "child_changed") {
+          console.log("CHANGED!");
           offsetRef.on("value", function (snap) {
             var offset = snap.val();
             var estimatedServerTimeMs = new Date().getTime() + offset;
@@ -445,6 +453,11 @@ angular.module('starter.controllers', [])
             var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
             var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
             hospital.shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
+
+            // Reload distance from safeArray
+            hospital.distance = $scope.hospitalsSafeCopy[event.key].distance;
+            hospital.trafficTime = $scope.hospitalsSafeCopy[event.key].trafficTime;
+            hospital.totalTime = $scope.hospitalsSafeCopy[event.key].totalTime;
           });
         }
       });
@@ -467,22 +480,35 @@ angular.module('starter.controllers', [])
         return destinations;
       }
       function sendRequest(url, hospitalArray) {
+        console.log("Enviando url... " + url);
         $http.get(url).then(function(response) {
+          console.log("Pegando elementos...");
           if (response.status == 200) {
             var apiResponse = response.data;
             var elements = apiResponse.rows[0].elements;
             for(var i=0; i<elements.length; i++) {
-              var timeInSeconds = elements[i].duration.value;
-              var distance = elements[i].distance.value;
-              var watingTime = $scope.hospitals.$getRecord(hospitalArray[i].$id).watingTime;
-              $scope.hospitals.$getRecord(hospitalArray[i].$id).trafficTime = timeInSeconds / 60;
-              if (watingTime) {
-                $scope.hospitals.$getRecord(hospitalArray[i].$id).totalTime = watingTime + (timeInSeconds / 60);
-              } else {
-                $scope.hospitals.$getRecord(hospitalArray[i].$id).totalTime = timeInSeconds / 60;
+              if (elements[0].status == "OK") {
+                console.log("Elemento " + i);
+                console.log(elements[i]);
+                var timeInSeconds = elements[i].duration.value;
+                var distance = elements[i].distance.value;
+                var id = hospitalArray[i].$id;
+                  var watingTime = $scope.hospitals.$getRecord(id).watingTime;
+                $scope.hospitalsSafeCopy[id].trafficTime = timeInSeconds / 60;
+                if (watingTime) {
+                  $scope.hospitals.$getRecord(id).totalTime = watingTime + (timeInSeconds / 60);
+                  $scope.hospitalsSafeCopy[id].totalTime = watingTime + (timeInSeconds / 60);
+                } else {
+                  $scope.hospitals.$getRecord(id).totalTime = timeInSeconds / 60;
+                  $scope.hospitalsSafeCopy[id].totalTime = timeInSeconds / 60;
+                }
+                $scope.hospitals.$getRecord(id).distance = distance / 1000;
+                $scope.hospitalsSafeCopy[id].distance = distance / 1000;
               }
-              $scope.hospitals.$getRecord(hospitalArray[i].$id).distance = distance / 1000;
             }
+          } else {
+            console.log("Falhou.");
+            console.log(response)
           }
         }, function(error){
           console.log(error);
@@ -516,6 +542,23 @@ angular.module('starter.controllers', [])
         return function(item){
           return item[prop] <= val;
         }
+      };
+
+      function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2-lat1);  // deg2rad below
+        var dLon = deg2rad(lon2-lon1);
+        var a =
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+            Math.sin(dLon/2) * Math.sin(dLon/2)
+          ;
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c; // Distance in km
+        return d;
+      }
+      function deg2rad(deg) {
+        return deg * (Math.PI/180)
       }
   }])
 
@@ -531,7 +574,7 @@ angular.module('starter.controllers', [])
 
     }])
 
-    .controller('SettingsController', ["$scope", "$state", "$ionicHistory",
+  .controller('SettingsController', ["$scope", "$state", "$ionicHistory",
       function($scope, $state, $ionicHistory) {
 
         $scope.discardChanges = function() {
@@ -543,7 +586,7 @@ angular.module('starter.controllers', [])
 
       }])
 
-    .controller('ForgotController', ["$scope", "$state", "$ionicHistory", "Auth","$ionicLoading",
+  .controller('ForgotController', ["$scope", "$state", "$ionicHistory", "Auth","$ionicLoading",
       function($scope, $state, $ionicHistory, Auth, $ionicLoading) {
 
         $scope.user = {
@@ -581,7 +624,6 @@ angular.module('starter.controllers', [])
         };
 
       }])
-
 
   .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading", "$location",
     function($scope, $stateParams, Hospitals, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading, $location) {
@@ -644,7 +686,7 @@ angular.module('starter.controllers', [])
             ];
 
           $ionicLoading.hide();
-          launchnavigator.navigate(destination, current);
+          launchnavigator.navigate(destination,{start: current, appSelectionDialogHeader: "Escolha um aplicativo para iniciar a navegação"});
 
           })
           .catch(function(error){displayError(error)});

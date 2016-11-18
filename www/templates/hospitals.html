@@ -6,7 +6,7 @@
 	</ion-nav-bar>
   <ion-content>
     <map
-    id="map" dragging="false" center="{{hospital.latitude}}, {{hospital.longitude}}" zoom=15 data-tap-disabled="true" disable-default-u-i="true" options="options">
+    id="map" draggable="false" center="{{hospital.latitude}}, {{hospital.longitude}}" zoom=15 data-tap-disabled="true" disable-default-u-i="true" options="options">
       <marker  icon="img/pino.png" position="{{hospital.latitude}}, {{hospital.longitude}}"></marker>
     </map>
 
@@ -37,7 +37,7 @@
         <a ng-click="getDirections()"class="info-hosp get-direction">TRAÇAR ROTA</a>
       </div>
 
-      <p ng-if="hospital.updateOn" class="time-wait">Tempo de espera da instituição atualizado em {{hospital.updateOn | date: "dd/MM"}} às {{hospital.updateOn | date: "hh:mm"}}h</p>
+      <p ng-if="hospital.updateOn" class="time-wait">Tempo de espera da instituição atualizado em {{hospital.updateOn | date: "dd/MM"}} às {{hospital.updateOn | date: "HH:mm"}}h</p>
       <p ng-if="!hospital.updateOn" class="time-wait">Sem registro da última atualização desta instituição</p>
 
       <p class="info-call">INFORMAÇÕES</p>
