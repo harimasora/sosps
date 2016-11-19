@@ -265,8 +265,8 @@ angular.module('starter.controllers', [])
       var offsetRef = firebase.database().ref(".info/serverTimeOffset");
 
       var shareOptions = {
-        message: 'Chega de sair de casa sem saber se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar. O SOSPS monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. Baixe o app em ', // not supported on some apps (Facebook, Instagram)
-        subject: 'Conheça o aplicativo SOSPS', // fi. for email
+        message: 'Achei que você ia gostar desse aplicativo! \nQuando saímos de casa, não sabemos se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar para ser atendido.\nEsse aplicativo, o SOSPS, monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. O SOSPS está disponível para Android e iOS.\nNo site http://www.sosps.com.br explica mais sobre o aplicativo. ', // not supported on some apps (Facebook, Instagram)
+        subject: 'Olha que legal esse aplicativo', // fi. for email
         files: ['www/img/pino.png'], // an array of filenames either locally or remotely
         url: 'http://www.sosps.com.br',
         chooserTitle: 'Onde compartilhar...' // Android only, you can override the default share sheet title
@@ -282,10 +282,15 @@ angular.module('starter.controllers', [])
         $cordovaSocialSharing.shareWithOptions(shareOptions, onShareSuccess, onShareError);
       };
 
-      var emailId = 'sosps@gmail.com';
+      var emailId = 'contato@sosps.com.br';
       var subjectAddHospital = 'Inclusão de Hospital';
-      var messageAddHospital = 'Solicito a inclusão do hospital -NOME-, localizado na cidade -CIDADE-.';
+      var messageAddHospital = 'Eu,  - SEU NOME E SOBRENOME - indico a inclusão do Hospital - ACRESCENTE O NOME DO HOSPITAL -,  na especialidade - DIGA SE ADULTO ou INFANTIL - na cidade de - INDIQUE O NOME DA CIDADE -.';
       $scope.addHospitalMail = "mailto:"+ emailId + "?subject=" + subjectAddHospital + "&body=" + messageAddHospital;
+
+      var contactEmailId = 'contato@sosps.com.br';
+      var subjectContact = 'Contato SOSPS';
+      var messageContact = '';
+      $scope.contactMail = "mailto:"+ contactEmailId + "?subject=" + subjectContact + "&body=" + messageContact;
 
       $scope.signOut = function() {
         Auth.$signOut().then(function() {
