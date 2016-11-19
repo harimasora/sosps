@@ -237,7 +237,8 @@ angular.module('starter.controllers', [])
         'leftNav':'100%',
         'showFilterBox': false,
         'choice': 'name',
-        'distance': 40
+        'distance': 40,
+        'specialty': 'PSAdulto'
       };
       $scope.user = Profile(currentAuth.uid);
       $scope.hospitals = Hospitals();
@@ -257,6 +258,8 @@ angular.module('starter.controllers', [])
               hospital.distance = $scope.hospitalsSafeCopy[hospital.$id].distance;
               hospital.trafficTime = $scope.hospitalsSafeCopy[hospital.$id].trafficTime;
               hospital.totalTime = $scope.hospitalsSafeCopy[hospital.$id].totalTime;
+              hospital.updatedOn = $scope.hospitalsSafeCopy[hospital.$id].updatedOn;
+              hospital.showBySpecialty = $scope.hospitalsSafeCopy[hospital.$id].showBySpecialty;
             }
           }
         });
@@ -308,10 +311,10 @@ angular.module('starter.controllers', [])
       };
 
       $scope.doRefresh = function() {
-        console.log("Recarregando...");
-        console.log("Pegando posição do aparelho...");
+        //console.log("Recarregando...");
+        //console.log("Pegando posição do aparelho...");
         $q.all([$cordovaGeolocation.getCurrentPosition().then(function (position) {
-          console.log("Conseguiu!");
+          //console.log("Conseguiu!");
           var currentPos = position.coords.latitude + "," + position.coords.longitude;
 
           // Create a locationsArray with many hospitals sub arrays
@@ -352,16 +355,33 @@ angular.module('starter.controllers', [])
 
             for (var i = 0; i < $scope.hospitals.length; i++) {
 
+              //TODO GAMBIARRA ALERT!!!
+
               // Convert Firebase Timestamp to Date
-              var timestamp = $scope.hospitals[i].updateOn;
-              var timestampDate = new Date(timestamp);
-              $scope.hospitals[i].updatedOn = timestampDate;
+              var timestampPSAdulto = $scope.hospitals[i].updateOn ? $scope.hospitals[i].updateOn['PSAdulto'] : null;
+              var timestampPSPediatria = $scope.hospitals[i].updateOn ? $scope.hospitals[i].updateOn['PSPediatria'] : null;
+              var timestampDatePSAdulto = new Date(timestampPSAdulto);
+              var timestampDatePSPediatria = new Date(timestampPSPediatria);
+              var updatedOn = {
+                'PSAdulto': timestampDatePSAdulto,
+                'PSPediatria': timestampDatePSPediatria
+              };
+              $scope.hospitals[i].updatedOn = updatedOn;
+              $scope.hospitalsSafeCopy[$scope.hospitals[i].$id].updatedOn = updatedOn;
 
               // Set shouldShow attribute
               var hideHospital = !$scope.hospitals[i].shouldShow;
-              var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
-              var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
-              $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
+
+              var limitExceededPSAdulto = ((estimatedServerTimeMs - timestampPSAdulto) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+              var timestampInBoundsPSAdulto = 8 <= timestampDatePSAdulto.getHours() && timestampDatePSAdulto.getHours() < 21;
+              var limitExceededPSPediatria = ((estimatedServerTimeMs - timestampPSPediatria) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+              var timestampInBoundsPSPediatria = 8 <= timestampDatePSPediatria.getHours() && timestampDatePSPediatria.getHours() < 21;
+              var showBySpecialty = {
+                'PSAdulto': !(limitExceededPSAdulto && timestampInBoundsPSAdulto && hideHospital),
+                'PSPediatria': !(limitExceededPSPediatria && timestampInBoundsPSPediatria && hideHospital)
+              };
+              $scope.hospitals[i].showBySpecialty = showBySpecialty;
+              $scope.hospitalsSafeCopy[$scope.hospitals[i].$id].showBySpecialty = showBySpecialty;
             }
           })])
           .then(function(result){
@@ -384,9 +404,6 @@ angular.module('starter.controllers', [])
             $scope.hospitalsSafeCopy[$scope.hospitals[i].$id] = {latitude: $scope.hospitals[i].latitude, longitude: $scope.hospitals[i].longitude};
           }
         }
-
-        //User this array for distance related stuff
-
 
         // Get the user location
         $cordovaGeolocation.getCurrentPosition().then(function (position) {
@@ -434,15 +451,30 @@ angular.module('starter.controllers', [])
           for (var i = 0; i < $scope.hospitals.length; i++) {
 
             // Convert Firebase Timestamp to Date
-            var timestamp = $scope.hospitals[i].updateOn;
-            var timestampDate = new Date(timestamp);
-            $scope.hospitals[i].updatedOn = timestampDate;
+            var timestampPSAdulto = $scope.hospitals[i].updateOn ? $scope.hospitals[i].updateOn['PSAdulto'] : null;
+            var timestampPSPediatria = $scope.hospitals[i].updateOn ? $scope.hospitals[i].updateOn['PSPediatria'] : null;
+            var timestampDatePSAdulto = new Date(timestampPSAdulto);
+            var timestampDatePSPediatria = new Date(timestampPSPediatria);
+            var updatedOn = {
+              'PSAdulto': timestampDatePSAdulto,
+              'PSPediatria': timestampDatePSPediatria
+            };
+            $scope.hospitals[i].updatedOn = updatedOn;
+            $scope.hospitalsSafeCopy[$scope.hospitals[i].$id].updatedOn = updatedOn;
 
             // Set shouldShow attribute
             var hideHospital = !$scope.hospitals[i].shouldShow;
-            var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
-            var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
-            $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
+
+            var limitExceededPSAdulto = ((estimatedServerTimeMs - timestampPSAdulto) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+            var timestampInBoundsPSAdulto = 8 <= timestampDatePSAdulto.getHours() && timestampDatePSAdulto.getHours() < 21;
+            var limitExceededPSPediatria = ((estimatedServerTimeMs - timestampPSPediatria) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+            var timestampInBoundsPSPediatria = 8 <= timestampDatePSPediatria.getHours() && timestampDatePSPediatria.getHours() < 21;
+            var showBySpecialty = {
+              'PSAdulto': !(limitExceededPSAdulto && timestampInBoundsPSAdulto && hideHospital),
+              'PSPediatria': !(limitExceededPSPediatria && timestampInBoundsPSPediatria && hideHospital)
+            };
+            $scope.hospitals[i].showBySpecialty = showBySpecialty;
+            $scope.hospitalsSafeCopy[$scope.hospitals[i].$id].showBySpecialty = showBySpecialty;
 
             // Reload distance from safeArray
             $scope.hospitals[i].distance = $scope.hospitalsSafeCopy[$scope.hospitals[i].$id].distance;
@@ -454,25 +486,36 @@ angular.module('starter.controllers', [])
 
       $scope.hospitals.$watch(function(event) {
         if(event.event == "child_added") {
-          console.log("ADDED!");
+          //console.log("ADDED!");
         }
         if(event.event == "child_changed") {
-          console.log("CHANGED!");
+          //console.log("CHANGED!");
           offsetRef.on("value", function (snap) {
             var offset = snap.val();
             var estimatedServerTimeMs = new Date().getTime() + offset;
 
             // Convert Firebase Timestamp to Date
             var hospital = $scope.hospitals.$getRecord(event.key);
-            var timestamp = hospital.updateOn;
-            var timestampDate = new Date(timestamp);
-            hospital.updatedOn = timestampDate;
+            var timestampPSAdulto = hospital.updateOn ? hospital.updateOn['PSAdulto'] : null;
+            var timestampPSPediatria = hospital.updateOn ? hospital.updateOn['PSPediatria'] : null;
+            var timestampDatePSAdulto = new Date(timestampPSAdulto);
+            var timestampDatePSPediatria = new Date(timestampPSPediatria);
+            hospital.updatedOn = {
+              'PSAdulto': timestampDatePSAdulto,
+              'PSPediatria': timestampDatePSPediatria
+            };
 
             // Set shouldShow attribute
             var hideHospital = !hospital.shouldShow;
-            var limitExceeded = ((estimatedServerTimeMs - timestamp) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
-            var timestampInBounds = 8 <= timestampDate.getHours() && timestampDate.getHours() < 21;
-            hospital.shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
+
+            var limitExceededPSAdulto = ((estimatedServerTimeMs - timestampPSAdulto) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+            var timestampInBoundsPSAdulto = 8 <= timestampDatePSAdulto.getHours() && timestampDatePSAdulto.getHours() < 21;
+            var limitExceededPSPediatria = ((estimatedServerTimeMs - timestampPSPediatria) / (1000 * 60)) > 270; // Limit is 4.5h ~ 270 min
+            var timestampInBoundsPSPediatria = 8 <= timestampDatePSPediatria.getHours() && timestampDatePSPediatria.getHours() < 21;
+            hospital.showBySpecialty = {
+              'PSAdulto': !(limitExceededPSAdulto && timestampInBoundsPSAdulto && hideHospital),
+              'PSPediatria': !(limitExceededPSPediatria && timestampInBoundsPSPediatria && hideHospital)
+            };
 
             // Reload distance from safeArray
             hospital.distance = $scope.hospitalsSafeCopy[event.key].distance;
@@ -500,34 +543,39 @@ angular.module('starter.controllers', [])
         return destinations;
       }
       function sendRequest(url, hospitalArray) {
-        console.log("Enviando url... " + url);
+        //console.log("Enviando url... " + url);
         $http.get(url).then(function(response) {
-          console.log("Pegando elementos...");
+          //console.log("Pegando elementos...");
           if (response.status == 200) {
             var apiResponse = response.data;
             var elements = apiResponse.rows[0].elements;
             for(var i=0; i<elements.length; i++) {
               if (elements[0].status == "OK") {
-                console.log("Elemento " + i);
-                console.log(elements[i]);
+                //console.log("Elemento " + i);
+                //console.log(elements[i]);
                 var timeInSeconds = elements[i].duration.value;
                 var distance = elements[i].distance.value;
                 var id = hospitalArray[i].$id;
-                  var watingTime = $scope.hospitals.$getRecord(id).watingTime;
+                var watingTime = $scope.hospitals.$getRecord(id).watingTime;
                 $scope.hospitalsSafeCopy[id].trafficTime = timeInSeconds / 60;
                 if (watingTime) {
-                  $scope.hospitals.$getRecord(id).totalTime = watingTime + (timeInSeconds / 60);
-                  $scope.hospitalsSafeCopy[id].totalTime = watingTime + (timeInSeconds / 60);
+                  var totalTime = {};
+                  var watingTimeKeys = Object.keys(watingTime);
+                  for (var j = 0; j < watingTimeKeys.length; j++) {
+                    totalTime[watingTimeKeys[j]] = watingTime[watingTimeKeys[j]] + (timeInSeconds / 60);
+                  }
+                  $scope.hospitals.$getRecord(id).totalTime = totalTime;
+                  $scope.hospitalsSafeCopy[id].totalTime = totalTime;
                 } else {
-                  $scope.hospitals.$getRecord(id).totalTime = timeInSeconds / 60;
-                  $scope.hospitalsSafeCopy[id].totalTime = timeInSeconds / 60;
+                  $scope.hospitals.$getRecord(id).totalTime = {'PSAdulto': timeInSeconds / 60, 'PSPediatria': timeInSeconds / 60};
+                  $scope.hospitalsSafeCopy[id].totalTime = {'PSAdulto': timeInSeconds / 60, 'PSPediatria': timeInSeconds / 60};
                 }
                 $scope.hospitals.$getRecord(id).distance = distance / 1000;
                 $scope.hospitalsSafeCopy[id].distance = distance / 1000;
               }
             }
           } else {
-            console.log("Falhou.");
+            //console.log("Falhou.");
             console.log(response)
           }
         }, function(error){
@@ -648,16 +696,28 @@ angular.module('starter.controllers', [])
   .controller('HospitalsController', ["$scope", "$stateParams", "Hospitals", "NgMap", "$cordovaLaunchNavigator", "$cordovaGeolocation", "$ionicLoading", "$location",
     function($scope, $stateParams, Hospitals, NgMap, $cordovaLaunchNavigator, $cordovaGeolocation, $ionicLoading, $location) {
 
+      function formatVariables(){
+        var searchObject = $location.search();
+        $scope.hospital.trafficTime = searchObject.trafficTime;
+        if ($scope.hospital.watingTime) {
+          $scope.hospital.totalTime = parseInt($scope.hospital.trafficTime) + $scope.hospital.watingTime[searchObject.specialty];
+        }
+        $scope.hospital.watingTimeSpecialty = $scope.hospital.watingTime ? $scope.hospital.watingTime[searchObject.specialty] : null;
+        $scope.hospital.updateOnSpecialty = $scope.hospital.updateOn ? $scope.hospital.updateOn[searchObject.specialty] : null;
+      }
+
+      $scope.$on("$ionicView.beforeEnter", function(event, data){
+        formatVariables();
+      });
+
       $scope.hospital = Hospitals($stateParams.id);
 
       $scope.hospital.$loaded().then(function(){
-        $scope.hospital.trafficTime = $location.search().trafficTime;
-        $scope.hospital.totalTime = parseInt($scope.hospital.trafficTime) + $scope.hospital.watingTime;
+        formatVariables();
       });
 
       $scope.hospital.$watch(function(event){
-        $scope.hospital.trafficTime = $location.search().trafficTime;
-        $scope.hospital.totalTime = parseInt($scope.hospital.trafficTime) + $scope.hospital.watingTime;
+        formatVariables();
       });
 
       $scope.markers = [];

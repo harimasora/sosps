@@ -30,15 +30,15 @@
           <span class="morespan">+</span>
           <div class="hosp-traj waithosp info-hosp">
             <h3>Espera</h3>
-            <h2 ng-if="hospital.watingTime">{{hospital.watingTime | number:0}} <span>min</span></h2>
-            <h2 ng-if="!hospital.watingTime">--</h2>
+            <h2 ng-if="hospital.watingTimeSpecialty">{{hospital.watingTimeSpecialty | number:0}} <span>min</span></h2>
+            <h2 ng-if="!hospital.watingTimeSpecialty">--</h2>
           </div>
         </div>
         <a ng-click="getDirections()"class="info-hosp get-direction">TRAÇAR ROTA</a>
       </div>
 
-      <p ng-if="hospital.updateOn" class="time-wait">Tempo de espera da instituição atualizado em {{hospital.updateOn | date: "dd/MM"}} às {{hospital.updateOn | date: "HH:mm"}}h</p>
-      <p ng-if="!hospital.updateOn" class="time-wait">Sem registro da última atualização desta instituição</p>
+      <p ng-if="hospital.updateOnSpecialty" class="time-wait">Tempo de espera da instituição atualizado em {{hospital.updateOnSpecialty | date: "dd/MM"}} às {{hospital.updateOnSpecialty | date: "HH:mm"}}h</p>
+      <p ng-if="!hospital.updateOnSpecialty" class="time-wait">Sem registro da última atualização desta instituição</p>
 
       <p class="info-call">INFORMAÇÕES</p>
       <div class="blue-separator"></div>

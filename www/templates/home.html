@@ -64,16 +64,16 @@
         pulling-text="Atualizar..."
         on-refresh="doRefresh()">
       </ion-refresher>
-      <uib-tab index="0" heading="PA / PS Clínico Adulto">
+      <uib-tab index="0" ng-click="model.specialty = 'PSAdulto'" heading="PA / PS Clínico Adulto">
         <div class="list list-hosp">
-          <a ng-if="hospital.shouldShow && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
+          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?specialty=PSAdulto&trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
             <div class="information-main">
               <h1>{{hospital.name}}</h1>
-              <h2 ng-if="hospital.updateOn">atualizado em {{hospital.updateOn | date: "dd/MM"}} às {{hospital.updateOn | date: "HH:mm"}}h</h2>
-              <h2 ng-if="!hospital.updateOn">atualizado em -- às --</h2>
+              <h2 ng-if="hospital.updateOn[model.specialty]">atualizado em {{hospital.updateOn[model.specialty] | date: "dd/MM"}} às {{hospital.updateOn[model.specialty] | date: "HH:mm"}}h</h2>
+              <h2 ng-if="!hospital.updateOn[model.specialty]">atualizado em -- às --</h2>
             </div>
             <div class="information-secondary">
               <div class="trajeto">
@@ -83,30 +83,30 @@
               </div>
               <div class="espera">
                 <p>ESPERA</p>
-                <span ng-if="hospital.watingTime">{{hospital.watingTime}} min</span>
-                <span ng-if="!hospital.watingTime">--</span>
+                <span ng-if="hospital.watingTime[model.specialty]">{{hospital.watingTime[model.specialty]}} min</span>
+                <span ng-if="!hospital.watingTime[model.specialty]">--</span>
               </div>
             </div>
             <div class="atendimento">
               <h3>TEMPO TOTAL ATÉ 1º ATENDIMENTO</h3>
-              <h2 ng-if="hospital.watingTime && hospitalsSafeCopy[hospital.$id].trafficTime">{{hospital.watingTime + hospitalsSafeCopy[hospital.$id].trafficTime | number:0}} <span>min</span></h2>
-              <h2 ng-if="!hospital.watingTime && !hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
-              <h2 ng-if="!hospital.watingTime && hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
-              <h2 ng-if="hospital.watingTime && !hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="hospital.watingTime[model.specialty] && hospitalsSafeCopy[hospital.$id].trafficTime">{{hospital.watingTime[model.specialty] + hospitalsSafeCopy[hospital.$id].trafficTime | number:0}} <span>min</span></h2>
+              <h2 ng-if="!hospital.watingTime[model.specialty] && !hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="!hospital.watingTime[model.specialty] && hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="hospital.watingTime[model.specialty] && !hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
             </div>
           </a>
         </div>
       </uib-tab>
-      <uib-tab index="1" heading="PA / PS Infantil">
+      <uib-tab index="1" ng-click="model.specialty = 'PSPediatria'" heading="PA / PS Infantil">
         <div class="list list-hosp">
-          <a ng-if="hospital.shouldShow && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
+          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?specialty=PSPediatria&trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
             <div class="information-main">
               <h1>{{hospital.name}}</h1>
-              <h2 ng-if="hospital.updateOn">atualizado em {{hospital.updateOn | date: "dd/MM"}} às {{hospital.updateOn | date: "HH:mm"}}h</h2>
-              <h2 ng-if="!hospital.updateOn">atualizado em -- às --</h2>
+              <h2 ng-if="hospital.updateOn[model.specialty]">atualizado em {{hospital.updateOn[model.specialty] | date: "dd/MM"}} às {{hospital.updateOn[model.specialty] | date: "HH:mm"}}h</h2>
+              <h2 ng-if="!hospital.updateOn[model.specialty]">atualizado em -- às --</h2>
             </div>
             <div class="information-secondary">
               <div class="trajeto">
@@ -116,16 +116,16 @@
               </div>
               <div class="espera">
                 <p>ESPERA</p>
-                <span ng-if="hospital.watingTime">{{hospital.watingTime}} min</span>
-                <span ng-if="!hospital.watingTime">--</span>
+                <span ng-if="hospital.watingTime[model.specialty]">{{hospital.watingTime[model.specialty]}} min</span>
+                <span ng-if="!hospital.watingTime[model.specialty]">--</span>
               </div>
             </div>
             <div class="atendimento">
               <h3>TEMPO TOTAL ATÉ 1º ATENDIMENTO</h3>
-              <h2 ng-if="hospital.watingTime && hospitalsSafeCopy[hospital.$id].trafficTime">{{hospital.watingTime + hospitalsSafeCopy[hospital.$id].trafficTime | number:0}} <span>min</span></h2>
-              <h2 ng-if="!hospital.watingTime && !hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
-              <h2 ng-if="!hospital.watingTime && hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
-              <h2 ng-if="hospital.watingTime && !hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="hospital.watingTime[model.specialty] && hospitalsSafeCopy[hospital.$id].trafficTime">{{hospital.watingTime[model.specialty] + hospitalsSafeCopy[hospital.$id].trafficTime | number:0}} <span>min</span></h2>
+              <h2 ng-if="!hospital.watingTime[model.specialty] && !hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="!hospital.watingTime[model.specialty] && hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
+              <h2 ng-if="hospital.watingTime[model.specialty] && !hospitalsSafeCopy[hospital.$id].trafficTime">-- <span>min</span></h2>
             </div>
           </a>
         </div>
