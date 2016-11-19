@@ -64,9 +64,6 @@ angular.module('starter.controllers', [])
 
           }
         })
-        .catch(function(error) {
-          displayError(error);
-        });
 
     }
 
@@ -228,8 +225,8 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing", "$cordovaGeolocation", "$http", "$ionicHistory", "$state", "$q",
-    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing, $cordovaGeolocation, $http, $ionicHistory, $state, $q) {
+  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing", "$cordovaGeolocation", "$http", "$ionicHistory", "$state", "$q", "Auth", "$firebaseArray", "$firebaseObject",
+    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing, $cordovaGeolocation, $http, $ionicHistory, $state, $q, Auth, $firebaseArray, $firebaseObject) {
 
       var GOOGLE_DIRECTIONS_API_KEY = "AIzaSyBAaQ72jUCDMauAn8LyNT_VN0Ye0VyTVPc";
 
@@ -242,7 +239,28 @@ angular.module('starter.controllers', [])
         'choice': 'name',
         'distance': 40
       };
+      $scope.user = Profile(currentAuth.uid);
+      $scope.hospitals = Hospitals();
       $scope.hospitalsSafeCopy = {};
+
+      $scope.$on("$ionicView.beforeEnter", function(event, data){
+        // Recreate references, otherwise firebase burns your credentials
+        var ref = firebase.database().ref("users");
+        var profileRef = ref.child(Auth.$getAuth().uid);
+        $scope.user = $firebaseObject(profileRef);
+        var hospitalsRef = firebase.database().ref().child("hospitals");
+        $scope.hospitals = $firebaseArray(hospitalsRef);
+        $scope.hospitals.$loaded().then(function() {
+          for (var i=0; i<$scope.hospitals.length; i++){
+            var hospital = $scope.hospitals[i];
+            if ($scope.hospitalsSafeCopy[hospital.$id]) {
+              hospital.distance = $scope.hospitalsSafeCopy[hospital.$id].distance;
+              hospital.trafficTime = $scope.hospitalsSafeCopy[hospital.$id].trafficTime;
+              hospital.totalTime = $scope.hospitalsSafeCopy[hospital.$id].totalTime;
+            }
+          }
+        });
+      });
 
       var offsetRef = firebase.database().ref(".info/serverTimeOffset");
 
@@ -270,7 +288,7 @@ angular.module('starter.controllers', [])
       $scope.addHospitalMail = "mailto:"+ emailId + "?subject=" + subjectAddHospital + "&body=" + messageAddHospital;
 
       $scope.signOut = function() {
-        firebase.auth().signOut().then(function() {
+        Auth.$signOut().then(function() {
           console.log('Signed Out');
           $ionicHistory.nextViewOptions({
             disableAnimate: true,
@@ -283,9 +301,6 @@ angular.module('starter.controllers', [])
           console.error('Sign Out Error', error);
         });
       };
-
-      $scope.user = Profile(currentAuth.uid);
-      $scope.hospitals = Hospitals();
 
       $scope.doRefresh = function() {
         console.log("Recarregando...");
@@ -425,9 +440,9 @@ angular.module('starter.controllers', [])
             $scope.hospitals[i].shouldShow = !(limitExceeded && timestampInBounds && hideHospital);
 
             // Reload distance from safeArray
-            hospital.distance = $scope.hospitalsSafeCopy[event.key].distance;
-            hospital.trafficTime = $scope.hospitalsSafeCopy[event.key].trafficTime;
-            hospital.totalTime = $scope.hospitalsSafeCopy[event.key].totalTime;
+            $scope.hospitals[i].distance = $scope.hospitalsSafeCopy[$scope.hospitals[i].$id].distance;
+            $scope.hospitals[i].trafficTime = $scope.hospitalsSafeCopy[$scope.hospitals[i].$id].trafficTime;
+            $scope.hospitals[i].totalTime = $scope.hospitalsSafeCopy[$scope.hospitals[i].$id].totalTime;
           }
         });
       });
@@ -709,10 +724,17 @@ angular.module('starter.controllers', [])
 
     }])
 
-  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions",
-    function($scope, currentAuth, $state, $ionicHistory, $ionicLoading, $cordovaCamera, Profile, PhotoStorage, HealthOperators, MobilityOptions) {
+  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions", "Auth",
+    function($scope, currentAuth, $state, $ionicHistory, $ionicLoading, $cordovaCamera, Profile, PhotoStorage, HealthOperators, MobilityOptions, Auth) {
       // currentAuth (provided by resolve) will contain the
       // authenticated user or null if not signed in
+
+      $scope.$on("$ionicView.beforeEnter", function(event, data){
+        $scope.user = Profile(Auth.$getAuth().uid);
+        $scope.user.$loaded().then(function() {
+          $scope.user.birth_date = new Date($scope.user.birth_date);
+        });
+      });
 
       $scope.user = Profile(currentAuth.uid);
       $scope.healthOperators = HealthOperators;
@@ -749,7 +771,7 @@ angular.module('starter.controllers', [])
         $ionicHistory.nextViewOptions({
           historyRoot: true
         });
-        $state.go('login')
+        $state.go('home', {}, {reload: true});
       };
 
       $scope.saveChanges = function() {
@@ -762,7 +784,7 @@ angular.module('starter.controllers', [])
             $ionicHistory.nextViewOptions({
               historyRoot: true
             });
-            $state.go('home');
+            $state.go('home', {}, {reload: true});
           })
           .catch(function(error) {
             displayError(error);
