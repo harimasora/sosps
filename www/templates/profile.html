@@ -19,7 +19,7 @@
           </label>
           <label class="item item-input item-stacked-label no-side-top-border">
             <span class="input-label">DATA DE NASCIMENTO</span>
-            <input type="date" placeholder="DATA DE NASCIMENTO" ng-model="user.birth_date">
+            <input type="date" placeholder="DATA DE NASCIMENTO" ng-model="user.formatted_birth_date">
           </label>
           <label id="operadora" class="item item-input item-select no-side-top-border operator">
             <select ng-options="healthOperator.$id as healthOperator.name for healthOperator in healthOperators" ng-model="user.healthOperator">

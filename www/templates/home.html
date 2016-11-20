@@ -48,15 +48,27 @@
   <ion-content class="view-home">
     <div ng-if="model.showFilterBox" class="filter-box">
       <div class="list list-filter">
-        <ion-radio ng-model="model.choice" ng-value="'name'">Nome</ion-radio>
-        <ion-radio ng-model="model.choice" ng-value="'trafficTime'">Tempo de trajeto</ion-radio>
-        <ion-radio ng-model="model.choice" ng-value="'watingTime'">Tempo de atendimento</ion-radio>
-        <ion-radio ng-model="model.choice" ng-value="'totalTime'">Tempo de total de atendimento</ion-radio>
-      </div>
-      <div class="item range">
-        <i>5km</i>
-        <input type="range" ng-model="model.distance" min="5" max="50" ng-value=20>
-        <i>50km</i>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Critério de pesquisa
+          </div>
+          <select ng-model="model.choice">
+            <option ng-selected="model.choice == 'totalTime.' + model.specialty" ng-value="'totalTime.' + model.specialty">Menor tempo para 1º atendimento</option>
+            <option ng-selected="model.choice == 'watingTime.' + model.specialty" ng-value="'watingTime.' + model.specialty">Menor tempo de espera</option>
+            <option ng-selected="model.choice == 'trafficTime'" ng-value="'trafficTime'">Menor tempo de deslocamento</option>
+          </select>
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Distância da busca
+          </div>
+          <select ng-model="model.distance">
+            <option ng-selected="model.distance == 15" ng-value=15>15km</option>
+            <option ng-selected="model.distance == 30" ng-value=30>30km</option>
+            <option ng-selected="model.distance == 50" ng-value=50>50km</option>
+          </select>
+        </label>
+        <div style="color: white; background-color: #BDBDBD; text-align: center; padding-top: 5px; padding-bottom: 0;" class="item ion-chevron-up" ng-click="toggleFilterBox()"></div>
       </div>
     </div>
     <uib-tabset active="activeJustified" class="options-list" justified="true">

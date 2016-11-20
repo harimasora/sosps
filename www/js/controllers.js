@@ -236,8 +236,8 @@ angular.module('starter.controllers', [])
         'opacity':'0',
         'leftNav':'100%',
         'showFilterBox': false,
-        'choice': 'name',
-        'distance': 40,
+        'choice': 'trafficTime',
+        'distance': 30,
         'specialty': 'PSAdulto'
       };
       $scope.user = Profile(currentAuth.uid);
@@ -789,15 +789,17 @@ angular.module('starter.controllers', [])
 
     }])
 
-  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions", "Auth",
-    function($scope, currentAuth, $state, $ionicHistory, $ionicLoading, $cordovaCamera, Profile, PhotoStorage, HealthOperators, MobilityOptions, Auth) {
+  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions", "Auth", "$firebaseArray",
+    function($scope, currentAuth, $state, $ionicHistory, $ionicLoading, $cordovaCamera, Profile, PhotoStorage, HealthOperators, MobilityOptions, Auth, $firebaseArray) {
       // currentAuth (provided by resolve) will contain the
       // authenticated user or null if not signed in
 
       $scope.$on("$ionicView.beforeEnter", function(event, data){
         $scope.user = Profile(Auth.$getAuth().uid);
         $scope.user.$loaded().then(function() {
-          $scope.user.birth_date = new Date($scope.user.birth_date);
+          $scope.user.formatted_birth_date = new Date($scope.user.birth_date);
+          $scope.healthOperators = $firebaseArray(firebase.database().ref().child("healthOperators"));
+          $scope.mobilityOptions = $firebaseArray(firebase.database().ref().child("mobilityOptions"));
         });
       });
 
@@ -807,7 +809,7 @@ angular.module('starter.controllers', [])
 
       // Turn firebase string date into a Date object
       $scope.user.$loaded().then(function() {
-        $scope.user.birth_date = new Date($scope.user.birth_date);
+        $scope.user.formatted_birth_date = new Date($scope.user.birth_date);
       });
 
       $scope.upload = function() {
@@ -830,7 +832,7 @@ angular.module('starter.controllers', [])
         }, function(error) {
           console.error(error);
         });
-      }
+      };
 
       $scope.discardChanges = function() {
         $ionicHistory.nextViewOptions({
@@ -841,7 +843,7 @@ angular.module('starter.controllers', [])
 
       $scope.saveChanges = function() {
         //Transform Date object back to long
-        var date = new Date($scope.user.birth_date);
+        var date = new Date($scope.user.formatted_birth_date);
         $scope.user.birth_date = date.getTime();
 
         $scope.user.$save()
@@ -854,7 +856,7 @@ angular.module('starter.controllers', [])
           .catch(function(error) {
             displayError(error);
           });
-      }
+      };
 
       function displayError(error) {
         console.log("Authentication failed:", error);
