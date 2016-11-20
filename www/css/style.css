@@ -647,7 +647,10 @@ h1, h2, h3, p {
   align-items: center;
 }
 
-.navigation-content a {
+.navigation-content a,
+.navigation-content a:hover,
+.navigation-content a:active,
+.navigation-content a:visited{
   text-decoration: none;
 }
 
