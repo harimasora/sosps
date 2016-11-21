@@ -888,6 +888,7 @@ h1, h2, h3, p {
 }
 
 .information-main h2 {
+  width: 125px;
   font-size: 10px;
   color: #CCCCCC;
   font-weight: bold !important;
