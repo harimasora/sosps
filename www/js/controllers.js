@@ -29,7 +29,8 @@ angular.module('starter.controllers', [])
     });
 
     function hasAllInfo(user) {
-      return user.name && user.email && user.birth_date && user.healthOperator && user.address && user.mobilityOption;
+      //return user.name && user.email && user.birth_date && user.healthOperator && user.address && user.mobilityOption;
+      return user.name && user.email && user.birth_date && user.healthOperator && user.address;
     }
 
     function redirectUser(firebaseUser) {
@@ -534,7 +535,8 @@ angular.module('starter.controllers', [])
         var baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json";
         var origins = "?origins=" + origin;
         var destinations = "&destinations=" + destination;
-        var mode = mobility ? "&mode=" + mobility : "";
+        //var mode = mobility ? "&mode=" + mobility : "";
+        var mode = "";
         var language = "&language=pt-BR";
         var apiKey = "&key=" + key;
         return  baseUrl + origins + destinations + mode + language + apiKey;
