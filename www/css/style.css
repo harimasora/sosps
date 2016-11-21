@@ -1298,7 +1298,7 @@ h1, h2, h3, p {
   height: 45px;
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (max-width: 359px) {
 
 
   .information-image {
@@ -1444,7 +1444,7 @@ map {
   background-color: #fff;
   text-align: center;
 
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: Blogger !important;
   font-weight: 300;
 }
 
@@ -1468,4 +1468,85 @@ map {
 
 .button.ng-hide{
   display:none;
+}
+
+.tuto-image {
+  display: block;
+  height: 40% !important;
+  width: 100% !important;
+}
+
+.tutorial-text {
+  display: block;
+  height: 60% !important;
+  width: 100% !important;
+  background-color: #01CDFF;
+}
+
+.tutorial-text  h2 {
+  font-family: Blogger !important;
+  color: white;
+  font-size: 18px;
+  width: 95%;
+  display: inline-block;
+  margin-top: 30%;
+}
+
+.tuto-btn {
+  color: #01CDFF !important;
+  font-size: 14px !important;
+  font-family: Blogger !important;
+  text-align: center !important;
+}
+
+.slider-pager-page {
+  color: white !important;
+}
+
+.item-back-filter {
+  background-color: #e2e2e2 !important;
+}
+
+.list-filter select {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.list-filter .input-label {
+
+  position: relative;
+  left: -1%;
+}
+
+
+.tuto-image1 {
+  background-image: url("../img/tuto-1.png") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.tuto-image2 {
+  background-image: url("../img/tuto-2.png") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.tuto-image3 {
+  background-image: url("../img/tuto-3.png") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.tuto-image4 {
+  background-image: url("../img/tuto-4.png") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.header-item {
+  font-family: Blogger !important;
+  text-align: center !important;
+  font-size: 20px;
 }
