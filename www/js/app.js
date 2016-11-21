@@ -38,6 +38,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   .config( ["$stateProvider", "$urlRouterProvider",
     function($stateProvider, $urlRouterProvider) {
       $stateProvider
+        .state('tutorial', {
+          url: '/',
+          templateUrl: 'templates/tutorial.html',
+          controller: 'TutorialController',
+          resolve: {
+            // controller will not be loaded until $waitForSignIn resolves
+            "currentAuth": ["Auth", function(Auth) {
+              // $waitForSignIn returns a promise so the resolve waits for it to complete
+              return Auth.$waitForSignIn();
+            }]
+          }
+        })
         .state('login', {
           url: '/login',
           templateUrl: 'templates/login.html',
@@ -118,6 +130,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           templateUrl: 'templates/forgot.html',
           controller: 'ForgotController'
         });
-      $urlRouterProvider.otherwise('/home');
+      $urlRouterProvider.otherwise('/');
     }
   ]);

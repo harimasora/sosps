@@ -295,6 +295,11 @@ angular.module('starter.controllers', [])
       var messageContact = '';
       $scope.contactMail = "mailto:"+ contactEmailId + "?subject=" + subjectContact + "&body=" + messageContact;
 
+      $scope.toTutorial = function(){
+        window.localStorage['didTutorial'] = "false";
+        $state.go('tutorial');
+      }
+
       $scope.signOut = function() {
         Auth.$signOut().then(function() {
           console.log('Signed Out');
@@ -936,3 +941,41 @@ angular.module('starter.controllers', [])
       }
 
     }])
+
+  .controller('TutorialController', ["$scope", "$state", "$ionicSlideBoxDelegate", function($scope, $state, $ionicSlideBoxDelegate){
+
+    // Called to navigate to the main app
+    $scope.startApp = function() {
+      $state.go('home');
+
+      // Set a flag that we finished the tutorial
+      window.localStorage['didTutorial'] = true;
+    };
+
+    // No this is silly
+    // Check if the user already did the tutorial and skip it if so
+    if(window.localStorage['didTutorial'] === "true") {
+      console.log('Skip intro');
+      $scope.startApp();
+    }
+    else{
+      //setTimeout(function () {
+      //  navigator.splashscreen.hide();
+      //}, 750);
+    }
+
+
+    // Move to the next slide
+    $scope.next = function() {
+      $ionicSlideBoxDelegate.next();
+    };
+
+    $scope.previous = function() {
+      $ionicSlideBoxDelegate.previous();
+    };
+
+    // Called each time the slide changes
+    $scope.slideChanged = function(index) {
+      $scope.slideIndex = index;
+    };
+  }])
