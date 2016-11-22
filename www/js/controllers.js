@@ -20,8 +20,6 @@ angular.module('starter.controllers', [])
       'showLoading': false
     };
 
-    console.log($scope.model.display);
-
     $ionicModal.fromTemplateUrl('templates/sign_up.html', {
       scope: $scope
     }).then(function(modal) {
@@ -141,7 +139,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.createUser = function() {
-      if ($scope.user && $scope.user.name && $scope.user.email && $scope.user.password && $scope.user.birth_date) {
+      if ($scope.user && $scope.user.name && $scope.user.email && $scope.user.password) {
 
         $scope.model.showLoading = true;
         // Create a new user
@@ -152,7 +150,6 @@ angular.module('starter.controllers', [])
             $scope.profile.email = $scope.user.email;
             $scope.profile.name = $scope.user.name;
             $scope.profile.photoUrl = $scope.user.photoUrl;
-            $scope.profile.birth_date = $scope.user.birth_date.getTime();
 
             if ($scope.imageData) {
               PhotoStorage($scope.profile.$id).putString($scope.imageData, 'base64', {contentType: 'image/png'})
@@ -162,7 +159,6 @@ angular.module('starter.controllers', [])
                   $scope.profile.email = $scope.user.email;
                   $scope.profile.name = $scope.user.name;
                   $scope.profile.photoUrl = savedPicture.downloadURL;
-                  $scope.profile.birth_date = $scope.user.birth_date.getTime();
 
                   $scope.profile.$save()
                     .then(function() {
@@ -796,10 +792,37 @@ angular.module('starter.controllers', [])
 
     }])
 
-  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions", "Auth", "$firebaseArray",
-    function($scope, currentAuth, $state, $ionicHistory, $ionicLoading, $cordovaCamera, Profile, PhotoStorage, HealthOperators, MobilityOptions, Auth, $firebaseArray) {
+  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions", "Auth", "$firebaseArray", "ionicDatePicker",
+    function($scope, currentAuth, $state, $ionicHistory, $ionicLoading, $cordovaCamera, Profile, PhotoStorage, HealthOperators, MobilityOptions, Auth, $firebaseArray, ionicDatePicker) {
       // currentAuth (provided by resolve) will contain the
       // authenticated user or null if not signed in
+
+      var ipObj1 = {
+        callback: function (val) {  //Mandatory
+          console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+          $scope.user.formatted_birth_date = new Date(val);
+        }
+        //disabledDates: [            //Optional
+        //  new Date(2016, 2, 16),
+        //  new Date(2015, 3, 16),
+        //  new Date(2015, 4, 16),
+        //  new Date(2015, 5, 16),
+        //  new Date('Wednesday, August 12, 2015'),
+        //  new Date("08-16-2016"),
+        //  new Date(1439676000000)
+        //],
+        //from: new Date(2012, 1, 1), //Optional
+        //to: new Date(2016, 10, 30), //Optional
+        //inputDate: new Date(),      //Optional
+        //mondayFirst: true,          //Optional
+        //disableWeekdays: [0],       //Optional
+        //closeOnSelect: false,       //Optional
+        //templateType: 'popup'       //Optional
+      };
+
+      $scope.openDatePicker = function(){
+        ionicDatePicker.openDatePicker(ipObj1);
+      };
 
       $scope.$on("$ionicView.beforeEnter", function(event, data){
         $scope.user = Profile(Auth.$getAuth().uid);

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ui.bootstrap', 'ngCordova', 'ngCordovaOauth', 'ngMap', 'firebase'])
+angular.module('starter', ['ionic', 'ionic-datepicker', 'starter.controllers', 'starter.services', 'ui.bootstrap', 'ngCordova', 'ngCordovaOauth', 'ngMap', 'firebase'])
 
   .run( ["$ionicPlatform", "$rootScope", "$state",
     function($ionicPlatform, $rootScope, $state) {
@@ -34,6 +34,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       });
     }
   ])
+
+  .config(function (ionicDatePickerProvider) {
+    var datePickerObj = {
+      inputDate: new Date(),
+      setLabel: 'Escolher',
+      todayLabel: 'Hoje',
+      closeLabel: 'Cancelar',
+      mondayFirst: false,
+      weeksList: ["D", "S", "T", "Q", "Q", "S", "S"],
+      monthsList: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+      templateType: 'popup',
+      from: new Date(1900, 8, 1),
+      to: new Date(),
+      showTodayButton: false,
+      dateFormat: 'dd/MM/yyyy',
+      closeOnSelect: false,
+      disableWeekdays: [],
+    };
+    ionicDatePickerProvider.configDatePicker(datePickerObj);
+  })
 
   .config( ["$stateProvider", "$urlRouterProvider",
     function($stateProvider, $urlRouterProvider) {
