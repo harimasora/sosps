@@ -269,7 +269,7 @@ angular.module('starter.controllers', [])
       var offsetRef = firebase.database().ref(".info/serverTimeOffset");
 
       var shareOptions = {
-        message: 'Achei que você ia gostar desse aplicativo! \nQuando saímos de casa, não sabemos se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar para ser atendido.\nEsse aplicativo, o SOSPS, monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. O SOSPS está disponível para Android e iOS.\nNo site http://www.sosps.com.br explica mais sobre o aplicativo. ', // not supported on some apps (Facebook, Instagram)
+        message: 'Achei que você ia gostar desse aplicativo! %0D%0AQuando saímos de casa, não sabemos se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar para ser atendido.%0D%0AEsse aplicativo, o SOSPS, monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. O SOSPS está disponível para Android e iOS.%0D%0ANo site http://www.sosps.com.br explica mais sobre o aplicativo. ', // not supported on some apps (Facebook, Instagram)
         subject: 'Olha que legal esse aplicativo', // fi. for email
         files: ['www/img/pino.png'], // an array of filenames either locally or remotely
         url: 'http://www.sosps.com.br',
@@ -288,7 +288,7 @@ angular.module('starter.controllers', [])
 
       var emailId = 'contato@sosps.com.br';
       var subjectAddHospital = 'Inclusão de Hospital';
-      var messageAddHospital = 'Eu,  - SEU NOME E SOBRENOME - indico a inclusão do Hospital - ACRESCENTE O NOME DO HOSPITAL -,  na especialidade - DIGA SE ADULTO ou INFANTIL - na cidade de - INDIQUE O NOME DA CIDADE -.';
+      var messageAddHospital = "Indico a inclusão do seguinte hospital:%0D%0A%0D%0AHospital (indique o nome do hospital): %0D%0AEspecialidade (indique se Pronto-Socorro Clínico Adulto ou Infantil): %0D%0ACidade (indique o nome da cidade do hospital):";
       $scope.addHospitalMail = "mailto:"+ emailId + "?subject=" + subjectAddHospital + "&body=" + messageAddHospital;
 
       var contactEmailId = 'contato@sosps.com.br';
