@@ -267,7 +267,7 @@ angular.module('starter.controllers', [])
       var shareOptions = {
         message: 'Achei que você ia gostar desse aplicativo! %0D%0AQuando saímos de casa, não sabemos se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar para ser atendido.%0D%0AEsse aplicativo, o SOSPS, monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. O SOSPS está disponível para Android e iOS.%0D%0ANo site http://www.sosps.com.br explica mais sobre o aplicativo. ', // not supported on some apps (Facebook, Instagram)
         subject: 'Olha que legal esse aplicativo', // fi. for email
-        files: ['www/img/pino.png'], // an array of filenames either locally or remotely
+        files: ['www/img/Default-736h.png'], // an array of filenames either locally or remotely
         url: 'http://www.sosps.com.br',
         chooserTitle: 'Onde compartilhar...' // Android only, you can override the default share sheet title
       };
