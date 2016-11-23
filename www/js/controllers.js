@@ -293,6 +293,11 @@ angular.module('starter.controllers', [])
       $scope.contactMail = "mailto:"+ contactEmailId + "?subject=" + subjectContact + "&body=" + messageContact;
 
       $scope.toTutorial = function(){
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true,
+          disableBack: true,
+          historyRoot: true
+        });
         window.localStorage['didTutorial'] = "false";
         $state.go('tutorial');
       }
