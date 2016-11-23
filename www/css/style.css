@@ -41,8 +41,11 @@ h1, body {
 }
 
 .logotype {
-  display: flex;
-  justify-content: center;
+  /*display: flex;
+  justify-content: center;*/
+  margin-top: 5px;
+  width: 95%;
+  margin-left: 2.5%;
   height: 40%;
 }
 
@@ -169,7 +172,7 @@ h1, body {
 }
 
 .register-info a {
-  color: #00FF66;
+  color: #04d658;
   opacity: 0.5;
   font-size: 13px !important;
   margin-left: 10px;
@@ -196,7 +199,7 @@ h1, body {
   align-self: flex-end;
   margin-left: auto;
   margin-bottom: 5px;
-  color: #00FF66;
+  color: #04d658;
   margin-right: 10px;
   font-size: 14px;
 }
@@ -401,6 +404,7 @@ h1, h2, h3, p {
 }
 
 .get-direction {
+
   margin-left: 1%;
   font-family: Blogger !important;
   color: #666666;
@@ -413,7 +417,6 @@ h1, h2, h3, p {
   font-weight: 700;
   font-size: 14px;
   width: 40% !important;
-
   background-color: white;
   background-image: url("../img/tracar.png");
   background-repeat: no-repeat;
@@ -421,6 +424,12 @@ h1, h2, h3, p {
   background-size: 20px 20px;
 
 }
+
+
+.get-direction:hover, .get-direction:focus, .get-direction:active {
+  text-decoration: none !important;
+}
+
 
 .info-call {
   font-family: Blogger !important;
@@ -657,7 +666,7 @@ h1, h2, h3, p {
 .navigation-icon-conf {
   width: 25px;
   height: 25px;
-  background-image: url("../img/user_newdesign.png");
+  background-image: url("../img/icon-user.svg");
   float: left;
   background-repeat: no-repeat;
   background-position: center;
@@ -666,7 +675,7 @@ h1, h2, h3, p {
 .navigation-icon-logout{
   width: 25px;
   height: 25px;
-  background-image: url("../img/logout_newdesign.png");
+  background-image: url("../img/icon-logout.svg");
   float: left;
   background-repeat: no-repeat;
   background-position: 100% 100%;
@@ -1385,7 +1394,8 @@ h1, h2, h3, p {
 }
 
 .forgot-content p {
-  text-align: center;
+  text-align: inherit;
+  margin-top: 10px;
 }
 
 .forgot-content .btn-forgot {
@@ -1400,7 +1410,7 @@ h1, h2, h3, p {
 }
 
 .forgot-content img {
-  width: 250px;
+  width: 175px;
 }
 
 .forgot-content h3 {
