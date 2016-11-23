@@ -21,6 +21,9 @@
             <span class="input-label">DATA DE NASCIMENTO</span>
             <input type="date" placeholder="DATA DE NASCIMENTO" ng-model="user.formatted_birth_date">
           </label>
+          <button ng-click="openDatePicker()" class="button button-positive">
+            <i class="icon ion-ios-calendar-outline"></i>
+          </button>
           <label id="operadora" class="item item-input item-select no-side-top-border operator">
             <select ng-options="healthOperator.$id as healthOperator.name for healthOperator in healthOperators" ng-model="user.healthOperator">
               <option value="" disabled selected>OPERADORA DE SAÚDE</option>
@@ -30,12 +33,12 @@
             <span class="input-label">ENDEREÇO</span>
             <input type="text" placeholder="ENDEREÇO" ng-model="user.address">
           </label>
-          <label class="item item-input item-select no-side-top-border desl">
+          <!--<label class="item item-input item-select no-side-top-border desl">-->
 
-            <select id="deslocamento" ng-options="mobilityOption.$id as mobilityOption.name for mobilityOption in mobilityOptions" ng-model="user.mobilityOption">
-              <option value="" disabled selected>DESLOCAMENTO</option>
-            </select>
-          </label>
+            <!--<select id="deslocamento" ng-options="mobilityOption.$id as mobilityOption.name for mobilityOption in mobilityOptions" ng-model="user.mobilityOption">-->
+              <!--<option value="" disabled selected>DESLOCAMENTO</option>-->
+            <!--</select>-->
+          <!--</label>-->
           <!-- <div class="item item-divider">
             Contas Vinculadas
           </div>

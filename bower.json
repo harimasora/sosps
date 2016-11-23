@@ -12,6 +12,7 @@
     "ngCordova": "^0.1.27-alpha",
     "ngmap": "^1.17.8",
     "angular-bootstrap": "^2.2.0",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "ionic-datepicker": "^1.2.1"
   }
 }

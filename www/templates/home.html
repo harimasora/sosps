@@ -46,6 +46,10 @@
 
 	</ion-header-bar>
   <ion-content class="view-home">
+    <ion-refresher
+      pulling-text="Atualizar..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
     <div ng-if="model.showFilterBox" class="filter-box">
       <div class="list list-filter">
         <label class="item item-input item-select">
@@ -72,10 +76,6 @@
       </div>
     </div>
     <uib-tabset active="activeJustified" class="options-list" justified="true">
-      <ion-refresher
-        pulling-text="Atualizar..."
-        on-refresh="doRefresh()">
-      </ion-refresher>
       <uib-tab index="0" ng-click="model.specialty = 'PSAdulto'" heading="PA / PS Clínico Adulto">
         <div class="list list-hosp">
           <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?specialty=PSAdulto&trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">

@@ -20,8 +20,6 @@ angular.module('starter.controllers', [])
       'showLoading': false
     };
 
-    console.log($scope.model.display);
-
     $ionicModal.fromTemplateUrl('templates/sign_up.html', {
       scope: $scope
     }).then(function(modal) {
@@ -29,7 +27,8 @@ angular.module('starter.controllers', [])
     });
 
     function hasAllInfo(user) {
-      return user.name && user.email && user.birth_date && user.healthOperator && user.address && user.mobilityOption;
+      //return user.name && user.email && user.birth_date && user.healthOperator && user.address && user.mobilityOption;
+      return user.name && user.email && user.birth_date && user.healthOperator && user.address;
     }
 
     function redirectUser(firebaseUser) {
@@ -140,7 +139,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.createUser = function() {
-      if ($scope.user && $scope.user.name && $scope.user.email && $scope.user.password && $scope.user.birth_date) {
+      if ($scope.user && $scope.user.name && $scope.user.email && $scope.user.password) {
 
         $scope.model.showLoading = true;
         // Create a new user
@@ -151,7 +150,6 @@ angular.module('starter.controllers', [])
             $scope.profile.email = $scope.user.email;
             $scope.profile.name = $scope.user.name;
             $scope.profile.photoUrl = $scope.user.photoUrl;
-            $scope.profile.birth_date = $scope.user.birth_date.getTime();
 
             if ($scope.imageData) {
               PhotoStorage($scope.profile.$id).putString($scope.imageData, 'base64', {contentType: 'image/png'})
@@ -161,7 +159,6 @@ angular.module('starter.controllers', [])
                   $scope.profile.email = $scope.user.email;
                   $scope.profile.name = $scope.user.name;
                   $scope.profile.photoUrl = savedPicture.downloadURL;
-                  $scope.profile.birth_date = $scope.user.birth_date.getTime();
 
                   $scope.profile.$save()
                     .then(function() {
@@ -269,8 +266,11 @@ angular.module('starter.controllers', [])
 
       var shareOptions = {
         message: 'Olha esse app, que legal! O aplicativo SOSPS monitora o tempo de espera para Pronto-Socorro Clínico Adulto e Infantil nos principais hospitais privados na Grande São Paulo.\n O aplicativo está disponível para Android e iOS.\n Veja o site: http://www.sosps.com.br.' , // not supported on some apps (Facebook, Instagram)
+
+        // message: 'Achei que você ia gostar desse aplicativo! %0D%0AQuando saímos de casa, não sabemos se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar para ser atendido.%0D%0AEsse aplicativo, o SOSPS, monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. O SOSPS está disponível para Android e iOS.%0D%0ANo site http://www.sosps.com.br explica mais sobre o aplicativo. ', // not supported on some apps (Facebook, Instagram)
+
         subject: 'Olha que legal esse aplicativo', // fi. for email
-        files: ['www/img/pino.png'], // an array of filenames either locally or remotely
+        files: ['www/img/Default-736h.png'], // an array of filenames either locally or remotely
         url: 'http://www.sosps.com.br',
         chooserTitle: 'Onde compartilhar...' // Android only, you can override the default share sheet title
       };
@@ -287,7 +287,7 @@ angular.module('starter.controllers', [])
 
       var emailId = 'contato@sosps.com.br';
       var subjectAddHospital = 'Inclusão de Hospital';
-      var messageAddHospital = 'Eu,  - SEU NOME E SOBRENOME - indico a inclusão do Hospital - ACRESCENTE O NOME DO HOSPITAL -,  na especialidade - DIGA SE ADULTO ou INFANTIL - na cidade de - INDIQUE O NOME DA CIDADE -.';
+      var messageAddHospital = "Indico a inclusão do seguinte hospital:%0D%0A%0D%0AHospital (indique o nome do hospital): %0D%0AEspecialidade (indique se Pronto-Socorro Clínico Adulto ou Infantil): %0D%0ACidade (indique o nome da cidade do hospital):";
       $scope.addHospitalMail = "mailto:"+ emailId + "?subject=" + subjectAddHospital + "&body=" + messageAddHospital;
 
       var contactEmailId = 'contato@sosps.com.br';
@@ -296,6 +296,11 @@ angular.module('starter.controllers', [])
       $scope.contactMail = "mailto:"+ contactEmailId + "?subject=" + subjectContact + "&body=" + messageContact;
 
       $scope.toTutorial = function(){
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true,
+          disableBack: true,
+          historyRoot: true
+        });
         window.localStorage['didTutorial'] = "false";
         $state.go('tutorial');
       }
@@ -534,7 +539,8 @@ angular.module('starter.controllers', [])
         var baseUrl = "https://maps.googleapis.com/maps/api/distancematrix/json";
         var origins = "?origins=" + origin;
         var destinations = "&destinations=" + destination;
-        var mode = mobility ? "&mode=" + mobility : "";
+        //var mode = mobility ? "&mode=" + mobility : "";
+        var mode = "";
         var language = "&language=pt-BR";
         var apiKey = "&key=" + key;
         return  baseUrl + origins + destinations + mode + language + apiKey;
@@ -794,10 +800,37 @@ angular.module('starter.controllers', [])
 
     }])
 
-  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions", "Auth", "$firebaseArray",
-    function($scope, currentAuth, $state, $ionicHistory, $ionicLoading, $cordovaCamera, Profile, PhotoStorage, HealthOperators, MobilityOptions, Auth, $firebaseArray) {
+  .controller('ProfileController', ["$scope", "currentAuth", "$state", "$ionicHistory", "$ionicLoading", "$cordovaCamera", "Profile", "PhotoStorage", "HealthOperators", "MobilityOptions", "Auth", "$firebaseArray", "ionicDatePicker",
+    function($scope, currentAuth, $state, $ionicHistory, $ionicLoading, $cordovaCamera, Profile, PhotoStorage, HealthOperators, MobilityOptions, Auth, $firebaseArray, ionicDatePicker) {
       // currentAuth (provided by resolve) will contain the
       // authenticated user or null if not signed in
+
+      var ipObj1 = {
+        callback: function (val) {  //Mandatory
+          console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+          $scope.user.formatted_birth_date = new Date(val);
+        }
+        //disabledDates: [            //Optional
+        //  new Date(2016, 2, 16),
+        //  new Date(2015, 3, 16),
+        //  new Date(2015, 4, 16),
+        //  new Date(2015, 5, 16),
+        //  new Date('Wednesday, August 12, 2015'),
+        //  new Date("08-16-2016"),
+        //  new Date(1439676000000)
+        //],
+        //from: new Date(2012, 1, 1), //Optional
+        //to: new Date(2016, 10, 30), //Optional
+        //inputDate: new Date(),      //Optional
+        //mondayFirst: true,          //Optional
+        //disableWeekdays: [0],       //Optional
+        //closeOnSelect: false,       //Optional
+        //templateType: 'popup'       //Optional
+      };
+
+      $scope.openDatePicker = function(){
+        ionicDatePicker.openDatePicker(ipObj1);
+      };
 
       $scope.$on("$ionicView.beforeEnter", function(event, data){
         $scope.user = Profile(Auth.$getAuth().uid);
