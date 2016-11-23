@@ -233,7 +233,7 @@ angular.module('starter.controllers', [])
         'opacity':'0',
         'leftNav':'100%',
         'showFilterBox': false,
-        'choice': 'trafficTime',
+        'choice': 'totalTime.PSAdulto',
         'distance': 30,
         'specialty': 'PSAdulto'
       };
@@ -266,12 +266,9 @@ angular.module('starter.controllers', [])
 
       var shareOptions = {
         message: 'Olha esse app, que legal! O aplicativo SOSPS monitora o tempo de espera para Pronto-Socorro Clínico Adulto e Infantil nos principais hospitais privados na Grande São Paulo.\n O aplicativo está disponível para Android e iOS.\n Veja o site: http://www.sosps.com.br.' , // not supported on some apps (Facebook, Instagram)
-
-        // message: 'Achei que você ia gostar desse aplicativo! %0D%0AQuando saímos de casa, não sabemos se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar para ser atendido.%0D%0AEsse aplicativo, o SOSPS, monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. O SOSPS está disponível para Android e iOS.%0D%0ANo site http://www.sosps.com.br explica mais sobre o aplicativo. ', // not supported on some apps (Facebook, Instagram)
-
         subject: 'Olha que legal esse aplicativo', // fi. for email
         files: ['www/img/Default-736h.png'], // an array of filenames either locally or remotely
-        url: 'http://www.sosps.com.br',
+        url: '',
         chooserTitle: 'Onde compartilhar...' // Android only, you can override the default share sheet title
       };
       var onShareSuccess = function(result) {
@@ -303,7 +300,7 @@ angular.module('starter.controllers', [])
         });
         window.localStorage['didTutorial'] = "false";
         $state.go('tutorial');
-      }
+      };
 
       $scope.signOut = function() {
         Auth.$signOut().then(function() {
@@ -615,6 +612,8 @@ angular.module('starter.controllers', [])
 
       $scope.toggleFilterBox = function() {
         $scope.model.showFilterBox = !$scope.model.showFilterBox;
+        $scope.model.choice = $scope.model.choice ? $scope.model.choice : 'totalTime.PSAdulto';
+        $scope.model.distance = $scope.model.distance ? $scope.model.distance : 30;
       };
 
       $scope.lesserThan = function(prop, val){
@@ -884,26 +883,32 @@ angular.module('starter.controllers', [])
         var date = new Date($scope.user.formatted_birth_date);
         $scope.user.birth_date = date.getTime();
 
-        $scope.user.$save()
-          .then(function() {
-            $ionicHistory.nextViewOptions({
-              historyRoot: true
+        if ($scope.user.name && $scope.user.email && $scope.user.birth_date && $scope.user.healthOperator && $scope.user.address ) {
+          $scope.user.$save()
+            .then(function() {
+              $ionicHistory.nextViewOptions({
+                historyRoot: true
+              });
+              $state.go('home', {}, {reload: true});
+            })
+            .catch(function(error) {
+              displayError(error);
             });
-            $state.go('home', {}, {reload: true});
-          })
-          .catch(function(error) {
-            displayError(error);
-          });
+        } else {
+          var error = {
+            message: 'Por favor preencha todos os campos'
+          };
+          displayError(error)
+        }
       };
 
       function displayError(error) {
-        console.log("Authentication failed:", error);
         $ionicLoading.show({
           template: error.message
         });
         setTimeout(function () {
           $ionicLoading.hide();
-        }, 4000)
+        }, 2000)
       }
 
   }])

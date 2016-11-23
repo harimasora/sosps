@@ -57,9 +57,9 @@
             Critério de pesquisa
           </div>
           <select ng-model="model.choice">
-            <option ng-selected="model.choice == 'totalTime.' + model.specialty" ng-value="'totalTime.' + model.specialty">Menor tempo para 1º atendimento</option>
-            <option ng-selected="model.choice == 'watingTime.' + model.specialty" ng-value="'watingTime.' + model.specialty">Menor tempo de espera</option>
-            <option ng-selected="model.choice == 'trafficTime'" ng-value="'trafficTime'">Menor tempo de deslocamento</option>
+            <option ng-value="'totalTime.' + model.specialty">Menor tempo para 1º atendimento</option>
+            <option ng-value="'watingTime.' + model.specialty">Menor tempo de espera</option>
+            <option ng-value="'trafficTime'">Menor tempo de deslocamento</option>
           </select>
         </label>
         <label class="item item-input item-select">
@@ -67,9 +67,9 @@
             Distância da busca
           </div>
           <select ng-model="model.distance">
-            <option ng-selected="model.distance == 15" ng-value=15>15km</option>
-            <option ng-selected="model.distance == 30" ng-value=30>30km</option>
-            <option ng-selected="model.distance == 50" ng-value=50>50km</option>
+            <option ng-value=15>15km</option>
+            <option ng-value=30>30km</option>
+            <option ng-value=50>50km</option>
           </select>
         </label>
         <div style="color: white; background-color: #BDBDBD; text-align: center; padding-top: 5px; padding-bottom: 0;" class="item-back-filter item ion-chevron-up" ng-click="toggleFilterBox()"></div>
