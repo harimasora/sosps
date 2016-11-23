@@ -268,7 +268,7 @@ angular.module('starter.controllers', [])
       var offsetRef = firebase.database().ref(".info/serverTimeOffset");
 
       var shareOptions = {
-        message: 'Achei que você ia gostar desse aplicativo! \nQuando saímos de casa, não sabemos se os serviços de Pronto-Socorro estão cheios e quanto tempo vai demorar para ser atendido.\nEsse aplicativo, o SOSPS, monitora tempos para atendimento em PS Clínico Adulto e Infantil, nos principais hospitais privados na Grande São Paulo. O SOSPS está disponível para Android e iOS.\nNo site http://www.sosps.com.br explica mais sobre o aplicativo. ', // not supported on some apps (Facebook, Instagram)
+        message: 'Olha esse app, que legal! O aplicativo SOSPS monitora o tempo de espera para Pronto-Socorro Clínico Adulto e Infantil nos principais hospitais privados na Grande São Paulo.\n O aplicativo está disponível para Android e iOS.\n Veja o site: http://www.sosps.com.br.' , // not supported on some apps (Facebook, Instagram)
         subject: 'Olha que legal esse aplicativo', // fi. for email
         files: ['www/img/pino.png'], // an array of filenames either locally or remotely
         url: 'http://www.sosps.com.br',

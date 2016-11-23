@@ -1503,6 +1503,11 @@ map {
   margin-top: 30%;
 }
 
+.tutorial-text  h1 {
+  font-size: 25px;
+  color: #057D9A;
+}
+
 .tuto-btn {
   color: #01CDFF !important;
   font-size: 14px !important;
@@ -1533,8 +1538,9 @@ map {
 .tuto-image1 {
   background-image: url("../img/tuto-1.png") !important;
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  background-position: 50% 0%;
+  background-size: 80%;
+
 }
 .tuto-image2 {
   background-image: url("../img/tuto-2.png") !important;
@@ -1553,7 +1559,7 @@ map {
   background-image: url("../img/tuto-4.png") !important;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
+  background-size: 80%;
 }
 
 .header-item {
