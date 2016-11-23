@@ -233,10 +233,39 @@ angular.module('starter.controllers', [])
         'opacity':'0',
         'leftNav':'100%',
         'showFilterBox': false,
-        'choice': 'totalTime.PSAdulto',
+        'choice': 'totalTime',
         'distance': 30,
         'specialty': 'PSAdulto'
       };
+      $scope.choices = [
+        {
+          name: "Menor tempo para 1º atendimento",
+          value: 'totalTime'
+        },
+        {
+          name: "Menor tempo de espera",
+          value: 'watingTime'
+        },
+        {
+          name: "Menor tempo de deslocamento",
+          value: 'trafficTime'
+        }
+      ];
+      $scope.distances = [
+        {
+          name: "15km",
+          value: 15
+        },
+        {
+          name: "30km",
+          value: 30
+        },
+        {
+          name: "50km",
+          value: 50
+        }
+      ];
+
       $scope.user = Profile(currentAuth.uid);
       $scope.hospitals = Hospitals();
       $scope.hospitalsSafeCopy = {};
@@ -621,6 +650,17 @@ angular.module('starter.controllers', [])
           return item[prop] <= val;
         }
       };
+      $scope.updateFilter = function(specialty) {
+        $scope.model.specialty = specialty;
+        if ($scope.model.choice.indexOf('totalTime') !== -1) {
+          $scope.model.selectedChoice = 'totalTime.' + specialty;
+        } else if ($scope.model.choice.indexOf('watingTime') !== -1) {
+          $scope.model.selectedChoice = 'watingTime.' + specialty;
+        } else if ($scope.model.choice.indexOf('trafficTime') !== -1) {
+          $scope.model.selectedChoice = 'trafficTime';
+        }
+      };
+      $scope.updateFilter($scope.model.specialty);
 
       function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
         var R = 6371; // Radius of the earth in km

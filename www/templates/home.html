@@ -56,29 +56,21 @@
           <div class="input-label">
             Critério de pesquisa
           </div>
-          <select ng-model="model.choice">
-            <option ng-value="'totalTime.' + model.specialty">Menor tempo para 1º atendimento</option>
-            <option ng-value="'watingTime.' + model.specialty">Menor tempo de espera</option>
-            <option ng-value="'trafficTime'">Menor tempo de deslocamento</option>
-          </select>
+          <select ng-model="model.choice" ng-options="option.value as option.name for option in choices" ng-change="updateFilter(model.specialty)"></select>
         </label>
         <label class="item item-input item-select">
           <div class="input-label">
             Distância da busca
           </div>
-          <select ng-model="model.distance">
-            <option ng-value=15>15km</option>
-            <option ng-value=30>30km</option>
-            <option ng-value=50>50km</option>
-          </select>
+          <select ng-model="model.distance" ng-options="option.value as option.name for option in distances"></select>
         </label>
         <div style="color: white; background-color: #BDBDBD; text-align: center; padding-top: 5px; padding-bottom: 0;" class="item-back-filter item ion-chevron-up" ng-click="toggleFilterBox()"></div>
       </div>
     </div>
     <uib-tabset active="activeJustified" class="options-list" justified="true">
-      <uib-tab index="0" ng-click="model.specialty = 'PSAdulto'" heading="PA / PS Clínico Adulto">
+      <uib-tab index="0" ng-click="updateFilter('PSAdulto')" heading="PA / PS Clínico Adulto">
         <div class="list list-hosp">
-          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?specialty=PSAdulto&trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
+          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | filter:model.search | filter:lesserThan('distance', model.distance) | orderBy:model.selectedChoice" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?specialty=PSAdulto&trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
@@ -109,9 +101,9 @@
           </a>
         </div>
       </uib-tab>
-      <uib-tab index="1" ng-click="model.specialty = 'PSPediatria'" heading="PA / PS Infantil">
+      <uib-tab index="1" ng-click="updateFilter('PSPediatria')" heading="PA / PS Infantil">
         <div class="list list-hosp">
-          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | orderBy:model.choice | filter:model.search | filter:lesserThan('distance', model.distance)" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?specialty=PSPediatria&trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
+          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | filter:model.search | filter:lesserThan('distance', model.distance) | orderBy:model.selectedChoice" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?specialty=PSPediatria&trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
