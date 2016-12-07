@@ -70,7 +70,7 @@
     <uib-tabset active="activeJustified" class="options-list" justified="true">
       <uib-tab index="0" ng-click="updateFilter('PSAdulto')" heading="PA / PS Clínico Adulto">
         <div class="list list-hosp">
-          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | filter:model.search | filter:lesserThan('distance', model.distance) | orderBy:model.selectedChoice" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?specialty=PSAdulto&trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
+          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSAdulto" ng-repeat="hospital in hospitals | filter:model.search | filter:lesserThan('distance', model.distance) | orderBy:model.selectedChoice" class="item item-thumbnail-right" ng-click="updateCountAndGo(hospital.$id, 'PSAdulto', hospitalsSafeCopy[hospital.$id].trafficTime)">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>
@@ -103,7 +103,7 @@
       </uib-tab>
       <uib-tab index="1" ng-click="updateFilter('PSPediatria')" heading="PA / PS Infantil">
         <div class="list list-hosp">
-          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | filter:model.search | filter:lesserThan('distance', model.distance) | orderBy:model.selectedChoice" class="item item-thumbnail-right" ng-href="#/hospitals/{{hospital.$id}}?specialty=PSPediatria&trafficTime={{hospitalsSafeCopy[hospital.$id].trafficTime}}">
+          <a ng-if="hospital.showBySpecialty[model.specialty] && hospital.specialties.PSPediatria" ng-repeat="hospital in hospitals | filter:model.search | filter:lesserThan('distance', model.distance) | orderBy:model.selectedChoice" class="item item-thumbnail-right" ng-click="updateCountAndGo(hospital.$id, 'PSPediatria', hospitalsSafeCopy[hospital.$id].trafficTime)">
             <div class="information-image">
               <img class="image-hospital" ng-src="{{hospital.photoUrl}}">
             </div>

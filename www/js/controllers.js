@@ -222,8 +222,8 @@ angular.module('starter.controllers', [])
 
   }])
 
-  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing", "$cordovaGeolocation", "$http", "$ionicHistory", "$state", "$q", "Auth", "$firebaseArray", "$firebaseObject",
-    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing, $cordovaGeolocation, $http, $ionicHistory, $state, $q, Auth, $firebaseArray, $firebaseObject) {
+  .controller('HomeController', ["$scope", "Hospitals", "currentAuth", "Profile", "$cordovaSocialSharing", "$cordovaGeolocation", "$http", "$ionicHistory", "$state", "$q", "Auth", "$firebaseArray", "$firebaseObject", "$location",
+    function($scope, Hospitals, currentAuth, Profile, $cordovaSocialSharing, $cordovaGeolocation, $http, $ionicHistory, $state, $q, Auth, $firebaseArray, $firebaseObject, $location) {
 
       var GOOGLE_DIRECTIONS_API_KEY = "AIzaSyBAaQ72jUCDMauAn8LyNT_VN0Ye0VyTVPc";
 
@@ -619,6 +619,19 @@ angular.module('starter.controllers', [])
           console.log(error);
         });
       }
+
+      $scope.updateCountAndGo = function(id, specialty, trafficTime) {
+        $scope.hospitalToIncrement = Hospitals(id);
+
+        $scope.hospitalToIncrement.$loaded()
+          .then(function() {
+            $scope.hospitalToIncrement.clickLinkCount = $scope.hospitalToIncrement.clickLinkCount ? $scope.hospitalToIncrement.clickLinkCount + 1 : 1;
+            $scope.hospitalToIncrement.$save()
+              .then(function(){
+                $location.url('hospitals/' + id + '?specialty=' + specialty + '&trafficTime=' + trafficTime);
+              })
+          });
+      };
 
       $scope.search = function() {
         $scope.model.left = '0';
