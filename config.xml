@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.sosps543352" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.healthier.sosps" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>SOSPS</name>
     <description>
-        An Ionic Framework and Cordova project.
+        Tempo de Espera em Pronto-Socorro.
     </description>
-    <author email="you@example.com" href="http://example.com.com/">
-      Your Name Here
+    <author email="danilo@mouselabs.com.br" href="http://mouselabs.com.br/">
+      Danilo Maia Rodrigues
     </author>
   <content src="index.html"/>
   <access origin="*"/>

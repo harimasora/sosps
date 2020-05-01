@@ -141,6 +141,16 @@ angular.module('starter.controllers', [])
     $scope.createUser = function() {
       if ($scope.user && $scope.user.name && $scope.user.email && $scope.user.password) {
 
+        if ($scope.user.password.length < 6) {
+          $scope.model.showLoading = false;
+          $ionicLoading.show({
+            template: "A senha deve ter no mínimo 6 caracteres."
+          });
+          setTimeout(function () {
+            $ionicLoading.hide();
+          }, 2000)
+        }
+
         $scope.model.showLoading = true;
         // Create a new user
         Auth.$createUserWithEmailAndPassword($scope.user.email, $scope.user.password)
